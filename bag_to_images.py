@@ -33,12 +33,13 @@ def main():
     count = 0
     for topic, msg, t in bag.read_messages(topics=[args.image_topic]):
         cv_img = bridge.imgmsg_to_cv2(msg, desired_encoding="passthrough")
+        rgb_img = cv_img[...,::-1]
         # seconds = t.to_sec() #floating point
         # print seconds
         nanoseconds = t.to_nsec()
         # print nanoseconds
 
-        cv2.imwrite(os.path.join(args.output_dir, "%019i.png" % nanoseconds), cv_img)
+        cv2.imwrite(os.path.join(args.output_dir, "%019i.png" % nanoseconds), rgb_img)
         print "Wrote image %i" % count
 
         count += 1

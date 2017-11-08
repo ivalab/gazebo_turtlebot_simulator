@@ -1,0 +1,5 @@
+- Fill in the proper world file for gazebo_rectangular.launch
+- roslaunch gazebo_rectangular.launch
+- rviz
+- roslaunch turtlebot_teleop keyboard_teleop.launch --screen
+- rosbag record -O subset /multisense_sl/camera/left/image_w /multisense_sl/camera/right/image_raw /tf

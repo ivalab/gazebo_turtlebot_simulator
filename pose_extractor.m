@@ -1,21 +1,32 @@
-% close all
-% clear all
-%
-%
-% bag_path = './brick_wall/'
+close all
+clear all
+
+
+% bag_path = '/mnt/DATA/Datasets/GazeboMaze/brick_wall/'
 % bag_name = 'brick_wall'
-%
-% bag = rosbag([bag_path bag_name '.bag'])
-%
-% bagselect = select(bag, 'Topic', '/tf')
-%
-% clear bag
+% bag_path = '/mnt/DATA/Datasets/GazeboMaze/wood_wall/'
+% bag_name = 'wood_wall'
+% bag_path = '/mnt/DATA/Datasets/GazeboMaze/ceiling_tiled/'
+% bag_name = 'ceiling_tiled'
+bag_path = '/mnt/DATA/Datasets/GazeboMaze/hard_wood/'
+bag_name = 'hard_wood'
+
+pose_path = '/mnt/DATA/Datasets/GazeboMaze/Pose_GT/'
+
+bag = rosbag([bag_path bag_name '.bag'])
+
+bagselect = select(bag, 'Topic', '/tf')
+
+clear bag
 
 st_idx = 1;
 batch_size = 100;
 pose_arr = [];
 
-TimeStamp_st = 243.00;
+% TimeStamp_st = 415.00;
+% TimeStamp_st = 243.00;
+% TimeStamp_st = 284.00;
+TimeStamp_st = 0;
 
 %% convert from base to stereo frame
 T_stereo_2_base = SE3([0.05 0.0 0.21], quat2rotm([0.5 -0.5 0.5 -0.5]));
@@ -72,7 +83,7 @@ while st_idx < bagselect.NumMessages
 end
 
 %% save to text
-fileID = fopen([bag_path bag_name '_tum.txt'], 'w');
+fileID = fopen([pose_path bag_name '_tum.txt'], 'w');
 
 for i=1:size(pose_arr, 1)
   %

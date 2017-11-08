@@ -1,5 +1,5 @@
 <launch>
-  <arg name="world_file"  default="/home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/classroom_wood.world"/>
+  <arg name="world_file"  default="/home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/classroom_hardWood.world"/>
 
 
   <arg name="debug" default="false"/>
