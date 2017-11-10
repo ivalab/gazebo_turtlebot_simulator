@@ -1,4 +1,4 @@
-% close all
+close all
 clear all
 
 bag_path = {
@@ -31,7 +31,7 @@ bag_name = {
 
 pose_path = '/mnt/DATA/Datasets/GazeboMaze/Pose_GT/'
 
-for bn = 2 : length(bag_name) % 1:length(bag_name)
+for bn=21:length(bag_name)
   
   bag = rosbag([bag_path{bn} bag_name{bn} '.bag'])
   bagselect = select(bag, 'Topic', '/tf')
@@ -100,7 +100,7 @@ for bn = 2 : length(bag_name) % 1:length(bag_name)
   clear bagselect
   
   %% save to text
-  fileID = fopen([pose_path bag_name{bn} '_tum.txt'], 'w');
+  fileID = fopen([pose_path bag_name '_tum.txt'], 'w');
   
   for i=1:size(pose_arr, 1)
     %
@@ -114,7 +114,8 @@ for bn = 2 : length(bag_name) % 1:length(bag_name)
   fclose(fileID);
   
   %% plot the x-y track
-  figure(99);
+  figure;
+  clf
   hold on
   for i=1:1000:size(pose_arr, 1)
     if i == 1
