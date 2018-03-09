@@ -29,7 +29,7 @@ def main():
     args = parser.parse_args()
 
     # create filter
-    kernel_size = 9
+    kernel_size = 5 # 9
     kernel = np.ones((kernel_size,kernel_size),np.float32)/(kernel_size*kernel_size)
 
     bag_in = rosbag.Bag(args.input_bag, "r")
@@ -56,12 +56,14 @@ def main():
 
         # apply filter to image
         filter_img = cv2.filter2D(rgb_img,-1,kernel)
+        filter_img = cv2.flip(filter_img,1)
 
         # write message to output bag
         try:
             msg_out = bridge.cv2_to_imgmsg(filter_img, encoding="passthrough")
         except CvBridgeError as e:
             print(e)
+        msg_out.header.stamp = t
         bag_out.write(args.image_topic_l, msg_out, t)
 
         # # viz
@@ -97,13 +99,14 @@ def main():
 
         # apply filter to image
         filter_img = cv2.filter2D(rgb_img,-1,kernel)
-        filter_img = cv2.flip(filter_img,-1)
+        filter_img = cv2.flip(filter_img,1)
 
         # write message to output bag
         try:
             msg_out = bridge.cv2_to_imgmsg(filter_img, encoding="passthrough")
         except CvBridgeError as e:
             print(e)
+        msg_out.header.stamp = t
         bag_out.write(args.image_topic_r, msg_out, t)
 
         # # viz
