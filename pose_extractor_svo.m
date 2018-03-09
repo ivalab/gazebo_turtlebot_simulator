@@ -27,7 +27,7 @@ for bn = 1 % 1:length(bag_name)
   
   for rn = 1 : round_num
     
-    bag = rosbag([bag_path 'Round' num2str(rn) '/' bag_name{bn} '_svo.bag'])
+    bag = rosbag([bag_path 'Round' num2str(rn) '/' bag_name{bn} '_tf.bag'])
     %     bagselect = select(bag, 'Topic', '/svo/pose_cam/0')
     bagselect = select(bag, 'Topic', '/tf')
     clear bag
