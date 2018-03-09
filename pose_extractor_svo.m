@@ -21,7 +21,7 @@ bag_name = {
 % pose_path = '/mnt/DATA/tmp/EuRoC/SVO2/'
 
 T_stereo_2_base = SE3([0 0 0], eye(3));
-round_num = 1;
+round_num = 10;
 
 for bn = 1:length(bag_name)
   
