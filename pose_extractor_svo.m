@@ -23,9 +23,13 @@ bag_name = {
 T_stereo_2_base = SE3([0 0 0], eye(3));
 round_num = 1;
 
-for bn = 1 % 1:length(bag_name)
+for bn = 1:length(bag_name)
   
   for rn = 1 : round_num
+    
+    if ~exist([bag_path 'Round' num2str(rn) '/' bag_name{bn} '_tf.bag'], 'file')
+      continue ;
+    end
     
     bag = rosbag([bag_path 'Round' num2str(rn) '/' bag_name{bn} '_tf.bag'])
     %     bagselect = select(bag, 'Topic', '/svo/pose_cam/0')
@@ -117,6 +121,7 @@ for bn = 1 % 1:length(bag_name)
     
     %% plot the x-y track
     figure(99);
+    clf
     hold on
     for i=1:20:size(pose_arr, 1)
       if i == 1
