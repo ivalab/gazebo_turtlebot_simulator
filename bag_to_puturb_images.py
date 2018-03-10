@@ -29,7 +29,7 @@ def main():
     args = parser.parse_args()
 
     # create filter
-    kernel_size =  9 # 5 # 
+    kernel_size =  5 #  9 # 
     kernel = np.ones((kernel_size,kernel_size),np.float32)/(kernel_size*kernel_size)
 
     bag_in = rosbag.Bag(args.input_bag, "r")
@@ -39,6 +39,7 @@ def main():
     print "Extract images from %s on topic %s into %s" % (args.input_bag,
                                                           args.image_topic_l, args.output_bag)
 
+    frames_ignored = 0
     count = 0
     for topic, msg, t in bag_in.read_messages(topics=[args.image_topic_l]):
 
@@ -54,17 +55,26 @@ def main():
         nanoseconds = t.to_nsec()
         # print nanoseconds
 
-        # apply filter to image
-        filter_img = cv2.filter2D(rgb_img,-1,kernel)
+        if count < frames_ignored:
+            filter_img = rgb_img
+        else:
+            # apply filter to image
+            filter_img = cv2.filter2D(rgb_img,-1,kernel)
+
         filter_img = cv2.flip(filter_img,1)
 
         # write message to output bag
         try:
-            msg_out = bridge.cv2_to_imgmsg(filter_img, encoding="passthrough")
+            msg_out = bridge.cv2_to_imgmsg(filter_img, encoding="mono8")
         except CvBridgeError as e:
             print(e)
-        msg_out.header.stamp = t
-        bag_out.write(args.image_topic_l, msg_out, t)
+        
+        # write the rest of info
+        msg_out.header.stamp = msg.header.stamp # t
+        msg_out.header.seq = msg.header.seq
+        msg_out.header.frame_id = msg.header.frame_id
+
+        bag_out.write(args.image_topic_l, msg_out, msg_out.header.stamp)
 
         # # viz
         # plt.subplot(121),plt.imshow(rgb_img),plt.title('Original')
@@ -97,17 +107,26 @@ def main():
         nanoseconds = t.to_nsec()
         # print nanoseconds
 
-        # apply filter to image
-        filter_img = cv2.filter2D(rgb_img,-1,kernel)
+        if count < frames_ignored:
+            filter_img = rgb_img
+        else:
+            # apply filter to image
+            filter_img = cv2.filter2D(rgb_img,-1,kernel)
+        
         filter_img = cv2.flip(filter_img,1)
 
         # write message to output bag
         try:
-            msg_out = bridge.cv2_to_imgmsg(filter_img, encoding="passthrough")
+            msg_out = bridge.cv2_to_imgmsg(filter_img, encoding="mono8")
         except CvBridgeError as e:
             print(e)
-        msg_out.header.stamp = t
-        bag_out.write(args.image_topic_r, msg_out, t)
+        
+        # write the rest of info
+        msg_out.header.stamp = msg.header.stamp # t
+        msg_out.header.seq = msg.header.seq
+        msg_out.header.frame_id = msg.header.frame_id
+
+        bag_out.write(args.image_topic_r, msg_out, msg_out.header.stamp)
 
         # # viz
         # plt.subplot(121),plt.imshow(rgb_img),plt.title('Original')
@@ -123,6 +142,7 @@ def main():
 
 
     bag_in.close()
+    bag_out.close()
 
     return
 
