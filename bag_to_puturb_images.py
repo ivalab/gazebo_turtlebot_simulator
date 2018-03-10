@@ -29,7 +29,7 @@ def main():
     args = parser.parse_args()
 
     # create filter
-    kernel_size =  5 #  9 # 
+    kernel_size =  9 # 5 #  
     kernel = np.ones((kernel_size,kernel_size),np.float32)/(kernel_size*kernel_size)
 
     bag_in = rosbag.Bag(args.input_bag, "r")

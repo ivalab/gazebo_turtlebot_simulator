@@ -1,7 +1,7 @@
 export DATA_PATH=/mnt/DATA/Datasets/EuRoC_dataset/BagFiles
 
-export BLUR_POSEFIX=_blur_5
-# export BLUR_POSEFIX=_blur_9
+# export BLUR_POSEFIX=_blur_5
+export BLUR_POSEFIX=_blur_9
 
 
 export BAG_NAME=MH_01_easy
