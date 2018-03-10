@@ -1,26 +1,47 @@
 close all
 clear all
 
-%% SVO EuRoC config
-bag_path = '/mnt/DATA/tmp/EuRoC/SVO2/';
+% %% SVO EuRoC config
+% bag_path = '/mnt/DATA/tmp/EuRoC/SVO2/';
+% 
+% bag_name = {
+%   'MH_01_easy';
+%   'MH_02_easy';
+%   'MH_03_medium';
+%   'MH_04_difficult';
+%   'MH_05_difficult';
+%   'V1_01_easy';
+%   'V1_02_medium';
+%   'V1_03_difficult';
+%   'V2_01_easy';
+%   'V2_02_medium';
+%   'V2_03_difficult';
+%   };
+% 
+% T_stereo_2_base = SE3([0 0 0], eye(3));
+
+%% SVO Gazebo config
+bag_path = '/mnt/DATA/tmp/Gazebo/SVO2/';
 
 bag_name = {
-  'MH_01_easy';
-  'MH_02_easy';
-  'MH_03_medium';
-  'MH_04_difficult';
-  'MH_05_difficult';
-  'V1_01_easy';
-  'V1_02_medium';
-  'V1_03_difficult';
-  'V2_01_easy';
-  'V2_02_medium';
-  'V2_03_difficult';
-  };
+      'brick_wall_0.01';
+      %       'brick_wall_0.025';
+      %       'brick_wall_0.05';
+      %
+      'hard_wood_0.01';
+      %       'hard_wood_0.025';
+      %       'hard_wood_0.05';
+      %
+      'wood_wall_0.01';
+      %       'wood_wall_0.025';
+      %       'wood_wall_0.05';
+      };
 
-% pose_path = '/mnt/DATA/tmp/EuRoC/SVO2/'
+T_stereo_2_base = SE3([0.05 0.0 0.21], quat2rotm([0.5 -0.5 0.5 -0.5]));
 
-T_stereo_2_base = SE3([0 0 0], eye(3));
+
+%%
+
 round_num = 10;
 
 for bn = 1:length(bag_name)
@@ -51,6 +72,9 @@ for bn = 1:length(bag_name)
       %   size(msgs)
       
       for i=1:size(msgs, 1)
+        if size(msgs{i}.Transforms, 1) > 1
+          continue ;
+        end
         %         for j=1%:size(msgs{i}.Pose, 1)
         %       if strcmp(string(msgs{i}.Transforms(j).ChildFrameId), 'stereo_camera_optical_frame')
         if strcmp(string(msgs{i}.Transforms.Header.FrameId), 'cam_pos')
@@ -119,19 +143,19 @@ for bn = 1:length(bag_name)
     
     fclose(fileID);
     
-    %% plot the x-y track
-    figure(99);
-    clf
-    hold on
-    for i=1:20:size(pose_arr, 1)
-      if i == 1
-        plotPose(pose_arr(i, 2:4), [pose_arr(i, 8) pose_arr(i, 5:7)], 'stereo', 0.5)
-      else
-        %   plot(pose_arr(:,2), pose_arr(:,3))
-        plotPose(pose_arr(i, 2:4), [pose_arr(i, 8) pose_arr(i, 5:7)], '', 0.15)
-      end
-    end
-    axis equal
+%     %% plot the x-y track
+%     figure(99);
+%     clf
+%     hold on
+%     for i=1:20:size(pose_arr, 1)
+%       if i == 1
+%         plotPose(pose_arr(i, 2:4), [pose_arr(i, 8) pose_arr(i, 5:7)], 'stereo', 0.5)
+%       else
+%         %   plot(pose_arr(:,2), pose_arr(:,3))
+%         plotPose(pose_arr(i, 2:4), [pose_arr(i, 8) pose_arr(i, 5:7)], '', 0.15)
+%       end
+%     end
+%     axis equal
     
   end
 end
