@@ -1,6 +1,6 @@
 <launch>
 
-  <arg name="world_file" default="classroom_textured.world"/>
+  <arg name="world_file" default="/home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/classroom_textured.world"/>
   <arg name="gui" default="true"/>
 
 
@@ -52,10 +52,10 @@
       </group>
       <node name="gazebo" pkg="gazebo_ros" type="$(arg script_type)" respawn="$(arg respawn_gazebo)" output="screen"
 	    args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_file)" required="true">
-      <!-- 
+      
 	      <remap from="tf" to="gazebo_tf"/>
 	      <remap from="odom" to="gazebo_odom"/>
-       -->
+       
 	    </node>
 	
       <!-- start gazebo client -->
@@ -71,8 +71,8 @@
       
       <!-- Gazebo model spawner -->
       <node name="spawn_turtlebot_model" pkg="gazebo_ros" type="spawn_model"
-            args="$(optenv ROBOT_INITIAL_POSE) -unpause -urdf -param robot_description -model mobile_base"/>
-      
+            args="-x 2 -y 3 -z 0 -unpause -urdf -param robot_description -model mobile_base"/>
+
       <!-- Velocity muxer -->
       <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"  required="true"/>
       <node pkg="nodelet" type="nodelet" name="cmd_vel_mux"
@@ -102,6 +102,7 @@
       <remap from="image" to="/camera/depth/image_raw"/>
       <remap from="scan" to="/scan"/>
     </node>
+
 
   <!--END turtlebot_gazebo turtlebot_world.launch -->
 
