@@ -1,6 +1,7 @@
 <launch>
 
   <arg name="world_file" default="/home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/classroom_textured.world"/>
+
   <arg name="gui" default="true"/>
 
 
@@ -12,7 +13,7 @@
 
     <arg name="stacks"    value="$(optenv TURTLEBOT_STACKS hexagons)"/>  <!-- circles, hexagons --> 
     <arg name="3d_sensor" value="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro --> 
-
+    <arg name="camera" value="$(optenv TURTLEBOT_STEREO stereo_camera)"/>
 
     <!--BEGIN gazebo_ros empty_world.launch-->
       <!-- these are the arguments you can pass this launch file, for example paused:=true -->
@@ -66,12 +67,18 @@
     <!--END gazebo_ros empty_world.launch-->
 
     <!--BEGIN turtlebot_gazebo kobuki.launch.xml-->
+    
       <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_$(arg 3d_sensor).urdf.xacro'" />
+    
+    <!--
+      <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_kinect_$(arg camera).urdf.xacro'" />
+    -->
+
       <param name="robot_description" command="$(arg urdf_file)" />
       
       <!-- Gazebo model spawner -->
       <node name="spawn_turtlebot_model" pkg="gazebo_ros" type="spawn_model"
-            args="-x 2 -y 3 -z 0 -unpause -urdf -param robot_description -model mobile_base"/>
+            args="-x 9 -y -5 -z 0 -Y 3.1416 -unpause -urdf -param robot_description -model mobile_base"/>
 
       <!-- Velocity muxer -->
       <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"  required="true"/>
