@@ -56,8 +56,8 @@
       
 	      <remap from="tf" to="gazebo_tf"/>
 	      <remap from="odom" to="gazebo_odom"/>
-       
-	    </node>
+	    
+      </node>
 	
       <!-- start gazebo client -->
       <group if="$(arg gui)">
@@ -79,6 +79,11 @@
       <!-- Gazebo model spawner -->
       <node name="spawn_turtlebot_model" pkg="gazebo_ros" type="spawn_model"
             args="-x 9 -y -5 -z 0 -Y 3.1416 -unpause -urdf -param robot_description -model mobile_base"/>
+            
+            <!--
+      <node name="spawn_turtlebot_model" pkg="gazebo_ros" type="spawn_model"
+            args="$(optenv ROBOT_INITIAL_POSE) -unpause -urdf -param robot_description -model mobile_base"/>
+            -->
 
       <!-- Velocity muxer -->
       <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"  required="true"/>
