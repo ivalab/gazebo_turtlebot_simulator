@@ -6,5 +6,6 @@
 
 
 
-export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/textureModel/models
+export GAZEBO_MODEL_PATH=/home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/world/textureModel/models
+
 roslaunch gazebo_rectangular.launch

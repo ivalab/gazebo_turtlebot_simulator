@@ -1,0 +1,11 @@
+# Simulating I3G4250D, a low-end IMU with the quote cost of $5
+# spec are collected from page 12 & 13 of datasheet:
+# https://www.st.com/resource/en/datasheet/i3g4250d.pdf
+# notice that the bias spec is not provided in data sheet, therefore 
+# we can only guess it is 100-times worse than AIDS 16448
+
+fps: 50
+
+noise_gyr: 0.000524    # [rad/s/sqrt(Hz)] 
+
+noise_gyrbias: 3e-4     # [rad/s^2/sqrt(Hz)]
