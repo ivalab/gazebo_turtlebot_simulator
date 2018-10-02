@@ -154,7 +154,7 @@
             <type>gaussian</type>
 	          <rate>
 	            <mean>0.0</mean>
-	            <stddev>0.0002356</stddev> 
+	            <stddev>0.0004</stddev> 
 	            <bias_mean>0.0</bias_mean>
 	            <bias_stddev>3e-6</bias_stddev>
 	          </rate>
