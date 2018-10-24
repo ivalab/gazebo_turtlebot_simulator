@@ -3,7 +3,8 @@
   <arg name="stacks"/>
   <arg name="3d_sensor"/>
   <arg name="camera"/>
-  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_kinect_$(arg camera).urdf.xacro'" />
+  <!-- arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_kinect_$(arg camera).urdf.xacro'" -->
+  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_fisheye_stereo_ADIS_16448.urdf.xacro'" />
   <param name="robot_description" command="$(arg urdf_file)" />
 
   <!-- Gazebo model spawner -->

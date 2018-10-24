@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<robot name="turtlebot_gazebo" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Microsoft Kinect / ASUS Xtion PRO Live for simulation -->
+  <xacro:macro name="turtlebot_sim_3dsensor">
+    <gazebo reference="camera_link">
+    <sensor type="multicamera" name="stereo_camera">
+      <always_on>true</always_on>
+      <update_rate>30.0</update_rate>
+      <camera name="left">
+        <horizontal_fov>1.42508733</horizontal_fov>
+        <image>
+          <width>752</width>
+          <height>480</height>
+          <format>B8G8R8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>100</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <camera name="right">
+        <pose>0 -0.11 0 0 0 0</pose>
+        <horizontal_fov>1.42508733</horizontal_fov>
+        <image>
+          <width>752</width>
+          <height>480</height>
+          <format>B8G8R8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>100</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>multisense_sl/camera</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>left_camera_optical_frame</frameName>
+        <!--<rightFrameName>right_camera_optical_frame</rightFrameName>-->
+        <hackBaseline>0.11</hackBaseline>
+        <CxPrime>367.4517211914062</CxPrime>
+        <Cx>367.4517211914062</Cx>
+        <Cy>252.2008514404297</Cy>
+        <!-- image_width / (2*tan(hfov_radian /2)) -->
+        <!-- 320 for wide and 772.55 for narrow stereo camera -->
+        <focal_length>435.2046959714599</focal_length>
+        <distortionK1>-0.28340811</distortionK1>
+        <distortionK2>0.07395907</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.00019359</distortionT1>
+        <distortionT2>1.76187114e-05</distortionT2>
+<!--         <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2> -->
+      </plugin>
+    </sensor>
+  </gazebo>
+  </xacro:macro>
+</robot>
+

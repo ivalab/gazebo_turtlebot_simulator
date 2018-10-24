@@ -1,5 +1,5 @@
 <launch>
-  <arg name="world_file"  default="/home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/classroom_textured.world"/>
+  <arg name="world_file"  default="/home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/world/classroom_brick.world"/>
 
 
   <arg name="debug" default="false"/>
@@ -11,7 +11,8 @@
   <arg name="3d_sensor" value="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro -->
   <arg name="camera" value="$(optenv TURTLEBOT_STEREO stereo_camera)"/>
     <!-- Robot description -->
-  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_kinect_$(arg camera).urdf.xacro'" />
+  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_fisheye_stereo_ADIS_16448.urdf.xacro'" />
+  <!-- arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_kinect_$(arg camera).urdf.xacro'" -->
   <param name="robot_description" command="$(arg urdf_file)" />
 
 

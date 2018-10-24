@@ -2,4 +2,6 @@ sudo cp /home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/config/kobuki_ADIS_
 sudo cp /home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/config/kobuki_mpu_6000* /opt/ros/kinetic/share/kobuki_description/urdf
 #
 sudo cp /home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/config/kobuki_hexagons_* /opt/ros/kinetic/share/turtlebot_description/robots
-
+sudo cp /home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/config/fisheye_stereo.urdf.xacro /opt/ros/kinetic/share/turtlebot_description/urdf/sensors
+sudo cp /home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/config/turtlebot_gazebo_fisheye_stereo.urdf.xacro /opt/ros/kinetic/share/turtlebot_description/urdf
+sudo cp /home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/config/turtlebot_properties_fisheye_stereo.urdf.xacro /opt/ros/kinetic/share/turtlebot_description/urdf
