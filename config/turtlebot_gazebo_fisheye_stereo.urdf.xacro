@@ -7,7 +7,7 @@
       <always_on>true</always_on>
       <update_rate>30.0</update_rate>
       <camera name="left">
-        <horizontal_fov>1.42508733</horizontal_fov>
+        <horizontal_fov>1.61408657</horizontal_fov>
         <image>
           <width>752</width>
           <height>480</height>
@@ -15,7 +15,7 @@
         </image>
         <clip>
           <near>0.02</near>
-          <far>100</far>
+          <far>50</far>
         </clip>
         <noise>
           <type>gaussian</type>
@@ -25,7 +25,7 @@
       </camera>
       <camera name="right">
         <pose>0 -0.11 0 0 0 0</pose>
-        <horizontal_fov>1.42508733</horizontal_fov>
+        <horizontal_fov>1.61408657</horizontal_fov>
         <image>
           <width>752</width>
           <height>480</height>
@@ -33,7 +33,7 @@
         </image>
         <clip>
           <near>0.02</near>
-          <far>100</far>
+          <far>50</far>
         </clip>
         <noise>
           <type>gaussian</type>
@@ -43,6 +43,7 @@
       </camera>
       <plugin name="stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
         <alwaysOn>true</alwaysOn>
+        <!-- ATTENTION keep the update rate as it is for customed fps!!! -->
         <updateRate>0.0</updateRate>
         <cameraName>multisense_sl/camera</cameraName>
         <imageTopicName>image_raw</imageTopicName>
@@ -50,17 +51,17 @@
         <frameName>left_camera_optical_frame</frameName>
         <!--<rightFrameName>right_camera_optical_frame</rightFrameName>-->
         <hackBaseline>0.11</hackBaseline>
-        <CxPrime>367.4517211914062</CxPrime>
-        <Cx>367.4517211914062</Cx>
-        <Cy>252.2008514404297</Cy>
-        <!-- image_width / (2*tan(hfov_radian /2)) -->
+        <CxPrime>406.6650580307593</CxPrime>
+        <Cx>406.6650580307593</Cx>
+        <Cy>256.20533579714373</Cy>
+        <!-- image_width / (2*tan(hfov_radian /2)) 360.0652897865692 -->
         <!-- 320 for wide and 772.55 for narrow stereo camera -->
-        <focal_length>435.2046959714599</focal_length>
-        <distortionK1>-0.28340811</distortionK1>
-        <distortionK2>0.07395907</distortionK2>
-        <distortionK3>0.0</distortionK3>
-        <distortionT1>0.00019359</distortionT1>
-        <distortionT2>1.76187114e-05</distortionT2>
+        <focal_length>360.0652897865692</focal_length>
+        <distortionK1>-0.27186431380704884</distortionK1>
+        <distortionK2>0.05397709169334604</distortionK2>
+        <distortionK3>-0.000557307377524114</distortionK3>
+        <distortionT1>-0.0006127379205397152</distortionT1>
+        <distortionT2>0.0</distortionT2>
 <!--         <distortionK1>0.0</distortionK1>
         <distortionK2>0.0</distortionK2>
         <distortionK3>0.0</distortionK3>
