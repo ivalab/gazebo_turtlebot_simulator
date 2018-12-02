@@ -14,7 +14,7 @@
           <format>B8G8R8</format>
         </image>
         <clip>
-          <near>0.02</near>
+          <near>0.05</near>
           <far>50</far>
         </clip>
         <noise>
@@ -32,7 +32,7 @@
           <format>B8G8R8</format>
         </image>
         <clip>
-          <near>0.02</near>
+          <near>0.05</near>
           <far>50</far>
         </clip>
         <noise>
@@ -42,10 +42,10 @@
         </noise>
       </camera>
       <plugin name="stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
+        <cameraName>multisense_sl/camera</cameraName>
         <alwaysOn>true</alwaysOn>
         <!-- ATTENTION keep the update rate as it is for customed fps!!! -->
         <updateRate>0.0</updateRate>
-        <cameraName>multisense_sl/camera</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>left_camera_optical_frame</frameName>

@@ -3,7 +3,8 @@
   <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_gazebo_fisheye_stereo.urdf.xacro"/>
   <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_properties_fisheye_stereo.urdf.xacro"/>
   
-  <xacro:property name="fisheye_cam_py" value="-0.05"/>
+  <!-- <xacro:property name="fisheye_cam_py" value="-0.05"/> -->
+  <xacro:property name="fisheye_cam_py" value="-0.0125"/>
   <!-- Parameterised in part by the values in turtlebot_properties.urdf.xacro -->
   <xacro:macro name="sensor_stereo" params="parent">
     <joint name="camera_left_joint" type="fixed">
@@ -21,7 +22,8 @@
     <link name="camera_left_optical_frame"/>
 
     <joint name="camera_joint_1" type="fixed">
-      <origin xyz="0 ${-fisheye_cam_py} 0" rpy="0 0 0"/>
+      <!-- <origin xyz="0 ${-fisheye_cam_py} 0" rpy="0 0 0"/> -->
+      <origin xyz="-0.031 ${-fisheye_cam_py} -0.016" rpy="0 0 0"/>
       <parent link="camera_left_frame"/>
       <child link="camera_link_1"/>
     </joint>  

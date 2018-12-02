@@ -5,3 +5,6 @@ sudo cp /home/yipuzhao/catkin_ws/src/gazebo_turtlebot_simulator/config/kobuki_he
 sudo cp /home/yipuzhao/catkin_ws/src/gazebo_turtlebot_simulator/config/fisheye_stereo.urdf.xacro /opt/ros/kinetic/share/turtlebot_description/urdf/sensors
 sudo cp /home/yipuzhao/catkin_ws/src/gazebo_turtlebot_simulator/config/turtlebot_gazebo_fisheye_stereo.urdf.xacro /opt/ros/kinetic/share/turtlebot_description/urdf
 sudo cp /home/yipuzhao/catkin_ws/src/gazebo_turtlebot_simulator/config/turtlebot_properties_fisheye_stereo.urdf.xacro /opt/ros/kinetic/share/turtlebot_description/urdf
+#
+sudo cp /home/yipuzhao/catkin_ws/src/gazebo_turtlebot_simulator/config/turtlebot_properties.urdf.xacro /opt/ros/kinetic/share/turtlebot_description/urdf
+sudo cp /home/yipuzhao/catkin_ws/src/gazebo_turtlebot_simulator/config/turtlebot_gazebo.urdf.xacro /opt/ros/kinetic/share/turtlebot_description/urdf
