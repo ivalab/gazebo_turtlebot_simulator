@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot name="turtlebot_gazebo" xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- Microsoft Kinect / ASUS Xtion PRO Live for simulation -->
-  <xacro:macro name="turtlebot_sim_3dsensor">
-    <gazebo reference="camera_link">
+  <xacro:macro name="turtlebot_sim_stereo_sensor">
+    <gazebo reference="camera_link_1">
     <sensor type="multicamera" name="stereo_camera">
       <always_on>true</always_on>
       <update_rate>30.0</update_rate>
