@@ -4,7 +4,7 @@
   <arg name="world_file" default="/home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/world/classroom_textured.world"/>
  -->
   <arg name="world_file" default="$(find yipu_world)/world/classroom_textured.world"/>
-  <arg name="gui" default="true"/>
+  <arg name="gui" default="false"/>
 
 
   <!--BEGIN turtlebot_gazebo turtlebot_world.launch -->
@@ -14,7 +14,7 @@
     <arg name="battery"   value="/proc/acpi/battery/BAT0"/>  <!-- /proc/acpi/battery/BAT0 --> 
 
     <arg name="stacks"      value="hexagons" />  <!-- circles, hexagons --> 
-    <arg name="3d_sensor"   value="fisheye_stereo" />     <!-- kinect, asus_xtion_pro, fisheye_stereo --> 
+    <arg name="3d_sensor"   value="kinect" />     <!-- kinect, asus_xtion_pro, fisheye_stereo --> 
     <arg name="imu_sensor"  value="mpu_6000" />  <!-- mpu_6000, ADIS_16448 --> 
 
     <!--BEGIN gazebo_ros empty_world.launch-->
