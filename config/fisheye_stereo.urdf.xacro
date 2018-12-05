@@ -3,7 +3,6 @@
   <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_gazebo_fisheye_stereo.urdf.xacro"/>
   <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_properties_fisheye_stereo.urdf.xacro"/>
   
-  <!-- <xacro:property name="fisheye_cam_py" value="-0.05"/> -->
   <xacro:property name="fisheye_cam_py" value="-0.0125"/>
   <!-- Parameterised in part by the values in turtlebot_properties.urdf.xacro -->
   <xacro:macro name="sensor_stereo" params="parent">
@@ -31,7 +30,7 @@
       <visual>
        <origin xyz="0 0 0" rpy="0 0 ${M_PI/2}"/>
         <geometry>
-         <mesh filename="package://turtlebot_description/meshes/sensors/kinect.dae"/>
+         <mesh filename="package://turtlebot_description/meshes/sensors/r200.dae"/>
         </geometry>
       </visual>
       <collision>
@@ -53,7 +52,8 @@
          files. However, for Gazebo simulation we need them, so we add them here.
          (Hence, don't publish them additionally!) -->
   <joint name="camera_right_joint" type="fixed">
-    <origin xyz="0 -0.11 0" rpy="0 0 0" />
+    <origin xyz="0 ${-stereo_baseline} 0" rpy="0 0 0" />
+	  <!-- <origin xyz="0 ${2 * -fisheye_cam_py} 0" rpy="0 0 0" /> -->
     <parent link="camera_left_frame" />
     <child link="camera_right_frame" />
   </joint>
