@@ -439,5 +439,8 @@ if __name__ == '__main__':
     init_pose = [9,-5,0,0,0,3.14159265359];
     a = GazeboDriver()
     a.resetRobotImpl(init_pose)
+    # a.resetOdom();
+    # a.resetWorld()
+    # a.deleteModel('mobile_base')
   except rospy.ROSInterruptException:
     rospy.loginfo("exception")

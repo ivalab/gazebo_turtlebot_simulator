@@ -57,10 +57,11 @@ for ri, num_gf in enumerate(Number_GF_List):
                 # num_good_feature = str(num_gf*3)
                 path_type = SeqName
                 velocity_fwd = str(fv)
-                duration = float(SeqLengList[sn]) / float(fv)
+                duration = float(SeqLengList[sn]) / float(fv) + SleepTime
 
-                cmd_reset  = str('python reset_turtlebot_pose.py') 
-                # cmd_reset  = str('rosservice call /gazebo/reset_simulation') 
+                cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
+                # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
+                # cmd_reset  = str('rosservice call /gazebo/reset_simulation && roslaunch ../launch/spawn_turtlebot.launch ') 
                 cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
                     + ' topic_slam_pose:=/svo/pose_cam_for_msf ' \
                     + ' link_slam_base:=gyro_link' )
@@ -69,7 +70,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \
                     + ' duration:=' + str(duration) )
-                cmd_trig   = str("rostopic pub -l /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 
+                cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 
 
                 print bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC
                 print bcolors.WARNING + "cmd_esti: \n"  + cmd_esti  + bcolors.ENDC

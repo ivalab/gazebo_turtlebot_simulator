@@ -15,7 +15,7 @@
 </node>
 
 <!-- initialize rosbag recording -->
-<node name="data_logging" type="record" pkg="rosbag" args="/visual/odom /odom_sparse /ORB_SLAM/camera_pose_in_imu /vins_estimator/odometry /desired_path /turtlebot_controller/trajectory_controller/desired_trajectory -O $(arg path_data_logging).bag">
+<node name="data_logging" type="record" pkg="rosbag" args="/visual/odom /odom_sparse /ORB_SLAM/camera_pose_in_imu /desired_path /turtlebot_controller/trajectory_controller/desired_trajectory -O $(arg path_data_logging).bag">
 </node>
 
 </launch>

@@ -11,8 +11,8 @@ SeqNameList = ['loop', 'long'];
 SeqLengList = [40, 50];
 
 Fwd_Vel_List = [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [600, 1200]; # 
-# Number_GF_List = [80, 120, 160];
+# Number_GF_List = [600, 1200]; # 
+Number_GF_List = [80, 120, 160];
 
 Num_Repeating = 10 # 3 # 5 # 50 # 
 
@@ -65,7 +65,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                     + ' num_all_feature:=' + num_all_feature \
                     + ' num_good_feature:=' + num_good_feature \
                     + ' path_data_logging:=' + path_data_logging)
-                cmd_ctrl   = str('roslaunch gazebo_controller_logging.launch path_data_logging:=' + path_data_logging \
+                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_data_logging \
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \
                     + ' duration:=' + str(duration) )
