@@ -79,20 +79,20 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.WARNING + "cmd_trig: \n"  + cmd_trig  + bcolors.ENDC
 
                 print bcolors.OKGREEN + "Reset simulation" + bcolors.ENDC
-                proc_rst = subprocess.Popen(cmd_reset, shell=True)
+                subprocess.Popen(cmd_reset, shell=True)
 
                 print bcolors.OKGREEN + "Sleeping for a few secs to reset gazebo" + bcolors.ENDC
                 time.sleep(SleepTime)
                 # time.sleep(60)
 
                 print bcolors.OKGREEN + "Launching SVO" + bcolors.ENDC
-                proc_esti = subprocess.Popen(cmd_svo, shell=True)
+                subprocess.Popen(cmd_svo, shell=True)
 
                 print bcolors.OKGREEN + "Launching State Estimator" + bcolors.ENDC
-                proc_esti = subprocess.Popen(cmd_esti, shell=True)
+                subprocess.Popen(cmd_esti, shell=True)
 
                 print bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC
-                proc_ctrl = subprocess.Popen(cmd_ctrl, shell=True)
+                subprocess.Popen(cmd_ctrl, shell=True)
                 
                 print bcolors.OKGREEN + "Sleeping for a few secs to stabilize msf" + bcolors.ENDC
                 time.sleep(SleepTime)
@@ -100,7 +100,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 Duration = duration + SleepTime
                 print bcolors.OKGREEN + "Start simulation with " + str(Duration) + " secs" + bcolors.ENDC
                 # proc_trig = subprocess.call(cmd_trig, shell=True)
-                proc_trig = subprocess.Popen(cmd_trig, shell=True)
+                subprocess.Popen(cmd_trig, shell=True)
 
                 time.sleep(Duration)
 

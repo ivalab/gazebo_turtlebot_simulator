@@ -11,15 +11,15 @@ SeqNameList = ['loop', 'long'];
 SeqLengList = [40, 50];
 
 Fwd_Vel_List = [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [600, 1200]; # 
-# Number_GF_List = [80, 120, 160];
+# Number_GF_List = [600, 1200]; # 
+Number_GF_List = [80, 120, 160];
 
 Num_Repeating = 10 # 3 # 5 # 50 # 
 
 SleepTime = 3 # 5 # 
 # Duration = 30 # 60
 
-do_rectify = str('true');
+do_rectify = str('false');
 do_vis = str('true');
 
 #----------------------------------------------------------------------------------------------------------------------
@@ -42,9 +42,7 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/low_imu/ORB/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/low_imu/ORB_prior/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/low_imu/GF_prior/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)
@@ -55,7 +53,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.ALERT + "Round: " + str(iteration + 1) + "; Seq: " + SeqName + "; Vel: " + str(fv)
 
                 path_data_logging = Experiment_dir + '/round' + str(iteration + 1)
-                num_all_feature = str(num_gf*2)
+                num_good_feature = str(num_gf*3)
                 path_type = SeqName
                 velocity_fwd = str(fv)
                 duration = float(SeqLengList[sn]) / float(fv) + SleepTime
@@ -65,8 +63,8 @@ for ri, num_gf in enumerate(Number_GF_List):
                 cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
                     + ' topic_slam_pose:=/svo/pose_cam_for_msf ' \
                     + ' link_slam_base:=gyro_link' )
-                cmd_slam   = str('roslaunch msf_updates gazebo_ORB_stereo.launch' \
-                    + ' num_all_feature:=' + num_all_feature \
+                cmd_slam   = str('roslaunch msf_updates gazebo_GF_stereo.launch' \
+                    + ' num_good_feature:=' + num_good_feature \
                     + ' path_data_logging:=' + path_data_logging \
                     + ' do_rectify:=' + do_rectify \
                     + ' do_vis:=' + do_vis)
