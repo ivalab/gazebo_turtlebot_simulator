@@ -62,10 +62,10 @@ for ri, num_gf in enumerate(Number_GF_List):
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
                 # cmd_reset  = str('rosservice call /gazebo/reset_simulation && roslaunch ../launch/spawn_turtlebot.launch ') 
+                cmd_svo    = str('python call_svo.py -f ' + str(num_gf) )
                 cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
                     + ' topic_slam_pose:=/svo/pose_cam_for_msf ' \
                     + ' link_slam_base:=gyro_link' )
-                cmd_svo    = str('python call_svo.py -f ' + str(num_gf) )
                 cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_data_logging \
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \
@@ -73,8 +73,8 @@ for ri, num_gf in enumerate(Number_GF_List):
                 cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 
 
                 print bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC
-                print bcolors.WARNING + "cmd_esti: \n"  + cmd_esti  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_svo: \n"  + cmd_svo  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_esti: \n"  + cmd_esti  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_ctrl: \n"  + cmd_ctrl  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_trig: \n"  + cmd_trig  + bcolors.ENDC
 
