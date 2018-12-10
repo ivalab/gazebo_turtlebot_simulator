@@ -63,7 +63,7 @@ for ri, num_gf in enumerate(Number_GF_List):
 
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
-                cmd_slam   = str('roslaunch msf_updates gazebo_ORB_stereo.launch' \
+                cmd_slam   = str('roslaunch ../launch/gazebo_ORB_stereo.launch' \
                     + ' num_all_feature:=' + num_all_feature \
                     + ' path_data_logging:=' + path_data_logging \
                     + ' do_rectify:=' + do_rectify \
@@ -116,11 +116,11 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.call('rosnode kill visual_slam', shell=True)
                 subprocess.call('pkill Stereo', shell=True)
                 # time.sleep(SleepTime)
-                subprocess.call('rosnode kill imu_downsample', shell=True)
+                # subprocess.call('rosnode kill imu_downsample', shell=True)
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)
                 subprocess.call('rosnode kill visual_robot_publisher', shell=True)
-                subprocess.call('rosnode kill odom_downsample', shell=True)
+                # subprocess.call('rosnode kill odom_downsample', shell=True)
                 subprocess.call('rosnode kill turtlebot_controller', shell=True)
                 subprocess.call('rosnode kill turtlebot_trajectory_testing', shell=True)
                 subprocess.call('rosnode kill odom_reset', shell=True)

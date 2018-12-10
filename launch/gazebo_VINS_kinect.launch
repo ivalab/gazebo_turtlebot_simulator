@@ -1,0 +1,61 @@
+<launch>
+
+<arg name="num_all_feature" />
+<arg name="num_good_feature" />
+
+
+<node name="odom_reset" pkg="rostopic" type="rostopic" args="pub /mobile_base/commands/reset_odometry std_msgs/Empty '{}'" />
+
+<param name="/use_sim_time" value="true" />
+
+<!-- downsample the imu message in gazebo; no need in real turtlebot; there might be warning on msf_core: imu message drop: simply ignore that! -->
+<node pkg="topic_tools" type="throttle" name="imu_downsample" args=" messages /mobile_base/sensors/imu_data 100 /imu0">
+</node>
+
+<!-- downsample the odom message to be logged in rosbag; no need in real turtlebot;  -->
+<node pkg="topic_tools" type="throttle" name="odom_downsample" args=" messages /odom 100 /odom_sparse">
+</node>
+
+
+
+<!-- call baseline VINS Mono for vision-based state estimation  -->
+    <arg name="config_path" default = "$(find feature_tracker)/../config/gazebo/kinect_mono.yaml" />
+    <arg name="vins_path" default = "$(find feature_tracker)/../config/../" />
+    
+    <node name="feature_tracker" pkg="feature_tracker" type="feature_tracker" output="log">
+        <param name="config_file" type="string" value="$(arg config_path)" />
+        <param name="vins_folder" type="string" value="$(arg vins_path)" />
+    </node>
+
+    <node name="vins_estimator" pkg="vins_estimator" type="vins_estimator" output="screen">
+       <param name="config_file" type="string" value="$(arg config_path)" />
+       <param name="vins_folder" type="string" value="$(arg vins_path)" />
+    </node>
+
+    <node name="pose_graph" pkg="pose_graph" type="pose_graph" output="screen">
+        <param name="config_file" type="string" value="$(arg config_path)" />
+        <param name="visualization_shift_x" type="int" value="0" />
+        <param name="visualization_shift_y" type="int" value="0" />
+        <param name="skip_cnt" type="int" value="0" />
+        <param name="skip_dis" type="double" value="0" />
+    </node>
+
+
+
+<!-- convert msf output to odom message -->
+<node name="odom_converter" pkg="odometry_converter" type="odom_converter" output="screen">
+  <param name="pose_topic" value="vins_estimator/odometry"/>
+  <param name="odom_topic" value="visual/odom"/>
+  <param name="pose_link" value="base_footprint"/>
+  <param name="cam_link" value="camera_left_frame"/>
+</node> 
+
+
+
+
+<node name="visual_robot_publisher" type="robot_state_publisher" pkg="robot_state_publisher">
+  <param name="tf_prefix" value="visual"/>
+</node>
+
+
+</launch>
