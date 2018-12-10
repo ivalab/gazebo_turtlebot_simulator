@@ -1,7 +1,7 @@
 <launch>
 
   <arg name="world_file" default="$(find yipu_world)/world/classroom_textured.world"/>
-  <arg name="gui" default="true"/>
+  <arg name="gui" default="false"/>
 
 
   <!--BEGIN turtlebot_gazebo turtlebot_world.launch -->
@@ -12,7 +12,7 @@
 
     <arg name="stacks"      value="hexagons" />  <!-- circles, hexagons --> 
     <arg name="3d_sensor"   value="fisheye_stereo" />     <!-- kinect, asus_xtion_pro, fisheye_stereo --> 
-    <arg name="imu_sensor"  value="mpu_6000" />  <!-- mpu_6000, ADIS_16448 --> 
+    <arg name="imu_sensor"  value="ADIS_16448" />  <!-- mpu_6000, ADIS_16448 --> 
 
     <!--BEGIN gazebo_ros empty_world.launch-->
       <!-- these are the arguments you can pass this launch file, for example paused:=true -->
