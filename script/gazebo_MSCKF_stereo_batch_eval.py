@@ -40,9 +40,9 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
+            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
             # Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/low_imu/MSCKF/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/high_imu/MSCKF/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/high_imu/MSCKF/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)
@@ -95,7 +95,6 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.Popen(cmd_ctrl, shell=True)
                 
                 print bcolors.OKGREEN + "Sleeping for a few secs to stabilize msf" + bcolors.ENDC
-                time.sleep(60)
                 time.sleep(SleepTime)
                 
                 Duration = duration + SleepTime
@@ -111,11 +110,11 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.call('rosnode kill msckf/vio', shell=True)
                 subprocess.call('rosnode kill msckf/image_processor', shell=True)
                 # time.sleep(SleepTime)
-                subprocess.call('rosnode kill imu_downsample', shell=True)
+                # subprocess.call('rosnode kill imu_downsample', shell=True)
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)
                 subprocess.call('rosnode kill visual_robot_publisher', shell=True)
-                subprocess.call('rosnode kill odom_downsample', shell=True)
+                # subprocess.call('rosnode kill odom_downsample', shell=True)
                 subprocess.call('rosnode kill turtlebot_controller', shell=True)
                 subprocess.call('rosnode kill turtlebot_trajectory_testing', shell=True)
                 subprocess.call('rosnode kill odom_reset', shell=True)
