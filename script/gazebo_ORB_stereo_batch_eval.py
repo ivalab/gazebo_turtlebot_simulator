@@ -11,8 +11,7 @@ SeqNameList = ['loop', 'long'];
 SeqLengList = [40, 50];
 
 Fwd_Vel_List = [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [600, 1200]; # 
-# Number_GF_List = [80, 120, 160];
+Number_GF_List = [600, 1200]; # [400, 800]; # 
 
 Num_Repeating = 10 # 3 # 5 # 50 # 
 

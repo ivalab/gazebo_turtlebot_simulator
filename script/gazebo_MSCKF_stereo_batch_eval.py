@@ -11,9 +11,7 @@ SeqNameList = ['loop', 'long'];
 SeqLengList = [40, 50];
 
 Fwd_Vel_List = [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-# Number_GF_List = [600, 1200]; # 
-Number_GF_List = [120, 240]; #
-# Number_GF_List = [80, 120, 160];
+Number_GF_List = [120, 240]; # [60, 180]; # 
 
 Num_Repeating = 10 # 3 # 5 # 50 # 
 
@@ -41,8 +39,8 @@ for ri, num_gf in enumerate(Number_GF_List):
 
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/low_imu/MSCKF/'
-            Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/high_imu/MSCKF/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/low_imu/MSCKF/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/high_imu/MSCKF/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)
