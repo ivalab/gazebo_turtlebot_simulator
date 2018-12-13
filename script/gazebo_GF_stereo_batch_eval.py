@@ -10,9 +10,9 @@ import signal
 SeqNameList = ['loop', 'long'];
 SeqLengList = [40, 50];
 
-Fwd_Vel_List = [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
+Fwd_Vel_List = [0.5]; # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
 # Number_GF_List = [600, 1200]; # 
-Number_GF_List = [40, 60, 80, 120, 160];
+Number_GF_List = [80] # [40, 60, 80, 120, 160];
 
 Num_Repeating = 10 # 3 # 5 # 50 # 
 
@@ -42,7 +42,8 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/high_imu/GF/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/debug/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/high_imu/GF/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/low_imu/GF_prior/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
