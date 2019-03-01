@@ -7,16 +7,18 @@ import signal
 
 # SeqNameList = ['line', 'turn', 'loop', 'long'];
 # SeqLengList = [17, 20, 40, 50];
-# SeqNameList = ['loop', 'long'];
-# SeqLengList = [40, 50];
+# SeqNameList = ['loop'];
+# SeqLengList = [40];
+SeqNameList = ['long'];
+SeqLengList = [50];
 # SeqNameList = ['square'];
-# SeqLengList = [120];
+# SeqLengList = [105];
 # SeqNameList = ['zigzag'];
-# SeqLengList = [160];
-SeqNameList = ['square', 'zigzag'];
-SeqLengList = [120, 160];
+# SeqLengList = [125];
+# SeqNameList = ['square', 'zigzag'];
+# SeqLengList = [105, 125];
 
-Fwd_Vel_List = [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
+Fwd_Vel_List = [1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
 Number_GF_List = [800, 1200]; # [400, 800]; # 
 
 Num_Repeating = 10 # 3 # 5 # 50 # 
