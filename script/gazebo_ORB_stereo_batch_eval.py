@@ -11,8 +11,10 @@ import signal
 # SeqLengList = [40, 50];
 # SeqNameList = ['square'];
 # SeqLengList = [120];
-SeqNameList = ['zigzag'];
-SeqLengList = [160];
+# SeqNameList = ['zigzag'];
+# SeqLengList = [160];
+SeqNameList = ['square', 'zigzag'];
+SeqLengList = [120, 160];
 
 Fwd_Vel_List = [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
 Number_GF_List = [800, 1200]; # [400, 800]; # 
@@ -23,7 +25,7 @@ SleepTime = 3 # 5 #
 # Duration = 30 # 60
 
 do_rectify = str('false');
-do_vis = str('false');
+do_vis = str('true');
 
 #----------------------------------------------------------------------------------------------------------------------
 class bcolors:
