@@ -7,18 +7,22 @@ import signal
 
 # SeqNameList = ['line', 'turn', 'loop', 'long'];
 # SeqLengList = [17, 20, 40, 50];
-SeqNameList = ['loop', 'long'];
-SeqLengList = [40, 50];
+# SeqNameList = ['loop', 'long'];
+# SeqLengList = [40, 50];
+# SeqNameList = ['square'];
+# SeqLengList = [120];
+SeqNameList = ['zigzag'];
+SeqLengList = [160];
 
 Fwd_Vel_List = [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [600, 1200]; # [400, 800]; # 
+Number_GF_List = [800, 1200]; # [400, 800]; # 
 
 Num_Repeating = 10 # 3 # 5 # 50 # 
 
 SleepTime = 3 # 5 # 
 # Duration = 30 # 60
 
-do_rectify = str('true');
+do_rectify = str('false');
 do_vis = str('false');
 
 #----------------------------------------------------------------------------------------------------------------------
@@ -42,8 +46,8 @@ for ri, num_gf in enumerate(Number_GF_List):
 
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/low_imu/ORB/'
-            Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/high_imu/ORB/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav_v3/Stereo/' + SeqName + '/low_imu/ORB/'
+            # Re1sult_root = '/mnt/DATA/tmp/ClosedNav_v3/Stereo/' + SeqName + '/high_imu/ORB/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_new/Stereo/' + SeqName + '/low_imu/ORB_prior/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
@@ -54,23 +58,30 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.ALERT + "====================================================================" + bcolors.ENDC
                 print bcolors.ALERT + "Round: " + str(iteration + 1) + "; Seq: " + SeqName + "; Vel: " + str(fv)
 
-                path_data_logging = Experiment_dir + '/round' + str(iteration + 1)
+                path_track_logging = Experiment_dir + '/round' + str(iteration + 1)
+                path_map_logging = Experiment_dir + '/round' + str(iteration + 1) + '_Map'
                 num_all_feature = str(num_gf*2)
                 path_type = SeqName
                 velocity_fwd = str(fv)
                 duration = float(SeqLengList[sn]) / float(fv) + SleepTime
 
+                # cmd_mkdir = 'mkdir -p ' + path_track_logging
+                # subprocess.call(cmd_mkdir, shell=True)
+                # cmd_mkdir = 'mkdir -p ' + path_map_logging
+                # subprocess.call(cmd_mkdir, shell=True)
+
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
                 cmd_slam   = str('roslaunch ../launch/gazebo_ORB_stereo.launch' \
                     + ' num_all_feature:=' + num_all_feature \
-                    + ' path_data_logging:=' + path_data_logging \
+                    + ' path_track_logging:=' + path_track_logging \
+                    + ' path_map_logging:=' + path_map_logging \
                     + ' do_rectify:=' + do_rectify \
                     + ' do_vis:=' + do_vis)
                 cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
                     + ' topic_slam_pose:=/ORB_SLAM/camera_pose_in_imu ' \
                     + ' link_slam_base:=camera_left_frame' )
-                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_data_logging \
+                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging \
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \
                     + ' duration:=' + str(duration) )
@@ -113,7 +124,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 time.sleep(SleepTime)
                 subprocess.call('rosnode kill Stereo', shell=True)
                 subprocess.call('rosnode kill visual_slam', shell=True)
-                subprocess.call('pkill Stereo', shell=True)
+                # subprocess.call('pkill Stereo', shell=True)
                 # time.sleep(SleepTime)
                 # subprocess.call('rosnode kill imu_downsample', shell=True)
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)

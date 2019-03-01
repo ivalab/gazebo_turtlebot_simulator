@@ -55,7 +55,8 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.ALERT + "====================================================================" + bcolors.ENDC
                 print bcolors.ALERT + "Round: " + str(iteration + 1) + "; Seq: " + SeqName + "; Vel: " + str(fv)
 
-                path_data_logging = Experiment_dir + '/round' + str(iteration + 1)
+                path_track_logging = Experiment_dir + '/round' + str(iteration + 1)
+                path_map_logging = Experiment_dir + '/round' + str(iteration + 1) + '_Map'
                 num_good_feature = str(num_gf*2)
                 path_type = SeqName
                 velocity_fwd = str(fv)
@@ -65,7 +66,8 @@ for ri, num_gf in enumerate(Number_GF_List):
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
                 cmd_slam   = str('roslaunch ../launch/gazebo_GF_stereo.launch' \
                     + ' num_good_feature:=' + num_good_feature \
-                    + ' path_data_logging:=' + path_data_logging \
+                    + ' path_track_logging:=' + path_track_logging \
+                    + ' path_map_logging:=' + path_map_logging \
                     + ' do_rectify:=' + do_rectify \
                     + ' do_vis:=' + do_vis)
                 cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
