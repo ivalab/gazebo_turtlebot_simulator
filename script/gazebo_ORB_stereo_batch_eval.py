@@ -19,7 +19,7 @@ SeqNameList = ['loop', 'long', 'square', 'zigzag'];
 SeqLengList = [40, 50, 105, 125];
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [800, 1200]; # [400, 800]; # 
+Number_GF_List = [1200] # [800, 1200]; # 
 
 Num_Repeating = 10 # 3 # 5 # 50 # 
 
@@ -52,7 +52,7 @@ for ri, num_gf in enumerate(Number_GF_List):
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
             Result_root = '/mnt/DATA/tmp/ClosedNav_v3/' + SeqName + '/low_imu/ORB/'
             # Re1sult_root = '/mnt/DATA/tmp/ClosedNav_v3/' + SeqName + '/high_imu/ORB/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_new/' + SeqName + '/low_imu/ORB_prior/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav_v3/' + SeqName + '/low_imu/ORB_prior/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)
