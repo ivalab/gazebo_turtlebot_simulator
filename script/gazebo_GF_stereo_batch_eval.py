@@ -16,12 +16,12 @@ import signal
 # SeqNameList = ['zigzag'];
 # SeqLengList = [125];
 # SeqNameList = ['infinite'];
-# SeqLengList = [800];
-SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
-SeqLengList = [40, 50, 105, 125, 800];
+# SeqLengList = [245];
+SeqNameList = ['loop', 'long', 'square', 'zigzag'];
+SeqLengList = [40, 50, 105, 125];
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [60, 80, 100, 120] # [40, 60, 80, 120, 160];
+Number_GF_List = [100, 120] # [60, 80, 100, 120] # [40, 60, 80, 120, 160];
 
 Num_Repeating = 5 # 50 # 10 # 
 
