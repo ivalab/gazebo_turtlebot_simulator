@@ -17,13 +17,17 @@ import signal
 # SeqLengList = [125];
 # SeqNameList = ['infinite'];
 # SeqLengList = [245];
-SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
-SeqLengList = [40, 50, 105, 125, 245];
+SeqNameList = ['loop', 'long', 'square', 'zigzag'];
+SeqLengList = [40, 50, 105, 125];
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [800, 1200]; # [1200] # 
+Number_GF_List = [100, 120] # [60, 80, 100, 120] # [40, 60, 80, 120, 160];
 
+<<<<<<< Updated upstream
 Num_Repeating = 5 # 50 # 10 # 
+=======
+Num_Repeating = 5 # 50 # 10 # 3 # 
+>>>>>>> Stashed changes
 
 SleepTime = 3 # 5 # 
 # Duration = 30 # 60
@@ -51,10 +55,10 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
-            Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/ORB/'
-            # Re1sult_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/high_imu/ORB/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/ORB_prior/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF/'
+            # Re1sult_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/high_imu/GF/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)
@@ -66,20 +70,15 @@ for ri, num_gf in enumerate(Number_GF_List):
 
                 path_track_logging = Experiment_dir + '/round' + str(iteration + 1)
                 path_map_logging = Experiment_dir + '/round' + str(iteration + 1) + '_Map'
-                num_all_feature = str(num_gf*2)
+                num_good_feature = str(num_gf*3)
                 path_type = SeqName
                 velocity_fwd = str(fv)
                 duration = float(SeqLengList[sn]) / float(fv) + SleepTime
 
-                # cmd_mkdir = 'mkdir -p ' + path_track_logging
-                # subprocess.call(cmd_mkdir, shell=True)
-                # cmd_mkdir = 'mkdir -p ' + path_map_logging
-                # subprocess.call(cmd_mkdir, shell=True)
-
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
-                cmd_slam   = str('roslaunch ../launch/gazebo_ORB_stereo.launch' \
-                    + ' num_all_feature:=' + num_all_feature \
+                cmd_slam   = str('roslaunch ../launch/gazebo_GF_stereo.launch' \
+                    + ' num_good_feature:=' + num_good_feature \
                     + ' path_track_logging:=' + path_track_logging \
                     + ' path_map_logging:=' + path_map_logging \
                     + ' do_rectify:=' + do_rectify \
