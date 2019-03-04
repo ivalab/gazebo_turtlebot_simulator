@@ -21,9 +21,9 @@ SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
 SeqLengList = [40, 50, 105, 125, 800];
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [80, 120, 160] # [40, 60, 80, 120, 160];
+Number_GF_List = [60, 80, 100, 120] # [40, 60, 80, 120, 160];
 
-Num_Repeating = 10 # 3 # 5 # 50 # 
+Num_Repeating = 5 # 50 # 10 # 
 
 SleepTime = 3 # 5 # 
 # Duration = 30 # 60
@@ -52,9 +52,9 @@ for ri, num_gf in enumerate(Number_GF_List):
 
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
-            Result_root = '/mnt/DATA/tmp/ClosedNav_v3/' + SeqName + '/low_imu/GF/'
-            # Re1sult_root = '/mnt/DATA/tmp/ClosedNav_v3/' + SeqName + '/high_imu/GF/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_v3/' + SeqName + '/low_imu/GF_gpu/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF/'
+            # Re1sult_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/high_imu/GF/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)
@@ -66,7 +66,7 @@ for ri, num_gf in enumerate(Number_GF_List):
 
                 path_track_logging = Experiment_dir + '/round' + str(iteration + 1)
                 path_map_logging = Experiment_dir + '/round' + str(iteration + 1) + '_Map'
-                num_good_feature = str(num_gf*2)
+                num_good_feature = str(num_gf*3)
                 path_type = SeqName
                 velocity_fwd = str(fv)
                 duration = float(SeqLengList[sn]) / float(fv) + SleepTime
