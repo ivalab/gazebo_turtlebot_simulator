@@ -15,11 +15,13 @@ import signal
 # SeqLengList = [105];
 # SeqNameList = ['zigzag'];
 # SeqLengList = [125];
-SeqNameList = ['loop', 'long', 'square', 'zigzag'];
-SeqLengList = [40, 50, 105, 125];
+# SeqNameList = ['infinite'];
+# SeqLengList = [800];
+SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
+SeqLengList = [40, 50, 105, 125, 800];
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [80] # [40, 60, 80, 120, 160];
+Number_GF_List = [80, 120, 160] # [40, 60, 80, 120, 160];
 
 Num_Repeating = 10 # 3 # 5 # 50 # 
 
