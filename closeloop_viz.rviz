@@ -138,7 +138,7 @@ Visualization Manager:
           Scale: 1
           Value: true
         Value: false
-      Enabled: true
+      Enabled: false
       Keep: 100
       Name: Gazebo Odometry
       Position Tolerance: 0.100000001
@@ -154,7 +154,7 @@ Visualization Manager:
         Value: Arrow
       Topic: /odom
       Unreliable: false
-      Value: true
+      Value: false
     - Class: rviz/TF
       Enabled: true
       Frame Timeout: 15
@@ -311,135 +311,136 @@ Visualization Manager:
       Show Names: true
       Tree:
         map:
-          odom:
-            base_footprint:
-              base_link:
-                camera_left_frame:
-                  camera_left_optical_frame:
+          {}
+        odom:
+          base_footprint:
+            base_link:
+              camera_left_frame:
+                camera_left_optical_frame:
+                  {}
+                camera_link_1:
+                  {}
+                camera_right_frame:
+                  camera_right_optical_frame:
                     {}
-                  camera_link_1:
+              caster_back_link:
+                {}
+              caster_front_link:
+                {}
+              cliff_sensor_front_link:
+                {}
+              cliff_sensor_left_link:
+                {}
+              cliff_sensor_right_link:
+                {}
+              gyro_link:
+                {}
+              plate_bottom_link:
+                {}
+              plate_middle_link:
+                {}
+              plate_top_link:
+                {}
+              pole_bottom_0_link:
+                {}
+              pole_bottom_1_link:
+                {}
+              pole_bottom_2_link:
+                {}
+              pole_bottom_3_link:
+                {}
+              pole_bottom_4_link:
+                {}
+              pole_bottom_5_link:
+                {}
+              pole_kinect_0_link:
+                {}
+              pole_kinect_1_link:
+                {}
+              pole_middle_0_link:
+                {}
+              pole_middle_1_link:
+                {}
+              pole_middle_2_link:
+                {}
+              pole_middle_3_link:
+                {}
+              pole_top_0_link:
+                {}
+              pole_top_1_link:
+                {}
+              pole_top_2_link:
+                {}
+              pole_top_3_link:
+                {}
+              wheel_left_link:
+                {}
+              wheel_right_link:
+                {}
+          visual/base_footprint:
+            visual/base_link:
+              visual/camera_left_frame:
+                visual/camera_left_optical_frame:
+                  {}
+                visual/camera_link_1:
+                  {}
+                visual/camera_right_frame:
+                  visual/camera_right_optical_frame:
                     {}
-                  camera_right_frame:
-                    camera_right_optical_frame:
-                      {}
-                caster_back_link:
-                  {}
-                caster_front_link:
-                  {}
-                cliff_sensor_front_link:
-                  {}
-                cliff_sensor_left_link:
-                  {}
-                cliff_sensor_right_link:
-                  {}
-                gyro_link:
-                  {}
-                plate_bottom_link:
-                  {}
-                plate_middle_link:
-                  {}
-                plate_top_link:
-                  {}
-                pole_bottom_0_link:
-                  {}
-                pole_bottom_1_link:
-                  {}
-                pole_bottom_2_link:
-                  {}
-                pole_bottom_3_link:
-                  {}
-                pole_bottom_4_link:
-                  {}
-                pole_bottom_5_link:
-                  {}
-                pole_kinect_0_link:
-                  {}
-                pole_kinect_1_link:
-                  {}
-                pole_middle_0_link:
-                  {}
-                pole_middle_1_link:
-                  {}
-                pole_middle_2_link:
-                  {}
-                pole_middle_3_link:
-                  {}
-                pole_top_0_link:
-                  {}
-                pole_top_1_link:
-                  {}
-                pole_top_2_link:
-                  {}
-                pole_top_3_link:
-                  {}
-                wheel_left_link:
-                  {}
-                wheel_right_link:
-                  {}
-            visual/base_footprint:
-              visual/base_link:
-                visual/camera_left_frame:
-                  visual/camera_left_optical_frame:
-                    {}
-                  visual/camera_link_1:
-                    {}
-                  visual/camera_right_frame:
-                    visual/camera_right_optical_frame:
-                      {}
-                visual/caster_back_link:
-                  {}
-                visual/caster_front_link:
-                  {}
-                visual/cliff_sensor_front_link:
-                  {}
-                visual/cliff_sensor_left_link:
-                  {}
-                visual/cliff_sensor_right_link:
-                  {}
-                visual/gyro_link:
-                  {}
-                visual/plate_bottom_link:
-                  {}
-                visual/plate_middle_link:
-                  {}
-                visual/plate_top_link:
-                  {}
-                visual/pole_bottom_0_link:
-                  {}
-                visual/pole_bottom_1_link:
-                  {}
-                visual/pole_bottom_2_link:
-                  {}
-                visual/pole_bottom_3_link:
-                  {}
-                visual/pole_bottom_4_link:
-                  {}
-                visual/pole_bottom_5_link:
-                  {}
-                visual/pole_kinect_0_link:
-                  {}
-                visual/pole_kinect_1_link:
-                  {}
-                visual/pole_middle_0_link:
-                  {}
-                visual/pole_middle_1_link:
-                  {}
-                visual/pole_middle_2_link:
-                  {}
-                visual/pole_middle_3_link:
-                  {}
-                visual/pole_top_0_link:
-                  {}
-                visual/pole_top_1_link:
-                  {}
-                visual/pole_top_2_link:
-                  {}
-                visual/pole_top_3_link:
-                  {}
-                visual/wheel_left_link:
-                  {}
-                visual/wheel_right_link:
-                  {}
+              visual/caster_back_link:
+                {}
+              visual/caster_front_link:
+                {}
+              visual/cliff_sensor_front_link:
+                {}
+              visual/cliff_sensor_left_link:
+                {}
+              visual/cliff_sensor_right_link:
+                {}
+              visual/gyro_link:
+                {}
+              visual/plate_bottom_link:
+                {}
+              visual/plate_middle_link:
+                {}
+              visual/plate_top_link:
+                {}
+              visual/pole_bottom_0_link:
+                {}
+              visual/pole_bottom_1_link:
+                {}
+              visual/pole_bottom_2_link:
+                {}
+              visual/pole_bottom_3_link:
+                {}
+              visual/pole_bottom_4_link:
+                {}
+              visual/pole_bottom_5_link:
+                {}
+              visual/pole_kinect_0_link:
+                {}
+              visual/pole_kinect_1_link:
+                {}
+              visual/pole_middle_0_link:
+                {}
+              visual/pole_middle_1_link:
+                {}
+              visual/pole_middle_2_link:
+                {}
+              visual/pole_middle_3_link:
+                {}
+              visual/pole_top_0_link:
+                {}
+              visual/pole_top_1_link:
+                {}
+              visual/pole_top_2_link:
+                {}
+              visual/pole_top_3_link:
+                {}
+              visual/wheel_left_link:
+                {}
+              visual/wheel_right_link:
+                {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -1059,25 +1060,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 23.9353523
+      Distance: 24.8662186
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.515258551
-        Y: 6.0991168
-        Z: -0.629886091
+        X: 0.00444679707
+        Y: -0.327722728
+        Z: -0.632115245
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.56979632
+      Pitch: 1.55479634
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 3.29035378
+      Yaw: 3.59535265
     Saved: ~
 Window Geometry:
   Displays:
