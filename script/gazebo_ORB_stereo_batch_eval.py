@@ -16,9 +16,14 @@ import signal
 # SeqNameList = ['zigzag'];
 # SeqLengList = [125];
 # SeqNameList = ['infinite'];
-# SeqLengList = [800];
+# SeqLengList = [245];
 SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
-SeqLengList = [40, 50, 105, 125, 800];
+SeqLengList = [40, 50, 105, 125, 245];
+
+# low IMU
+IMU_Type = 'mpu6000';
+# high IMU
+# IMU_Type = 'ADIS16448';
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
 Number_GF_List = [800, 1200]; # [1200] # 
@@ -52,8 +57,7 @@ for ri, num_gf in enumerate(Number_GF_List):
 
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
-            Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/ORB/'
-            # Re1sult_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/high_imu/ORB/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/' + IMU_Type + '/ORB/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/ORB_prior/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
@@ -85,6 +89,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                     + ' do_rectify:=' + do_rectify \
                     + ' do_vis:=' + do_vis)
                 cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
+                    + ' imu_type:=' + IMU_Type + ' ' \
                     + ' topic_slam_pose:=/ORB_SLAM/camera_pose_in_imu ' \
                     + ' link_slam_base:=camera_left_frame' )
                 cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging \
@@ -116,7 +121,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.Popen(cmd_ctrl, shell=True)
                 
                 print bcolors.OKGREEN + "Sleeping for a few secs to stabilize msf" + bcolors.ENDC
-                time.sleep(SleepTime)
+                time.sleep(SleepTime * 3)
                 
                 Duration = duration + SleepTime
                 print bcolors.OKGREEN + "Start simulation with " + str(Duration) + " secs" + bcolors.ENDC
@@ -132,11 +137,9 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.call('rosnode kill visual_slam', shell=True)
                 # subprocess.call('pkill Stereo', shell=True)
                 # time.sleep(SleepTime)
-                # subprocess.call('rosnode kill imu_downsample', shell=True)
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)
                 subprocess.call('rosnode kill visual_robot_publisher', shell=True)
-                # subprocess.call('rosnode kill odom_downsample', shell=True)
                 subprocess.call('rosnode kill turtlebot_controller', shell=True)
                 subprocess.call('rosnode kill turtlebot_trajectory_testing', shell=True)
                 subprocess.call('rosnode kill odom_reset', shell=True)

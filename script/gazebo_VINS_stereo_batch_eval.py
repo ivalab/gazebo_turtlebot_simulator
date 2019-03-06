@@ -49,8 +49,8 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/' + IMU_Type + '/MSCKF/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
+            Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/' + IMU_Type + '/VIFusion/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)
@@ -70,11 +70,14 @@ for ri, num_gf in enumerate(Number_GF_List):
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
                 # cmd_reset  = str('rosservice call /gazebo/reset_simulation && roslaunch ../launch/spawn_turtlebot.launch ') 
-                cmd_msckf  = str('python call_msckf.py -f ' + str(num_gf) + ' -i ' + IMU_Type )
+                cmd_vins  = str('python call_vinsfusion.py -f ' + str(num_gf) + ' -i ' + IMU_Type )
                 cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
                     + ' imu_type:=' + IMU_Type + ' ' \
-                    + ' topic_slam_pose:=/msckf/vio/msf_odom ' \
+                    + ' topic_slam_pose:=/vins_estimator/pose_cam_for_msf ' \
                     + ' link_slam_base:=gyro_link' )
+                # cmd_conv   = str('roslaunch ../launch/gazebo_odom_conversion.launch' \
+                #     + ' topic_slam_pose:=/vins_estimator/imu_propagate ' \
+                #     + ' link_slam_base:=gyro_link' )
                 cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_data_logging \
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \
@@ -82,7 +85,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 
 
                 print bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC
-                print bcolors.WARNING + "cmd_msckf: \n" + cmd_msckf  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_vins: \n"  + cmd_vins  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_esti: \n"  + cmd_esti  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_ctrl: \n"  + cmd_ctrl  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_trig: \n"  + cmd_trig  + bcolors.ENDC
@@ -94,12 +97,12 @@ for ri, num_gf in enumerate(Number_GF_List):
                 time.sleep(SleepTime)
                 # time.sleep(60)
 
-                print bcolors.OKGREEN + "Launching MSCKF" + bcolors.ENDC
-                subprocess.Popen(cmd_msckf, shell=True)
-                # wait for MSCKF to stablize
+                print bcolors.OKGREEN + "Launching VINS-Fusion" + bcolors.ENDC
+                subprocess.Popen(cmd_vins, shell=True)
+                # wait for VINS-Fusion to stablize
                 time.sleep(SleepTime)
 
-                print bcolors.OKGREEN + "Launching State Estimator" + bcolors.ENDC
+                print bcolors.OKGREEN + "Launching MSF" + bcolors.ENDC
                 subprocess.Popen(cmd_esti, shell=True)
 
                 print bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC
@@ -117,15 +120,12 @@ for ri, num_gf in enumerate(Number_GF_List):
 
                 print bcolors.OKGREEN + "Finish simulation, kill the process" + bcolors.ENDC
                 subprocess.call('rosnode kill data_logging', shell=True)
-                time.sleep(SleepTime)
-                subprocess.call('rosnode kill msckf/vio', shell=True)
-                subprocess.call('rosnode kill msckf/image_processor', shell=True)
+                subprocess.call('rosnode kill loop_fusion', shell=True)
+                subprocess.call('rosnode kill vins_estimator', shell=True)
                 # time.sleep(SleepTime)
-                # subprocess.call('rosnode kill imu_downsample', shell=True)
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)
                 subprocess.call('rosnode kill visual_robot_publisher', shell=True)
-                # subprocess.call('rosnode kill odom_downsample', shell=True)
                 subprocess.call('rosnode kill turtlebot_controller', shell=True)
                 subprocess.call('rosnode kill turtlebot_trajectory_testing', shell=True)
                 subprocess.call('rosnode kill odom_reset', shell=True)
