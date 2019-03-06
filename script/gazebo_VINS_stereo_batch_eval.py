@@ -71,13 +71,13 @@ for ri, num_gf in enumerate(Number_GF_List):
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
                 # cmd_reset  = str('rosservice call /gazebo/reset_simulation && roslaunch ../launch/spawn_turtlebot.launch ') 
                 cmd_vins  = str('python call_vinsfusion.py -f ' + str(num_gf) + ' -i ' + IMU_Type )
-                cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
-                    + ' imu_type:=' + IMU_Type + ' ' \
-                    + ' topic_slam_pose:=/vins_estimator/pose_cam_for_msf ' \
-                    + ' link_slam_base:=gyro_link' )
-                # cmd_conv   = str('roslaunch ../launch/gazebo_odom_conversion.launch' \
-                #     + ' topic_slam_pose:=/vins_estimator/imu_propagate ' \
+                # cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
+                #     + ' imu_type:=' + IMU_Type + ' ' \
+                #     + ' topic_slam_pose:=/vins_estimator/pose_cam_for_msf ' \
                 #     + ' link_slam_base:=gyro_link' )
+                cmd_esti   = str('roslaunch ../launch/gazebo_odom_conversion.launch' \
+                    + ' topic_slam_pose:=/vins_estimator/imu_propagate ' \
+                    + ' link_slam_base:=gyro_link' )
                 cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_data_logging \
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \
@@ -123,7 +123,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.call('rosnode kill loop_fusion', shell=True)
                 subprocess.call('rosnode kill vins_estimator', shell=True)
                 # time.sleep(SleepTime)
-                subprocess.call('rosnode kill msf_pose_sensor', shell=True)
+                # subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)
                 subprocess.call('rosnode kill visual_robot_publisher', shell=True)
                 subprocess.call('rosnode kill turtlebot_controller', shell=True)
