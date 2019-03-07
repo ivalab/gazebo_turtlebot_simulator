@@ -17,8 +17,10 @@ import signal
 # SeqLengList = [125];
 # SeqNameList = ['infinite'];
 # SeqLengList = [245];
-SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
-SeqLengList = [40, 50, 105, 125, 245];
+SeqNameList = ['two_circle'];
+SeqLengList = [200];
+# SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
+# SeqLengList = [40, 50, 105, 125, 245];
 
 # low IMU
 IMU_Type = 'mpu6000';
