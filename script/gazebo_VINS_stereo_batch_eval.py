@@ -71,6 +71,8 @@ for ri, num_gf in enumerate(Number_GF_List):
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
                 # cmd_reset  = str('rosservice call /gazebo/reset_simulation && roslaunch ../launch/spawn_turtlebot.launch ') 
                 cmd_vins  = str('python call_vinsfusion.py -f ' + str(num_gf) + ' -i ' + IMU_Type )
+                # cmd_init   = str("rostopic pub -1 /mobile_base/commands/velocity geometry_msgs/Twist -- '[0.2,0.0,0.0]' '[0.0, 0.0, 1.0]'")
+                cmd_init   = str("python init_VINS.py")
                 # cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
                 #     + ' imu_type:=' + IMU_Type + ' ' \
                 #     + ' topic_slam_pose:=/vins_estimator/pose_cam_for_msf ' \
@@ -99,17 +101,22 @@ for ri, num_gf in enumerate(Number_GF_List):
 
                 print bcolors.OKGREEN + "Launching VINS-Fusion" + bcolors.ENDC
                 subprocess.Popen(cmd_vins, shell=True)
-                # wait for VINS-Fusion to stablize
                 time.sleep(SleepTime)
 
-                print bcolors.OKGREEN + "Launching MSF" + bcolors.ENDC
+                # do a circular motion to initialize VINS-Fusion
+                print bcolors.OKGREEN + "Initializing VINS-Fusion" + bcolors.ENDC
+                subprocess.Popen(cmd_init, shell=True)
+                time.sleep(15 + SleepTime)
+
+                print bcolors.OKGREEN + "Launching odom conversion" + bcolors.ENDC
                 subprocess.Popen(cmd_esti, shell=True)
 
                 print bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC
                 subprocess.Popen(cmd_ctrl, shell=True)
+                time.sleep(SleepTime)
                 
-                print bcolors.OKGREEN + "Sleeping for a few secs to stabilize msf" + bcolors.ENDC
-                time.sleep(SleepTime * 3)
+                # print bcolors.OKGREEN + "Sleeping for a few secs to stabilize msf" + bcolors.ENDC
+                # time.sleep(SleepTime * 3)
                 
                 Duration = duration + SleepTime
                 print bcolors.OKGREEN + "Start simulation with " + str(Duration) + " secs" + bcolors.ENDC
