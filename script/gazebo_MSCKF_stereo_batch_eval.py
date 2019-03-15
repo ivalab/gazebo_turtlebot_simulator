@@ -9,12 +9,14 @@ import signal
 # SeqLengList = [17, 20, 40, 50];
 # SeqNameList = ['loop', 'long'];
 # SeqLengList = [40, 50];
-# SeqNameList = ['square', 'zigzag'];
-# SeqLengList = [105, 125];
+SeqNameList = ['square', 'zigzag'];
+SeqLengList = [105, 125];
 # SeqNameList = ['infinite'];
 # SeqLengList = [245];
-SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
-SeqLengList = [40, 50, 105, 125, 245];
+# SeqNameList = ['two_circle'];
+# SeqLengList = [200];
+# SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
+# SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
 IMU_Type = 'mpu6000';

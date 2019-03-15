@@ -5,21 +5,21 @@ import subprocess
 import time
 import signal
 
-# SeqNameList = ['line', 'turn', 'loop', 'long'];
-# SeqLengList = [17, 20, 40, 50];
-# SeqNameList = ['loop', 'long'];
-# SeqLengList = [40, 50];
-# SeqNameList = ['square', 'zigzag'];
-# SeqLengList = [105, 125];
-# SeqNameList = ['infinite'];
+# SeqNameList = ['loop', 'long', 'square'];
+# SeqLengList = [40, 50, 105];
+# SeqNameList = ['zigzag']; # fail to track
+# SeqLengList = [125];
+# SeqNameList = ['infinite']; # fail to track
 # SeqLengList = [245];
-SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
-SeqLengList = [40, 50, 105, 125, 245];
+SeqNameList = ['two_circle']; # fail to track
+SeqLengList = [200];
+# SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
+# SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
-IMU_Type = 'mpu6000';
+# IMU_Type = 'mpu6000';
 # high IMU
-# IMU_Type = 'ADIS16448';
+IMU_Type = 'ADIS16448';
 
 Fwd_Vel_List = [0.5, 1.0, 1.5]; # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
 Number_GF_List = [120, 240]; # [60, 180]; # 

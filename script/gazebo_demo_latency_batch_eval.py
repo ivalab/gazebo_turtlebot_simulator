@@ -5,39 +5,23 @@ import subprocess
 import time
 import signal
 
-# SeqNameList = ['line', 'turn', 'loop', 'long'];
-# SeqLengList = [17, 20, 40, 50];
 # SeqNameList = ['loop'];
 # SeqLengList = [40];
-# SeqNameList = ['long'];
-# SeqLengList = [50];
-# SeqNameList = ['square'];
-# SeqLengList = [105];
-# SeqNameList = ['zigzag'];
-# SeqLengList = [125];
-# SeqNameList = ['infinite'];
-# SeqLengList = [245];
-SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
-SeqLengList = [40, 50, 105, 125, 245];
-<<<<<<< Updated upstream
+SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
+SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
-IMU_Type = 'mpu6000';
+# IMU_Type = 'mpu6000';
 # high IMU
-# IMU_Type = 'ADIS16448';
-=======
->>>>>>> Stashed changes
+IMU_Type = 'ADIS16448';
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [60, 80, 100, 120] # [40, 60, 80, 120, 160];
+Vis_Latency_List = [0, 0.03] # [0.06, 0.1]; # [0, 0.01, 0.03, 0.06, 0.1]; # [0.15, 0.2, 0.3]; # 
 
 Num_Repeating = 5 # 50 # 10 # 
 
 SleepTime = 3 # 5 # 
 # Duration = 30 # 60
-
-do_rectify = str('false');
-do_vis = str('false');
 
 #----------------------------------------------------------------------------------------------------------------------
 class bcolors:
@@ -50,18 +34,16 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+for li, vl in enumerate(Vis_Latency_List):
 
-for ri, num_gf in enumerate(Number_GF_List):
-
-    Experiment_prefix = 'ObsNumber_' + str(int(num_gf))
+    Experiment_prefix = 'Latency_' + str(Vis_Latency_List[li])
 
     for vn, fv in enumerate(Fwd_Vel_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
-            Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/' + IMU_Type + '/GF/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav_tmp/' + SeqName + '/' + IMU_Type + '/ideal/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav/demo_v3/' + IMU_Type + '/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)
@@ -72,24 +54,27 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.ALERT + "Round: " + str(iteration + 1) + "; Seq: " + SeqName + "; Vel: " + str(fv)
 
                 path_track_logging = Experiment_dir + '/round' + str(iteration + 1)
-                path_map_logging = Experiment_dir + '/round' + str(iteration + 1) + '_Map'
-                num_good_feature = str(num_gf*3)
                 path_type = SeqName
                 velocity_fwd = str(fv)
                 duration = float(SeqLengList[sn]) / float(fv) + SleepTime
 
+                # cmd_mkdir = 'mkdir -p ' + path_track_logging
+                # subprocess.call(cmd_mkdir, shell=True)
+                # cmd_mkdir = 'mkdir -p ' + path_map_logging
+                # subprocess.call(cmd_mkdir, shell=True)
+
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
-                cmd_slam   = str('roslaunch ../launch/gazebo_GF_stereo.launch' \
-                    + ' num_good_feature:=' + num_good_feature \
-                    + ' path_track_logging:=' + path_track_logging \
-                    + ' path_map_logging:=' + path_map_logging \
-                    + ' do_rectify:=' + do_rectify \
-                    + ' do_vis:=' + do_vis)
-                cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
+                # cmd_slam   = str('rosrun delayed_odometry odometry_delayer' \
+                #     + ' _delay:=' + str(Vis_Latency_List[li]) \
+                #     + ' _rate:=' + str(30))
+                cmd_slam   = str('roslaunch delayed_odometry demo_delay.launch' \
+                    + ' delay:=' + str(Vis_Latency_List[li]) \
+                    + ' rate:=30')
+                cmd_esti   = str('roslaunch msf_updates gazebo_msf_demo.launch' \
                     + ' imu_type:=' + IMU_Type + ' ' \
-                    + ' topic_slam_pose:=/ORB_SLAM/camera_pose_in_imu ' \
-                    + ' link_slam_base:=camera_left_frame' )
+                    + ' topic_slam_pose:=delayed_pose ' \
+                    + ' link_slam_base:=base_footprint' )
                 cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging \
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \
@@ -131,8 +116,9 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.OKGREEN + "Finish simulation, kill the process" + bcolors.ENDC
                 subprocess.call('rosnode kill data_logging', shell=True)
                 time.sleep(SleepTime)
-                subprocess.call('rosnode kill Stereo', shell=True)
-                subprocess.call('rosnode kill visual_slam', shell=True)
+                subprocess.call('rosnode kill odometry_delayer', shell=True)
+                # subprocess.call('rosnode kill Stereo', shell=True)
+                # subprocess.call('rosnode kill visual_slam', shell=True)
                 # subprocess.call('pkill Stereo', shell=True)
                 # time.sleep(SleepTime)
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)
