@@ -17,26 +17,28 @@ import signal
 # SeqLengList = [125];
 # SeqNameList = ['infinite'];
 # SeqLengList = [245];
-SeqNameList = ['two_circle'];
-SeqLengList = [200];
-# SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
-# SeqLengList = [40, 50, 105, 125, 245];
+# SeqNameList = ['two_circle'];
+# SeqLengList = [200];
+SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
+SeqLengList = [40, 50, 105, 125, 245];
 
 # low IMU
 IMU_Type = 'mpu6000';
 # high IMU
 # IMU_Type = 'ADIS16448';
 
-Fwd_Vel_List = [1.0] # [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
+Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
 Number_GF_List = [800, 1200]; # [1200] # 
 
 Num_Repeating = 5 # 50 # 10 # 
 
-SleepTime = 3 # 5 # 
+SleepTime = 10 # 3 # 5 # 
 # Duration = 30 # 60
 
-do_rectify = str('false');
+do_rectify = str('true');
 do_vis = str('false');
+
+waypts_yaml_dir = '/home/yipuzhao/catkin_ws/src/turtlebot_trajectory_testing/config'
 
 #----------------------------------------------------------------------------------------------------------------------
 class bcolors:
@@ -58,8 +60,8 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/' + IMU_Type + '/ORB/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
+            Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/ORB_pyr8/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/ORB_prior/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
@@ -96,6 +98,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                     + ' link_slam_base:=camera_left_frame' )
                 cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging \
                     + ' path_type:=' + path_type \
+                    + ' waypts_yaml_dir:=' + waypts_yaml_dir \
                     + ' velocity_fwd:=' + velocity_fwd \
                     + ' duration:=' + str(duration) )
                 cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 

@@ -1,6 +1,6 @@
 <launch>
 
-<arg name="path_slam_cofig" default = "/home/yipuzhao/ros_workspace/package_dir/ORB_Data/"/>
+<arg name="path_slam_cofig" default = "/home/yipu/catkin_ws/src/ORB_Data/"/>
 <arg name="path_track_logging" default = "/mnt/DATA/tmp/ClosedNav/debug"/>
 <arg name="path_map_logging" default = "/mnt/DATA/tmp/ClosedNav/debug_Map"/>
 <arg name="num_all_feature" default = "1600" />

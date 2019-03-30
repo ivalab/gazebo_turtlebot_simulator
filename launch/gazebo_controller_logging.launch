@@ -1,5 +1,6 @@
 <launch>
 
+<arg name="waypts_yaml_dir" />
 <arg name="path_type" />
 <arg name="velocity_fwd" />
 <arg name="duration" />
@@ -11,7 +12,7 @@
 </node>
 
 <!--  -->
-<node name="turtlebot_trajectory_testing" pkg="turtlebot_trajectory_testing" type="send_test_trajectory" output="screen" args="_fw_vel:=$(arg velocity_fwd) _waypoint_yaml:=/home/yipuzhao/catkin_ws/src/turtlebot_trajectory_testing/config/$(arg path_type).yaml _duration:=$(arg duration)" >
+<node name="turtlebot_trajectory_testing" pkg="turtlebot_trajectory_testing" type="send_test_trajectory" output="screen" args="_fw_vel:=$(arg velocity_fwd) _waypoint_yaml:=$(arg waypts_yaml_dir)/$(arg path_type).yaml _duration:=$(arg duration)" >
 </node>
 
 <!-- initialize rosbag recording -->
