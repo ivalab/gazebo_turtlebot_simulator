@@ -17,10 +17,10 @@ import signal
 # SeqLengList = [125];
 # SeqNameList = ['infinite'];
 # SeqLengList = [245];
-SeqNameList = ['two_circle'];
-SeqLengList = [200];
-# SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
-# SeqLengList = [40, 50, 105, 125, 245];
+# SeqNameList = ['two_circle'];
+# SeqLengList = [200];
+SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
+SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
 IMU_Type = 'mpu6000';
@@ -36,7 +36,11 @@ SleepTime = 3 # 5 #
 # Duration = 30 # 60
 
 do_rectify = str('false');
-do_vis = str('false');
+do_vis = str('true');
+
+waypts_yaml_dir = '/home/yipu/catkin_ws/src/turtlebot_trajectory_testing/config'
+
+path_slam_config = '/home/yipu/catkin_ws/src/ORB_Data/'
 
 #----------------------------------------------------------------------------------------------------------------------
 class bcolors:
@@ -59,7 +63,7 @@ for ri, num_gf in enumerate(Number_GF_List):
 
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
-            Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/' + IMU_Type + '/GF/'
+            Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_pyr8/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
@@ -80,6 +84,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
                 cmd_slam   = str('roslaunch ../launch/gazebo_GF_stereo.launch' \
+                    + ' path_slam_config:=' + path_slam_config \
                     + ' num_good_feature:=' + num_good_feature \
                     + ' path_track_logging:=' + path_track_logging \
                     + ' path_map_logging:=' + path_map_logging \
@@ -91,6 +96,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                     + ' link_slam_base:=camera_left_frame' )
                 cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging \
                     + ' path_type:=' + path_type \
+                    + ' waypts_yaml_dir:=' + waypts_yaml_dir \
                     + ' velocity_fwd:=' + velocity_fwd \
                     + ' duration:=' + str(duration) )
                 cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 

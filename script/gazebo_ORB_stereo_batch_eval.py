@@ -19,8 +19,8 @@ import signal
 # SeqLengList = [245];
 # SeqNameList = ['two_circle'];
 # SeqLengList = [200];
-SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite'];
-SeqLengList = [40, 50, 105, 125, 245];
+SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
+SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
 IMU_Type = 'mpu6000';
@@ -32,13 +32,15 @@ Number_GF_List = [800, 1200]; # [1200] #
 
 Num_Repeating = 5 # 50 # 10 # 
 
-SleepTime = 10 # 3 # 5 # 
+SleepTime = 3 # 5 # 
 # Duration = 30 # 60
 
 do_rectify = str('true');
 do_vis = str('false');
 
-waypts_yaml_dir = '/home/yipuzhao/catkin_ws/src/turtlebot_trajectory_testing/config'
+waypts_yaml_dir = '/home/yipu/catkin_ws/src/turtlebot_trajectory_testing/config'
+
+path_slam_config = '/home/yipu/catkin_ws/src/ORB_Data/'
 
 #----------------------------------------------------------------------------------------------------------------------
 class bcolors:
@@ -87,6 +89,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
                 cmd_slam   = str('roslaunch ../launch/gazebo_ORB_stereo.launch' \
+                    + ' path_slam_config:=' + path_slam_config \
                     + ' num_all_feature:=' + num_all_feature \
                     + ' path_track_logging:=' + path_track_logging \
                     + ' path_map_logging:=' + path_map_logging \
