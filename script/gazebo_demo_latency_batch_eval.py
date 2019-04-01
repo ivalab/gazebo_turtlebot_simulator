@@ -11,9 +11,9 @@ SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
-# IMU_Type = 'mpu6000';
+IMU_Type = 'mpu6000';
 # high IMU
-IMU_Type = 'ADIS16448';
+# IMU_Type = 'ADIS16448';
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
 Vis_Latency_List = [0, 0.03] # [0.06, 0.1]; # [0, 0.01, 0.03, 0.06, 0.1]; # [0.15, 0.2, 0.3]; # 
@@ -42,7 +42,8 @@ for li, vl in enumerate(Vis_Latency_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            Result_root = '/mnt/DATA/tmp/ClosedNav_tmp/' + SeqName + '/' + IMU_Type + '/ideal/'
+            Result_root = '/mnt/DATA/tmp/debug/' + SeqName + '/' + IMU_Type + '/ideal/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav_gt/' + SeqName + '/' + IMU_Type + '/ideal/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav/demo_v3/' + IMU_Type + '/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
@@ -75,6 +76,11 @@ for li, vl in enumerate(Vis_Latency_List):
                     + ' imu_type:=' + IMU_Type + ' ' \
                     + ' topic_slam_pose:=delayed_pose ' \
                     + ' link_slam_base:=base_footprint' )
+                # cmd_esti   = str('rosrun odometry_converter odom_converter ' \
+                #     + ' pose_topic:=odom' \
+                #     + ' odom_topic:=visual/odom ' \
+                #     + ' pose_link:=base_footprint ' \
+                #     + ' cam_link:=base_footprint' )
                 cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging \
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \

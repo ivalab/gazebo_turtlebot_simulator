@@ -9,7 +9,7 @@
 
 
 <!-- call baselin ORB-SLAM for vision-based state estimation  -->
-<node pkg="gf_orb_slam2" type="Stereo" name="visual_slam" args="$(arg path_slam_config)/ORBvoc.bin $(arg path_slam_config)/Gazebo_yaml/pinhole_stereo.yaml $(arg num_all_feature) $(arg do_rectify) $(arg do_vis) /multisense_sl/camera/left/image_raw /multisense_sl/camera/right/image_raw $(arg path_track_logging) $(arg path_map_logging)">
+<node pkg="gf_orb_slam2" type="Stereo" name="visual_slam" args="$(arg path_slam_config)/ORBvoc.bin $(arg path_slam_config)/Gazebo_yaml/pinhole_stereo.yaml $(arg num_all_feature) $(arg do_rectify) $(arg do_vis) /multisense_sl/camera/left/image_raw /multisense_sl/camera/right/image_raw $(arg path_track_logging) $(arg path_map_logging)" output="screen">
 </node>
 
 </launch>
