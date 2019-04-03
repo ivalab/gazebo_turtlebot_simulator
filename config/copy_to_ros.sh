@@ -1,4 +1,4 @@
-export CONFIG_SRC=/home/yipu/catkin_ws/src/gazebo_turtlebot_simulator/config
+export CONFIG_SRC=/home/yipuzhao/catkin_ws/src/gazebo_turtlebot_simulator/config
 
 sudo cp ${CONFIG_SRC}/kobuki_ADIS_16448* 	/opt/ros/kinetic/share/kobuki_description/urdf
 sudo cp ${CONFIG_SRC}/kobuki_mpu_6000* 	/opt/ros/kinetic/share/kobuki_description/urdf

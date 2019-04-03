@@ -36,11 +36,11 @@ SleepTime = 3 # 5 #
 # Duration = 30 # 60
 
 do_rectify = str('false');
-do_vis = str('true');
+do_vis = str('false');
 
-waypts_yaml_dir = '/home/yipu/catkin_ws/src/turtlebot_trajectory_testing/config'
+waypts_yaml_dir = '/home/yipuzhao/catkin_ws/src/turtlebot_trajectory_testing/config'
 
-path_slam_config = '/home/yipu/catkin_ws/src/ORB_Data/'
+path_slam_config = '/home/yipuzhao/catkin_ws/src/ORB_Data/'
 
 #----------------------------------------------------------------------------------------------------------------------
 class bcolors:
@@ -62,8 +62,8 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
-            Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_pyr8/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
+            # Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_pyr8/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
@@ -136,10 +136,10 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.OKGREEN + "Finish simulation, kill the process" + bcolors.ENDC
                 subprocess.call('rosnode kill data_logging', shell=True)
                 time.sleep(SleepTime)
-                subprocess.call('rosnode kill Stereo', shell=True)
                 subprocess.call('rosnode kill visual_slam', shell=True)
-                # subprocess.call('pkill Stereo', shell=True)
-                # time.sleep(SleepTime)
+                subprocess.call('rosnode kill Stereo', shell=True)
+                subprocess.call('pkill Stereo', shell=True)
+                time.sleep(SleepTime)
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)
                 subprocess.call('rosnode kill visual_robot_publisher', shell=True)
