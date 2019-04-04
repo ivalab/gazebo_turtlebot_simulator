@@ -1,6 +1,6 @@
 <launch>
 
-<arg name="waypts_yaml_dir" />
+<arg name="waypts_yaml_dir" default = "$(find turtlebot_trajectory_testing)/config"/>
 <arg name="path_type" />
 <arg name="velocity_fwd" />
 <arg name="duration" />

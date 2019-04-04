@@ -38,8 +38,6 @@ SleepTime = 3 # 5 #
 do_rectify = str('true');
 do_vis = str('false');
 
-waypts_yaml_dir = '/home/yipuzhao/catkin_ws/src/turtlebot_trajectory_testing/config'
-
 # path_slam_config = '/home/yipuzhao/catkin_ws/src/ORB_Data/'
 path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
 
@@ -103,7 +101,6 @@ for ri, num_gf in enumerate(Number_GF_List):
                     + ' link_slam_base:=camera_left_frame' )
                 cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging \
                     + ' path_type:=' + path_type \
-                    + ' waypts_yaml_dir:=' + waypts_yaml_dir \
                     + ' velocity_fwd:=' + velocity_fwd \
                     + ' duration:=' + str(duration) )
                 cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 
