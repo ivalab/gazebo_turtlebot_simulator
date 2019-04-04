@@ -2,9 +2,9 @@
 
 <arg name="waypts_yaml_dir" default = "$(find turtlebot_trajectory_testing)/config"/>
 <arg name="path_type" />
-<arg name="velocity_fwd" />
+<arg name="velocity_fwd" default = "1.0"/>
 <arg name="duration" />
-<arg name="path_data_logging" />
+<arg name="path_data_logging" default = "/mnt/DATA/tmp/ClosedNav/"/>
 
 <!-- initialize controller -->
 <node name="turtlebot_controller" pkg="turtlebot_trajectory_controller" type="trajectory_controller_node" output="screen" args="" >
