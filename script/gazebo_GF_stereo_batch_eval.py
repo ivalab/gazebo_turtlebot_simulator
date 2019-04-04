@@ -135,10 +135,10 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.OKGREEN + "Finish simulation, kill the process" + bcolors.ENDC
                 subprocess.call('rosnode kill data_logging', shell=True)
                 time.sleep(SleepTime)
-                subprocess.call('rosnode kill visual_slam', shell=True)
                 subprocess.call('rosnode kill Stereo', shell=True)
-                subprocess.call('pkill Stereo', shell=True)
-                time.sleep(SleepTime)
+                subprocess.call('rosnode kill visual_slam', shell=True)
+                # subprocess.call('pkill Stereo', shell=True)
+                # time.sleep(SleepTime)
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)
                 subprocess.call('rosnode kill visual_robot_publisher', shell=True)
