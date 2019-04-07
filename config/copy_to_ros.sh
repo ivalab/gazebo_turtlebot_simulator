@@ -1,8 +1,8 @@
-export CONFIG_SRC=/home/yipuzhao/catkin_ws/src/gazebo_turtlebot_simulator/config
+export CONFIG_SRC=${CATKIN_WS}/src/gazebo_turtlebot_simulator/config
 # export TURTLE_TAR=/opt/ros/kinetic/share/turtlebot_description
 # export KOBUKI_TAR=/opt/ros/kinetic/share/kobuki_description
-export TURTLE_TAR=/home/yipuzhao/catkin_ws/src/turtlebot/turtlebot_description
-export KOBUKI_TAR=/home/yipuzhao/catkin_ws/src/kobuki/kobuki_description
+export TURTLE_TAR=${CATKIN_WS}/src/turtlebot/turtlebot_description
+export KOBUKI_TAR=${CATKIN_WS}/src/kobuki/kobuki_description
 
 sudo cp ${CONFIG_SRC}/kobuki_ADIS_16448* 				${KOBUKI_TAR}/urdf
 sudo cp ${CONFIG_SRC}/kobuki_mpu_6000* 					${KOBUKI_TAR}/urdf
