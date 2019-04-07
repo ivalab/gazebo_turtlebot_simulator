@@ -1,12 +1,16 @@
 export CONFIG_SRC=/home/yipuzhao/catkin_ws/src/gazebo_turtlebot_simulator/config
+# export TURTLE_TAR=/opt/ros/kinetic/share/turtlebot_description
+# export KOBUKI_TAR=/opt/ros/kinetic/share/kobuki_description
+export TURTLE_TAR=/home/yipuzhao/catkin_ws/src/turtlebot/turtlebot_description
+export KOBUKI_TAR=/home/yipuzhao/catkin_ws/src/kobuki/kobuki_description
 
-sudo cp ${CONFIG_SRC}/kobuki_ADIS_16448* 	/opt/ros/kinetic/share/kobuki_description/urdf
-sudo cp ${CONFIG_SRC}/kobuki_mpu_6000* 	/opt/ros/kinetic/share/kobuki_description/urdf
+sudo cp ${CONFIG_SRC}/kobuki_ADIS_16448* 				${KOBUKI_TAR}/urdf
+sudo cp ${CONFIG_SRC}/kobuki_mpu_6000* 					${KOBUKI_TAR}/urdf
 #
-sudo cp ${CONFIG_SRC}/kobuki_hexagons_* 			/opt/ros/kinetic/share/turtlebot_description/robots
-sudo cp ${CONFIG_SRC}/fisheye_stereo.urdf.xacro 	/opt/ros/kinetic/share/turtlebot_description/urdf/sensors
+sudo cp ${CONFIG_SRC}/kobuki_hexagons_* 				${TURTLE_TAR}/robots
+sudo cp ${CONFIG_SRC}/fisheye_stereo.urdf.xacro 			${TURTLE_TAR}/urdf/sensors
 #
-sudo cp ${CONFIG_SRC}/turtlebot_gazebo_fisheye_stereo.urdf.xacro 		/opt/ros/kinetic/share/turtlebot_description/urdf
-sudo cp ${CONFIG_SRC}/turtlebot_properties_fisheye_stereo.urdf.xacro 	/opt/ros/kinetic/share/turtlebot_description/urdf
-sudo cp ${CONFIG_SRC}/turtlebot_properties.urdf.xacro 					/opt/ros/kinetic/share/turtlebot_description/urdf
-sudo cp ${CONFIG_SRC}/turtlebot_gazebo.urdf.xacro 						/opt/ros/kinetic/share/turtlebot_description/urdf
+sudo cp ${CONFIG_SRC}/turtlebot_gazebo_fisheye_stereo.urdf.xacro 	${TURTLE_TAR}/urdf
+sudo cp ${CONFIG_SRC}/turtlebot_properties_fisheye_stereo.urdf.xacro 	${TURTLE_TAR}/urdf
+sudo cp ${CONFIG_SRC}/turtlebot_properties.urdf.xacro 			${TURTLE_TAR}/urdf
+sudo cp ${CONFIG_SRC}/turtlebot_gazebo.urdf.xacro 			${TURTLE_TAR}/urdf
