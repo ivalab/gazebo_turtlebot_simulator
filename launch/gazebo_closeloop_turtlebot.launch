@@ -1,6 +1,6 @@
 <launch>
 
-  <arg name="world_file" default="$(find tsrb_world)/world/classroom_textured.world"/>
+  <arg name="world_file" default="$(find tsrb_world)/world/classroom_textured_surrounding.world"/>
   <arg name="gui" default="false"/>
 
 
