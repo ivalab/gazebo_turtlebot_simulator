@@ -9,14 +9,14 @@ import signal
 # SeqLengList = [17, 20, 40, 50];
 # SeqNameList = ['loop', 'long'];
 # SeqLengList = [40, 50];
-SeqNameList = ['square', 'zigzag'];
-SeqLengList = [105, 125];
+# SeqNameList = ['square', 'zigzag'];
+# SeqLengList = [105, 125];
 # SeqNameList = ['infinite'];
 # SeqLengList = [245];
 # SeqNameList = ['two_circle'];
 # SeqLengList = [200];
-# SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
-# SeqLengList = [40, 50, 105, 125, 245, 200];
+SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
+SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
 IMU_Type = 'mpu6000';
@@ -51,7 +51,8 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
+            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
+            Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/MSCKF/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/' + IMU_Type + '/MSCKF/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
@@ -89,7 +90,10 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.WARNING + "cmd_ctrl: \n"  + cmd_ctrl  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_trig: \n"  + cmd_trig  + bcolors.ENDC
 
+                # call reset multiple times in case communication lost
                 print bcolors.OKGREEN + "Reset simulation" + bcolors.ENDC
+                subprocess.Popen(cmd_reset, shell=True)
+                subprocess.Popen(cmd_reset, shell=True)
                 subprocess.Popen(cmd_reset, shell=True)
 
                 print bcolors.OKGREEN + "Sleeping for a few secs to reset gazebo" + bcolors.ENDC
@@ -132,4 +136,5 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.call('rosnode kill turtlebot_trajectory_testing', shell=True)
                 subprocess.call('rosnode kill odom_reset', shell=True)
                 subprocess.call('pkill rostopic', shell=True)
+                subprocess.call('pkill -f trajectory_controller_node', shell=True)
                 

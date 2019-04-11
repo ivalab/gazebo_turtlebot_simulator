@@ -137,4 +137,5 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.call('rosnode kill turtlebot_trajectory_testing', shell=True)
                 subprocess.call('rosnode kill odom_reset', shell=True)
                 subprocess.call('pkill rostopic', shell=True)
+                subprocess.call('pkill -f trajectory_controller_node', shell=True)
                 

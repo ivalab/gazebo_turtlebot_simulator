@@ -38,8 +38,8 @@ SleepTime = 3 # 5 #
 do_rectify = str('false');
 do_vis = str('false');
 
-# path_slam_config = '/home/yipuzhao/catkin_ws/src/ORB_Data/'
-path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
+path_slam_config = '/home/yipu/catkin_ws/src/ORB_Data/'
+# path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
 
 
 #----------------------------------------------------------------------------------------------------------------------
@@ -62,8 +62,8 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
-            # Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_pyr8/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
+            Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_pyr8_gpu/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
@@ -146,4 +146,5 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.call('rosnode kill turtlebot_trajectory_testing', shell=True)
                 subprocess.call('rosnode kill odom_reset', shell=True)
                 subprocess.call('pkill rostopic', shell=True)
+                subprocess.call('pkill -f trajectory_controller_node', shell=True)
                 
