@@ -11,6 +11,7 @@ Panels:
         - /Gazebo Odometry1/Shape1
         - /TF1/Frames1
         - /Ground Truth1/Shape1
+        - /ORB-SLAM Frame1
       Splitter Ratio: 0.6311239
     Tree Height: 150
   - Class: rviz/Selection
@@ -166,6 +167,8 @@ Visualization Manager:
           Value: true
         base_link:
           Value: false
+        cam_pos:
+          Value: true
         camera_left_frame:
           Value: true
         camera_left_optical_frame:
@@ -1038,7 +1041,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /ORB_SLAM/frame_with_info
+      Image Topic: /svo/image/0
       Max Value: 1
       Median window: 5
       Min Value: 0
