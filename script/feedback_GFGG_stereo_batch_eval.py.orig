@@ -62,8 +62,13 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
+<<<<<<< HEAD:script/feedback_GFGG_stereo_batch_eval.py
             Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
             # Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_pyr8_gpu/'
+=======
+            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
+            Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_GG/'
+>>>>>>> 7c5df4d52a28f427f431032a4d8f40a239f66e55:script/gazebo_GFGG_stereo_batch_eval.py
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
