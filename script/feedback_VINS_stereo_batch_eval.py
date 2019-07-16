@@ -5,15 +5,13 @@ import subprocess
 import time
 import signal
 
-# SeqNameList = ['line', 'turn', 'loop', 'long'];
-# SeqLengList = [17, 20, 40, 50];
-# SeqNameList = ['loop', 'long'];
-# SeqLengList = [40, 50];
-# SeqNameList = ['square', 'zigzag'];
-# SeqLengList = [105, 125];
-# SeqNameList = ['infinite'];
+# SeqNameList = ['loop', 'long', 'square'];
+# SeqLengList = [40, 50, 105];
+# SeqNameList = ['zigzag']; # fail to track
+# SeqLengList = [125];
+# SeqNameList = ['infinite']; # fail to track
 # SeqLengList = [245];
-# SeqNameList = ['two_circle'];
+# SeqNameList = ['two_circle']; # fail to track
 # SeqLengList = [200];
 SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
@@ -52,8 +50,8 @@ for ri, num_gf in enumerate(Number_GF_List):
 
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
-            Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/MSCKF/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/' + IMU_Type + '/MSCKF/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/' + IMU_Type + '/VIFusion/'
+            Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/VIFusion/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)
@@ -73,24 +71,30 @@ for ri, num_gf in enumerate(Number_GF_List):
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
                 # cmd_reset  = str('rosservice call /gazebo/reset_simulation && roslaunch ../launch/spawn_turtlebot.launch ') 
-                cmd_msckf  = str('python call_msckf.py -f ' + str(num_gf) + ' -i ' + IMU_Type )
-                cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
-                    + ' imu_type:=' + IMU_Type + ' ' \
-                    + ' topic_slam_pose:=/msckf/vio/msf_odom ' \
+                cmd_vins  = str('python call_vinsfusion.py -f ' + str(num_gf) + ' -i ' + IMU_Type )
+                # cmd_init   = str("rostopic pub -1 /mobile_base/commands/velocity geometry_msgs/Twist -- '[0.2,0.0,0.0]' '[0.0, 0.0, 1.0]'")
+                cmd_init   = str("python init_VINS.py")
+                # cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
+                #     + ' imu_type:=' + IMU_Type + ' ' \
+                #     + ' topic_slam_pose:=/vins_estimator/pose_cam_for_msf ' \
+                #     + ' link_slam_base:=gyro_link' )
+                cmd_esti   = str('roslaunch ../launch/gazebo_odom_conversion.launch' \
+                    + ' topic_slam_pose:=/vins_estimator/imu_propagate ' \
                     + ' link_slam_base:=gyro_link' )
-                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_data_logging \
+                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging )
+		cmd_plan   = str('roslaunch ../launch/gazebo_offline_planning.launch' \
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \
                     + ' duration:=' + str(duration) )
                 cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 
 
                 print bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC
-                print bcolors.WARNING + "cmd_msckf: \n" + cmd_msckf  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_vins: \n"  + cmd_vins  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_esti: \n"  + cmd_esti  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_ctrl: \n"  + cmd_ctrl  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_plan: \n"  + cmd_plan  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_trig: \n"  + cmd_trig  + bcolors.ENDC
 
-                # call reset multiple times in case communication lost
                 print bcolors.OKGREEN + "Reset simulation" + bcolors.ENDC
                 subprocess.Popen(cmd_reset, shell=True)
                 subprocess.Popen(cmd_reset, shell=True)
@@ -100,19 +104,28 @@ for ri, num_gf in enumerate(Number_GF_List):
                 time.sleep(SleepTime)
                 # time.sleep(60)
 
-                print bcolors.OKGREEN + "Launching MSCKF" + bcolors.ENDC
-                subprocess.Popen(cmd_msckf, shell=True)
-                # wait for MSCKF to stablize
+                print bcolors.OKGREEN + "Launching VINS-Fusion" + bcolors.ENDC
+                subprocess.Popen(cmd_vins, shell=True)
                 time.sleep(SleepTime)
 
-                print bcolors.OKGREEN + "Launching State Estimator" + bcolors.ENDC
+                # do a circular motion to initialize VINS-Fusion
+                print bcolors.OKGREEN + "Initializing VINS-Fusion" + bcolors.ENDC
+                subprocess.Popen(cmd_init, shell=True)
+                time.sleep(15 + SleepTime)
+
+                print bcolors.OKGREEN + "Launching odom conversion" + bcolors.ENDC
                 subprocess.Popen(cmd_esti, shell=True)
 
                 print bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC
                 subprocess.Popen(cmd_ctrl, shell=True)
+
+                print bcolors.OKGREEN + "Launching Planner" + bcolors.ENDC
+                subprocess.Popen(cmd_plan, shell=True)
+
+                time.sleep(SleepTime)
                 
-                print bcolors.OKGREEN + "Sleeping for a few secs to stabilize msf" + bcolors.ENDC
-                time.sleep(SleepTime * 3)
+                # print bcolors.OKGREEN + "Sleeping for a few secs to stabilize msf" + bcolors.ENDC
+                # time.sleep(SleepTime * 3)
                 
                 Duration = duration + SleepTime
                 print bcolors.OKGREEN + "Start simulation with " + str(Duration) + " secs" + bcolors.ENDC
@@ -123,15 +136,12 @@ for ri, num_gf in enumerate(Number_GF_List):
 
                 print bcolors.OKGREEN + "Finish simulation, kill the process" + bcolors.ENDC
                 subprocess.call('rosnode kill data_logging', shell=True)
-                time.sleep(SleepTime)
-                subprocess.call('rosnode kill msckf/vio', shell=True)
-                subprocess.call('rosnode kill msckf/image_processor', shell=True)
+                subprocess.call('rosnode kill loop_fusion', shell=True)
+                subprocess.call('rosnode kill vins_estimator', shell=True)
                 # time.sleep(SleepTime)
-                # subprocess.call('rosnode kill imu_downsample', shell=True)
-                subprocess.call('rosnode kill msf_pose_sensor', shell=True)
+                # subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)
                 subprocess.call('rosnode kill visual_robot_publisher', shell=True)
-                # subprocess.call('rosnode kill odom_downsample', shell=True)
                 subprocess.call('rosnode kill turtlebot_controller', shell=True)
                 subprocess.call('rosnode kill turtlebot_trajectory_testing', shell=True)
                 subprocess.call('rosnode kill odom_reset', shell=True)

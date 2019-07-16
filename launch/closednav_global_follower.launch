@@ -1,0 +1,53 @@
+<launch>
+    <arg name="gdb" default="false"/>
+    <arg name="valgrind" default="false"/>
+
+    <arg name="debug_prefix" value="xterm -e gdb -ex run --args" if="$(arg gdb)"/>
+    <arg name="debug_prefix" value="" unless="$(arg gdb)"/>
+    
+    <arg name="valgrind_prefix" value="xterm -e valgrind --tool=memcheck --leak-check=yes" if="$(arg valgrind)"/>
+    <arg name="valgrind_prefix" value="" unless="$(arg valgrind)"/>
+    
+    <arg name="use_recovery_behaviors" default="true"/>
+
+    <include file="$(find turtlebot_navigation)/launch/includes/velocity_smoother.launch.xml"/>
+
+    <!--<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+        <rosparam file="$(find nav_configs)/config/common_costmap_params.yaml" command="load" ns="global_costmap"/>
+        <rosparam file="$(find nav_configs)/config/common_costmap_params.yaml" command="load" ns="local_costmap"/>
+        <rosparam file="$(find nav_configs)/config/local_costmap_params.yaml" command="load"/>
+        <rosparam file="$(find nav_configs)/config/global_costmap_params.yaml" command="load"/>
+
+
+        <remap from="cmd_vel" to="navigation_velocity_smoother/raw_cmd_vel"/>
+        
+        <remap from="/move_base_simple/goal" to="/move_base_disabled"/>
+
+        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+        <rosparam file="$(find nav_configs)/config/dwa_local_planner_params.yaml" command="load"/>
+        <rosparam file="$(find nav_configs)/config/local_planner_common_params.yaml" command="load" ns="DWAPlannerROS"/>
+        <rosparam file="$(find nav_configs)/config/move_base_params.yaml" command="load"/>
+        
+        <param name="recovery_behavior_enabled" value="false" unless="$(arg use_recovery_behaviors)"/>
+        
+        
+        <rosparam file="$(find turtlebot_path_following)/config/turtlebot_depth_collision_cost.yaml" command="load"/>
+        
+    </node>-->
+    
+    <node name="depth_global_follower" pkg="turtlebot_path_following" type="depth_global_path_follower" output="screen" launch-prefix="$(arg debug_prefix)$(arg valgrind_prefix)">
+    	<rosparam file="$(find nav_configs)/config/common_costmap_params.yaml" command="load" ns="global_costmap"/>
+            <rosparam file="$(find nav_configs)/config/global_costmap_params.yaml" command="load"/>
+    	<rosparam file="$(find nav_configs)/config/move_base_params.yaml" command="load"/>
+
+	    <param name="depth_image_cc_wrapper/model_type" value="6" />
+        <param name="depth_image_cc_wrapper/floor_tolerance" value=".05" />
+        <param name="depth_image_cc_wrapper/show_im" value="true" />
+
+        <param name="depth_image_cc_wrapper/depth_image_topic" value="/elas/depth"/>
+        <param name="depth_image_cc_wrapper/depth_info_topic" value="/elas/depth/camera_info"/>
+
+
+    </node>
+  
+</launch>

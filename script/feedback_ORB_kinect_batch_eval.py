@@ -64,7 +64,8 @@ for ri, num_gf in enumerate(Number_GF_List):
                     + ' num_all_feature:=' + num_all_feature \
                     + ' num_good_feature:=' + num_good_feature \
                     + ' path_data_logging:=' + path_data_logging)
-                cmd_ctrl   = str('roslaunch gazebo_controller_logging.launch path_data_logging:=' + path_data_logging \
+                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging )
+		cmd_plan   = str('roslaunch ../launch/gazebo_offline_planning.launch' \
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \
                     + ' duration:=' + str(duration) )
@@ -73,6 +74,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC
                 print bcolors.WARNING + "cmd_esti: \n"  + cmd_esti  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_ctrl: \n"  + cmd_ctrl  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_plan: \n"  + cmd_plan  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_trig: \n"  + cmd_trig  + bcolors.ENDC
 
                 print bcolors.OKGREEN + "Reset simulation" + bcolors.ENDC
@@ -88,7 +90,11 @@ for ri, num_gf in enumerate(Number_GF_List):
                 time.sleep(SleepTime)
 
                 print bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC
-                proc_ctrl = subprocess.Popen(cmd_ctrl, shell=True)
+                subprocess.Popen(cmd_ctrl, shell=True)
+
+                print bcolors.OKGREEN + "Launching Planner" + bcolors.ENDC
+                subprocess.Popen(cmd_plan, shell=True)
+
                 time.sleep(SleepTime)
                 
                 Duration = duration + SleepTime

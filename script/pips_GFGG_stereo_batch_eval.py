@@ -28,18 +28,19 @@ IMU_Type = 'mpu6000';
 # IMU_Type = 'ADIS16448';
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [800, 1200]; # [1200] # 
+Number_GF_List = [100] # [60, 80, 100, 120] # [40, 60, 80, 120, 160];
 
 Num_Repeating = 5 # 50 # 10 # 
 
 SleepTime = 3 # 5 # 
 # Duration = 30 # 60
 
-do_rectify = str('true');
+do_rectify = str('false');
 do_vis = str('false');
 
-path_slam_config = '/home/yipu/catkin_ws/src/ORB_Data/'
-# path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
+# path_slam_config = '/home/yipu/catkin_ws/src/ORB_Data/'
+path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
+
 
 #----------------------------------------------------------------------------------------------------------------------
 class bcolors:
@@ -61,10 +62,9 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
-            Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/ORB_orig/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_dbg/' + SeqName + '/' + IMU_Type + '/ORB/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/ORB_prior/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
+            # Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_pyr8_gpu/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)
@@ -76,21 +76,16 @@ for ri, num_gf in enumerate(Number_GF_List):
 
                 path_track_logging = Experiment_dir + '/round' + str(iteration + 1)
                 path_map_logging = Experiment_dir + '/round' + str(iteration + 1) + '_Map'
-                num_all_feature = str(num_gf*2)
+                num_good_feature = str(num_gf*3)
                 path_type = SeqName
                 velocity_fwd = str(fv)
                 duration = float(SeqLengList[sn]) / float(fv) + SleepTime
 
-                # cmd_mkdir = 'mkdir -p ' + path_track_logging
-                # subprocess.call(cmd_mkdir, shell=True)
-                # cmd_mkdir = 'mkdir -p ' + path_map_logging
-                # subprocess.call(cmd_mkdir, shell=True)
-
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
-                cmd_slam   = str('roslaunch ../launch/gazebo_ORB_stereo.launch' \
+                cmd_slam   = str('roslaunch ../launch/gazebo_GFGG_stereo.launch' \
                     + ' path_slam_config:=' + path_slam_config \
-                    + ' num_all_feature:=' + num_all_feature \
+                    + ' num_good_feature:=' + num_good_feature \
                     + ' path_track_logging:=' + path_track_logging \
                     + ' path_map_logging:=' + path_map_logging \
                     + ' do_rectify:=' + do_rectify \
@@ -99,16 +94,17 @@ for ri, num_gf in enumerate(Number_GF_List):
                     + ' imu_type:=' + IMU_Type + ' ' \
                     + ' topic_slam_pose:=/ORB_SLAM/camera_pose_in_imu ' \
                     + ' link_slam_base:=camera_left_frame' )
-                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging \
-                    + ' path_type:=' + path_type \
-                    + ' velocity_fwd:=' + velocity_fwd \
-                    + ' duration:=' + str(duration) )
+                cmd_stereo = str('roslaunch elas_ros elas.launch stereo:=/multisense_sl/camera')
+                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging )
+                cmd_plan   = str('roslaunch turtlebot_path_following closednav_global_follower.launch')
                 cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 
 
                 print bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC
                 print bcolors.WARNING + "cmd_slam: \n"  + cmd_slam  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_esti: \n"  + cmd_esti  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_stereo: \n"+ cmd_stereo+ bcolors.ENDC
                 print bcolors.WARNING + "cmd_ctrl: \n"  + cmd_ctrl  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_plan: \n"  + cmd_plan  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_trig: \n"  + cmd_trig  + bcolors.ENDC
 
                 print bcolors.OKGREEN + "Reset simulation" + bcolors.ENDC
@@ -124,8 +120,14 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.OKGREEN + "Launching State Estimator" + bcolors.ENDC
                 subprocess.Popen(cmd_esti, shell=True)
 
+                print bcolors.OKGREEN + "Launching Dense Stereo Matching" + bcolors.ENDC
+                subprocess.Popen(cmd_stereo, shell=True)
+
                 print bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC
                 subprocess.Popen(cmd_ctrl, shell=True)
+
+                print bcolors.OKGREEN + "Launching Planner" + bcolors.ENDC
+                subprocess.Popen(cmd_plan, shell=True)
                 
                 print bcolors.OKGREEN + "Sleeping for a few secs to stabilize msf" + bcolors.ENDC
                 time.sleep(SleepTime * 3)
@@ -148,7 +150,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.call('rosnode kill odom_converter', shell=True)
                 subprocess.call('rosnode kill visual_robot_publisher', shell=True)
                 subprocess.call('rosnode kill turtlebot_controller', shell=True)
-                subprocess.call('rosnode kill turtlebot_trajectory_testing', shell=True)
+                subprocess.call('rosnode kill depth_global_follower', shell=True)
                 subprocess.call('rosnode kill odom_reset', shell=True)
                 subprocess.call('pkill rostopic', shell=True)
                 subprocess.call('pkill -f trajectory_controller_node', shell=True)
