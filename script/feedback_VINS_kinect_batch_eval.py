@@ -63,17 +63,19 @@ for ri, num_gf in enumerate(Number_GF_List):
                     + ' num_good_feature:=' + num_good_feature )
                 cmd_init_1   = str("rostopic pub -1 /mobile_base/commands/velocity geometry_msgs/Twist -- '[1.0,0.0,0.0]' '[0.0, 0.0, 0.0]'")
                 cmd_init_2   = str("rostopic pub -1 /mobile_base/commands/velocity geometry_msgs/Twist -- '[-1.0,0.0,0.0]' '[0.0, 0.0, 0.0]'")
-                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging )
-		cmd_plan   = str('roslaunch ../launch/gazebo_offline_planning.launch' \
+                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller.launch')
+                cmd_plan   = str('roslaunch ../launch/gazebo_offline_planning.launch' \
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \
                     + ' duration:=' + str(duration) )
+                cmd_log   = str('roslaunch ../launch/gazebo_logging.launch path_data_logging:=' + path_track_logging )
                 cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 
                 
                 print bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC
                 print bcolors.WARNING + "cmd_esti: \n"  + cmd_esti  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_ctrl: \n"  + cmd_ctrl  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_plan: \n"  + cmd_plan  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_log: \n"   + cmd_log  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_trig: \n"  + cmd_trig  + bcolors.ENDC
 
                 print bcolors.OKGREEN + "Reset simulation" + bcolors.ENDC
@@ -99,6 +101,9 @@ for ri, num_gf in enumerate(Number_GF_List):
 
                 print bcolors.OKGREEN + "Launching Planner" + bcolors.ENDC
                 subprocess.Popen(cmd_plan, shell=True)
+
+                print bcolors.OKGREEN + "Launching Logger" + bcolors.ENDC
+                subprocess.Popen(cmd_log, shell=True)
 
                 time.sleep(SleepTime)
 

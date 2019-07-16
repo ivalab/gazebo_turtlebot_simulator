@@ -81,16 +81,20 @@ for li, vl in enumerate(Vis_Latency_List):
                 #     + ' odom_topic:=visual/odom ' \
                 #     + ' pose_link:=base_footprint ' \
                 #     + ' cam_link:=base_footprint' )
-                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging \
+                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller.launch')
+                cmd_plan   = str('roslaunch ../launch/gazebo_offline_planning.launch' \
                     + ' path_type:=' + path_type \
                     + ' velocity_fwd:=' + velocity_fwd \
                     + ' duration:=' + str(duration) )
+                cmd_log   = str('roslaunch ../launch/gazebo_logging.launch path_data_logging:=' + path_track_logging )
                 cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 
 
                 print bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC
                 print bcolors.WARNING + "cmd_slam: \n"  + cmd_slam  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_esti: \n"  + cmd_esti  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_ctrl: \n"  + cmd_ctrl  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_plan: \n"  + cmd_plan  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_log: \n"   + cmd_log  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_trig: \n"  + cmd_trig  + bcolors.ENDC
 
                 print bcolors.OKGREEN + "Reset simulation" + bcolors.ENDC
@@ -108,6 +112,12 @@ for li, vl in enumerate(Vis_Latency_List):
 
                 print bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC
                 subprocess.Popen(cmd_ctrl, shell=True)
+
+                print bcolors.OKGREEN + "Launching Planner" + bcolors.ENDC
+                subprocess.Popen(cmd_plan, shell=True)
+
+                print bcolors.OKGREEN + "Launching Logger" + bcolors.ENDC
+                subprocess.Popen(cmd_log, shell=True)
                 
                 print bcolors.OKGREEN + "Sleeping for a few secs to stabilize msf" + bcolors.ENDC
                 time.sleep(SleepTime * 3)

@@ -12,8 +12,9 @@ Panels:
         - /TF1/Frames1
         - /Raw Image (left)1
         - /Ground Truth1/Shape1
+        - /Dense Stereo1
       Splitter Ratio: 0.6311239
-    Tree Height: 158
+    Tree Height: 166
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -167,25 +168,7 @@ Visualization Manager:
           Value: true
         base_link:
           Value: false
-        camera_depth_frame:
-          Value: true
-        camera_depth_optical_frame:
-          Value: true
-        camera_left_frame:
-          Value: true
-        camera_left_optical_frame:
-          Value: true
-        camera_link:
-          Value: true
         camera_link_1:
-          Value: true
-        camera_rgb_frame:
-          Value: true
-        camera_rgb_optical_frame:
-          Value: true
-        camera_right_frame:
-          Value: true
-        camera_right_optical_frame:
           Value: true
         caster_back_link:
           Value: false
@@ -249,82 +232,10 @@ Visualization Manager:
           Value: true
         right_camera_optical_frame:
           Value: true
-        state:
-          Value: true
-        visual/base_footprint:
-          Value: true
-        visual/base_link:
-          Value: true
-        visual/camera_left_frame:
-          Value: true
-        visual/camera_left_optical_frame:
-          Value: true
-        visual/camera_link_1:
-          Value: true
-        visual/camera_right_frame:
-          Value: true
-        visual/camera_right_optical_frame:
-          Value: true
-        visual/caster_back_link:
-          Value: true
-        visual/caster_front_link:
-          Value: true
-        visual/cliff_sensor_front_link:
-          Value: true
-        visual/cliff_sensor_left_link:
-          Value: true
-        visual/cliff_sensor_right_link:
-          Value: true
-        visual/gyro_link:
-          Value: true
-        visual/plate_bottom_link:
-          Value: true
-        visual/plate_middle_link:
-          Value: true
-        visual/plate_top_link:
-          Value: true
-        visual/pole_bottom_0_link:
-          Value: true
-        visual/pole_bottom_1_link:
-          Value: true
-        visual/pole_bottom_2_link:
-          Value: true
-        visual/pole_bottom_3_link:
-          Value: true
-        visual/pole_bottom_4_link:
-          Value: true
-        visual/pole_bottom_5_link:
-          Value: true
-        visual/pole_kinect_0_link:
-          Value: true
-        visual/pole_kinect_1_link:
-          Value: true
-        visual/pole_middle_0_link:
-          Value: true
-        visual/pole_middle_1_link:
-          Value: true
-        visual/pole_middle_2_link:
-          Value: true
-        visual/pole_middle_3_link:
-          Value: true
-        visual/pole_top_0_link:
-          Value: true
-        visual/pole_top_1_link:
-          Value: true
-        visual/pole_top_2_link:
-          Value: true
-        visual/pole_top_3_link:
-          Value: true
-        visual/wheel_left_link:
-          Value: true
-        visual/wheel_right_link:
-          Value: true
         wheel_left_link:
           Value: false
         wheel_right_link:
           Value: false
-        world:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -335,20 +246,6 @@ Visualization Manager:
           odom:
             base_footprint:
               base_link:
-                camera_left_frame:
-                  camera_left_optical_frame:
-                    {}
-                  camera_right_frame:
-                    camera_right_optical_frame:
-                      {}
-                camera_rgb_frame:
-                  camera_depth_frame:
-                    camera_depth_optical_frame:
-                      {}
-                  camera_link:
-                    {}
-                  camera_rgb_optical_frame:
-                    {}
                 caster_back_link:
                   {}
                 caster_front_link:
@@ -432,27 +329,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_left_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_left_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         camera_link_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_right_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_right_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         caster_back_link:
           Alpha: 1
           Show Axes: false
@@ -476,6 +357,14 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
         gyro_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_camera_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_camera_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -574,6 +463,14 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        right_camera_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        right_camera_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         wheel_left_link:
           Alpha: 1
           Show Axes: false
@@ -706,27 +603,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_left_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_left_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         camera_link_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_right_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_right_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         caster_back_link:
           Alpha: 1
           Show Axes: false
@@ -750,6 +631,14 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
         gyro_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_camera_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_camera_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -848,6 +737,14 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        right_camera_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        right_camera_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         wheel_left_link:
           Alpha: 1
           Show Axes: false
@@ -1064,7 +961,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 26.5921516
+      Distance: 18.1218052
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -1079,10 +976,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.03479695
+      Pitch: 1.00479615
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 6.26034737
+      Yaw: 6.14034605
     Saved: ~
 Window Geometry:
   Dense Stereo:
@@ -1094,7 +991,7 @@ Window Geometry:
   Hide Right Dock: true
   ORB-SLAM Frame:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000016a00000379fc0200000013fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005e00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000000de000000d000fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000014005200470042002000430061006d00650072006101000003a8000000160000000000000000fb0000002000520061007700200049006d00610067006500200028006c0065006600740029010000010c000000970000001600fffffffb0000001c004f00520042002d0053004c0041004d0020004600720061006d006501000001a9000001030000001600fffffffb0000000a0049006d0061006700650100000236000001880000000000000000fb0000000a0049006d006100670065010000021e0000005b0000000000000000fb0000000a0049006d006100670065010000027f000000160000000000000000fb0000000a0049006d0061006700650100000232000001700000000000000000fb0000000a00440065007000740068010000028a000000160000000000000000fb00000008004400690073007001000002a6000000160000000000000000fb0000000a0043006f006c006f007201000002c2000000160000000000000000fb0000001800440065006e00730065002000530074006500720065006f01000002b2000000ef0000001600ffffff000000010000010f0000037afc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000000280000037a000000a900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000039e0000003efc0100000002fb0000000800540069006d006501000000000000039e0000030000fffffffb0000000800540069006d006501000000000000045000000000000000000000022e0000037900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000016a00000379fc0200000013fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005e00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000000e6000000d000fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000014005200470042002000430061006d00650072006101000003a8000000160000000000000000fb0000002000520061007700200049006d00610067006500200028006c006500660074002901000001140000005a0000001600fffffffb0000001c004f00520042002d0053004c0041004d0020004600720061006d006501000001740000011e0000001600fffffffb0000000a0049006d0061006700650100000236000001880000000000000000fb0000000a0049006d006100670065010000021e0000005b0000000000000000fb0000000a0049006d006100670065010000027f000000160000000000000000fb0000000a0049006d0061006700650100000232000001700000000000000000fb0000000a00440065007000740068010000025e000000160000000000000000fb000000080044006900730070010000027a000000160000000000000000fb0000000a0043006f006c006f00720100000296000000160000000000000000fb0000001800440065006e00730065002000530074006500720065006f0100000298000001090000001600ffffff000000010000010f0000037afc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000000280000037a000000a900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000039e0000003efc0100000002fb0000000800540069006d006501000000000000039e0000030000fffffffb0000000800540069006d006501000000000000045000000000000000000000022e0000037900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Raw Image (left):
     collapsed: false
   Selection:

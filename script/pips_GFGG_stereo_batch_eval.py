@@ -93,18 +93,20 @@ for ri, num_gf in enumerate(Number_GF_List):
                 cmd_esti   = str('roslaunch msf_updates gazebo_msf_stereo.launch' \
                     + ' imu_type:=' + IMU_Type + ' ' \
                     + ' topic_slam_pose:=/ORB_SLAM/camera_pose_in_imu ' \
-                    + ' link_slam_base:=camera_left_frame' )
+                    + ' link_slam_base:=left_camera_frame' )
                 cmd_stereo = str('roslaunch elas_ros elas.launch stereo:=/multisense_sl/camera')
-                cmd_ctrl   = str('roslaunch ../launch/gazebo_controller_logging.launch path_data_logging:=' + path_track_logging )
-                cmd_plan   = str('roslaunch turtlebot_path_following closednav_global_follower.launch')
+                # controller already being called in pips
+                cmd_pips   = str('roslaunch turtlebot_path_following closednav_global_follower.launch')
+                cmd_log   = str('roslaunch ../launch/gazebo_logging.launch path_data_logging:=' + path_track_logging )
+                # set a random goal
                 cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 
 
                 print bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC
                 print bcolors.WARNING + "cmd_slam: \n"  + cmd_slam  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_esti: \n"  + cmd_esti  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_stereo: \n"+ cmd_stereo+ bcolors.ENDC
-                print bcolors.WARNING + "cmd_ctrl: \n"  + cmd_ctrl  + bcolors.ENDC
-                print bcolors.WARNING + "cmd_plan: \n"  + cmd_plan  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_pips: \n"  + cmd_pips  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_log: \n"   + cmd_log  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_trig: \n"  + cmd_trig  + bcolors.ENDC
 
                 print bcolors.OKGREEN + "Reset simulation" + bcolors.ENDC
@@ -123,11 +125,11 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.OKGREEN + "Launching Dense Stereo Matching" + bcolors.ENDC
                 subprocess.Popen(cmd_stereo, shell=True)
 
-                print bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC
-                subprocess.Popen(cmd_ctrl, shell=True)
+                print bcolors.OKGREEN + "Launching PiPS" + bcolors.ENDC
+                subprocess.Popen(cmd_pips, shell=True)
 
-                print bcolors.OKGREEN + "Launching Planner" + bcolors.ENDC
-                subprocess.Popen(cmd_plan, shell=True)
+                print bcolors.OKGREEN + "Launching Logger" + bcolors.ENDC
+                subprocess.Popen(cmd_log, shell=True)
                 
                 print bcolors.OKGREEN + "Sleeping for a few secs to stabilize msf" + bcolors.ENDC
                 time.sleep(SleepTime * 3)
