@@ -10,6 +10,8 @@
     
     <arg name="use_recovery_behaviors" default="true"/>
 
+    <arg name="target_vel" default="0.5"/>
+
     <include file="$(find turtlebot_navigation)/launch/includes/velocity_smoother.launch.xml"/>
 
     <!--<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
@@ -47,6 +49,8 @@
         <param name="depth_image_cc_wrapper/depth_image_topic" value="/elas/depth"/>
         <param name="depth_image_cc_wrapper/depth_info_topic" value="/elas/depth/camera_info"/>
 
+
+        <remap from="odom" to="visual/odom"/>
 
     </node>
   

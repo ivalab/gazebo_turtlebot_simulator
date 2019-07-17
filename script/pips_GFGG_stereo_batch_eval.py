@@ -5,32 +5,18 @@ import subprocess
 import time
 import signal
 
-# SeqNameList = ['line', 'turn', 'loop', 'long'];
-# SeqLengList = [17, 20, 40, 50];
-# SeqNameList = ['loop'];
-# SeqLengList = [40];
-# SeqNameList = ['long'];
-# SeqLengList = [50];
-# SeqNameList = ['square'];
-# SeqLengList = [105];
-# SeqNameList = ['zigzag'];
-# SeqLengList = [125];
-# SeqNameList = ['infinite'];
-# SeqLengList = [245];
-# SeqNameList = ['two_circle'];
-# SeqLengList = [200];
-SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
-SeqLengList = [40, 50, 105, 125, 245, 200];
-
 # low IMU
 IMU_Type = 'mpu6000';
 # high IMU
 # IMU_Type = 'ADIS16448';
 
-Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [100] # [60, 80, 100, 120] # [40, 60, 80, 120, 160];
+# TODO 
+# figure out how to set target vel in depth_path_following
+# spawn textured obstacles along the desired path
+Fwd_Vel_List = [1.0] # [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
+Number_GF_List = [120] # [60, 80, 100, 120] # [40, 60, 80, 120, 160];
 
-Num_Repeating = 5 # 50 # 10 # 
+Num_Repeating = 50 # 10 # 
 
 SleepTime = 3 # 5 # 
 # Duration = 30 # 60
@@ -59,9 +45,9 @@ for ri, num_gf in enumerate(Number_GF_List):
     Experiment_prefix = 'ObsNumber_' + str(int(num_gf))
 
     for vn, fv in enumerate(Fwd_Vel_List):
-        for sn, sname in enumerate(SeqNameList):
+        # for sn, sname in enumerate(SeqNameList):
 
-            SeqName = SeqNameList[sn]
+            # SeqName = SeqNameList[sn]
             Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
             # Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_pyr8_gpu/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
@@ -72,14 +58,16 @@ for ri, num_gf in enumerate(Number_GF_List):
             for iteration in range(0, Num_Repeating):
                 
                 print bcolors.ALERT + "====================================================================" + bcolors.ENDC
-                print bcolors.ALERT + "Round: " + str(iteration + 1) + "; Seq: " + SeqName + "; Vel: " + str(fv)
+                # print bcolors.ALERT + "Round: " + str(iteration + 1) + "; Seq: " + SeqName + "; Vel: " + str(fv)
+                print bcolors.ALERT + "Round: " + str(iteration + 1) + "; Vel: " + str(fv)
 
                 path_track_logging = Experiment_dir + '/round' + str(iteration + 1)
                 path_map_logging = Experiment_dir + '/round' + str(iteration + 1) + '_Map'
                 num_good_feature = str(num_gf*3)
-                path_type = SeqName
+                # path_type = SeqName
                 velocity_fwd = str(fv)
-                duration = float(SeqLengList[sn]) / float(fv) + SleepTime
+                # duration = float(SeqLengList[sn]) / float(fv) + SleepTime
+                duration = 999 # 120
 
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
@@ -96,10 +84,11 @@ for ri, num_gf in enumerate(Number_GF_List):
                     + ' link_slam_base:=left_camera_frame' )
                 cmd_stereo = str('roslaunch elas_ros elas.launch stereo:=/multisense_sl/camera')
                 # controller already being called in pips
-                cmd_pips   = str('roslaunch turtlebot_path_following closednav_global_follower.launch')
+                cmd_pips  = str('roslaunch ../launch/closednav_global_follower.launch target_vel:=' + velocity_fwd)
                 cmd_log   = str('roslaunch ../launch/gazebo_logging.launch path_data_logging:=' + path_track_logging )
                 # set a random goal
-                cmd_trig   = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ") 
+                cmd_trig   = str("rostopic pub -1 /move_base_simple/goal geometry_msgs/PoseStamped " + \
+                    "'{header: {stamp: now, frame_id: 'map'}, pose: {position: {x: -8.0, y: 9.0, z: 0.0}, orientation: {w: 1.0}}}' ") 
 
                 print bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC
                 print bcolors.WARNING + "cmd_slam: \n"  + cmd_slam  + bcolors.ENDC
@@ -151,7 +140,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)
                 subprocess.call('rosnode kill visual_robot_publisher', shell=True)
-                subprocess.call('rosnode kill turtlebot_controller', shell=True)
+                # subprocess.call('rosnode kill turtlebot_controller', shell=True)
                 subprocess.call('rosnode kill depth_global_follower', shell=True)
                 subprocess.call('rosnode kill odom_reset', shell=True)
                 subprocess.call('pkill rostopic', shell=True)
