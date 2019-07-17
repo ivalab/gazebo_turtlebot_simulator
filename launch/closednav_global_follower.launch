@@ -49,6 +49,7 @@
         <param name="depth_image_cc_wrapper/depth_image_topic" value="/elas/depth"/>
         <param name="depth_image_cc_wrapper/depth_info_topic" value="/elas/depth/camera_info"/>
 
+        <param name="ObstacleAvoidanceController/v_des" value="$(arg target_vel)" />
 
         <remap from="odom" to="visual/odom"/>
 
