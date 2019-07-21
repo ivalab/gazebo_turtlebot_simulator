@@ -27,7 +27,7 @@ IMU_Type = 'mpu6000';
 # high IMU
 # IMU_Type = 'ADIS16448';
 
-Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
+Fwd_Vel_List = [0.5, 1.0, 1.5] # [1.0]; # 
 Number_GF_List = [100] # [60, 80, 100, 120] # [40, 60, 80, 120, 160];
 
 Num_Repeating = 5 # 50 # 10 # 
@@ -62,8 +62,9 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
-            # Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_pyr8_gpu/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
+            Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/'\
+             + SeqName + '/' + IMU_Type + '/GF_GGv5/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
@@ -122,6 +123,7 @@ for ri, num_gf in enumerate(Number_GF_List):
 
                 print bcolors.OKGREEN + "Launching State Estimator" + bcolors.ENDC
                 subprocess.Popen(cmd_esti, shell=True)
+                time.sleep(SleepTime)
 
                 print bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC
                 subprocess.Popen(cmd_ctrl, shell=True)
