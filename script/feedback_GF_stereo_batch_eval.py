@@ -27,10 +27,10 @@ IMU_Type = 'mpu6000';
 # high IMU
 # IMU_Type = 'ADIS16448';
 
-Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
+Fwd_Vel_List = [0.5, 1.0, 1.5, 2.0] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
 Number_GF_List = [100] # [60, 80, 100, 120] # [40, 60, 80, 120, 160];
 
-Num_Repeating = 1 # 5 # 50 # 10 # 
+Num_Repeating = 5 # 50 # 10 # 
 
 SleepTime = 3 # 5 # 
 # Duration = 30 # 60
@@ -63,7 +63,8 @@ for ri, num_gf in enumerate(Number_GF_List):
 
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
-            Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' + SeqName + '/' + IMU_Type + '/GF_v2/'
+            Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
+              + SeqName + '/' + IMU_Type + '/GF_skf/'
             # Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_pyr8_gpu/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
@@ -106,8 +107,8 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC
                 print bcolors.WARNING + "cmd_slam: \n"  + cmd_slam  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_esti: \n"  + cmd_esti  + bcolors.ENDC
-                print bcolors.WARNING + "cmd_ctrl: \n"  + cmd_ctrl  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_plan: \n"  + cmd_plan  + bcolors.ENDC
+                print bcolors.WARNING + "cmd_ctrl: \n"  + cmd_ctrl  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_log: \n"   + cmd_log  + bcolors.ENDC
                 print bcolors.WARNING + "cmd_trig: \n"  + cmd_trig  + bcolors.ENDC
 
@@ -123,6 +124,7 @@ for ri, num_gf in enumerate(Number_GF_List):
 
                 print bcolors.OKGREEN + "Launching State Estimator" + bcolors.ENDC
                 subprocess.Popen(cmd_esti, shell=True)
+                time.sleep(SleepTime)
 
                 print bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC
                 subprocess.Popen(cmd_ctrl, shell=True)
@@ -146,9 +148,9 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.OKGREEN + "Finish simulation, kill the process" + bcolors.ENDC
                 subprocess.call('rosnode kill data_logging', shell=True)
                 time.sleep(SleepTime)
-                subprocess.call('rosnode kill Stereo', shell=True)
+                # subprocess.call('rosnode kill Stereo', shell=True)
                 subprocess.call('rosnode kill visual_slam', shell=True)
-                # subprocess.call('pkill Stereo', shell=True)
+                subprocess.call('pkill Stereo', shell=True)
                 # time.sleep(SleepTime)
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)
@@ -158,4 +160,3 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.call('rosnode kill odom_reset', shell=True)
                 subprocess.call('pkill rostopic', shell=True)
                 subprocess.call('pkill -f trajectory_controller_node', shell=True)
-                

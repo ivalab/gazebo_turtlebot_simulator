@@ -23,11 +23,11 @@ SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
-# IMU_Type = 'mpu6000';
+IMU_Type = 'mpu6000';
 # high IMU
-IMU_Type = 'ADIS16448';
+# IMU_Type = 'ADIS16448';
 
-Fwd_Vel_List = [0.5, 1.0, 1.5] # [1.0]; # 
+Fwd_Vel_List = [0.5, 1.0, 1.5, 2.0] # [1.0]; # 
 Number_GF_List = [100] # [60, 80, 100, 120] # [40, 60, 80, 120, 160];
 
 Num_Repeating = 5 # 50 # 10 # 
@@ -38,8 +38,8 @@ SleepTime = 3 # 5 #
 do_rectify = str('false');
 do_vis = str('false');
 
-path_slam_config = '/home/yipu/catkin_ws/src/ORB_Data/'
-# path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
+# path_slam_config = '/home/yipu/catkin_ws/src/ORB_Data/'
+path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
 
 
 #----------------------------------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ for ri, num_gf in enumerate(Number_GF_List):
 
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
-            Result_root = '/media/yipu/651A6DA035A51611/Exp_ClosedLoop/Simulation/laptop/' \
+            Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
                + SeqName + '/' + IMU_Type + '/GF_GG_skf/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
@@ -84,7 +84,7 @@ for ri, num_gf in enumerate(Number_GF_List):
 
                 cmd_reset  = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'") 
                 # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
-                cmd_slam   = str('roslaunch ../launch/gazebo_GFGG_stereo.launch' \
+                cmd_slam   = str('roslaunch ../launch/gazebo_GF_stereo.launch' \
                     + ' path_slam_config:=' + path_slam_config \
                     + ' num_good_feature:=' + num_good_feature \
                     + ' path_track_logging:=' + path_track_logging \
@@ -147,9 +147,9 @@ for ri, num_gf in enumerate(Number_GF_List):
                 print bcolors.OKGREEN + "Finish simulation, kill the process" + bcolors.ENDC
                 subprocess.call('rosnode kill data_logging', shell=True)
                 time.sleep(SleepTime)
-                subprocess.call('rosnode kill Stereo', shell=True)
+                # subprocess.call('rosnode kill Stereo', shell=True)
                 subprocess.call('rosnode kill visual_slam', shell=True)
-                # subprocess.call('pkill Stereo', shell=True)
+                subprocess.call('pkill Stereo', shell=True)
                 # time.sleep(SleepTime)
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)
@@ -159,4 +159,3 @@ for ri, num_gf in enumerate(Number_GF_List):
                 subprocess.call('rosnode kill odom_reset', shell=True)
                 subprocess.call('pkill rostopic', shell=True)
                 subprocess.call('pkill -f trajectory_controller_node', shell=True)
-                
