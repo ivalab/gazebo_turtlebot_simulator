@@ -15,7 +15,7 @@ IMU_Type = 'mpu6000';
 # high IMU
 # IMU_Type = 'ADIS16448';
 
-Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
+Fwd_Vel_List = [0.5, 1.0, 1.5, 2.0] # [1.0]; # 
 Vis_Latency_List = [0, 0.03] # [0.06, 0.1]; # [0, 0.01, 0.03, 0.06, 0.1]; # [0.15, 0.2, 0.3]; # 
 
 Num_Repeating = 5 # 50 # 10 # 
@@ -42,9 +42,8 @@ for li, vl in enumerate(Vis_Latency_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            Result_root = '/mnt/DATA/tmp/debug/' + SeqName + '/' + IMU_Type + '/ideal/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_gt/' + SeqName + '/' + IMU_Type + '/ideal/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav/demo_v3/' + IMU_Type + '/'
+            # Result_root = '/mnt/DATA/tmp/debug/' + SeqName + '/' + IMU_Type + '/ideal/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav_gt/' + SeqName + '/' + IMU_Type + '/ideal/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)
@@ -109,6 +108,7 @@ for li, vl in enumerate(Vis_Latency_List):
 
                 print bcolors.OKGREEN + "Launching State Estimator" + bcolors.ENDC
                 subprocess.Popen(cmd_esti, shell=True)
+                time.sleep(SleepTime)
 
                 print bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC
                 subprocess.Popen(cmd_ctrl, shell=True)
@@ -144,4 +144,4 @@ for li, vl in enumerate(Vis_Latency_List):
                 subprocess.call('rosnode kill turtlebot_trajectory_testing', shell=True)
                 subprocess.call('rosnode kill odom_reset', shell=True)
                 subprocess.call('pkill rostopic', shell=True)
-                
+                subprocess.call('pkill -f trajectory_controller_node', shell=True)
