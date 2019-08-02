@@ -15,7 +15,7 @@ IMU_Type = 'mpu6000';
 # high IMU
 # IMU_Type = 'ADIS16448';
 
-Fwd_Vel_List = [0.5, 1.0, 1.5, 2.0] # [1.0]; # 
+Fwd_Vel_List = [0.5, 1.0, 1.5] # [1.0]; # 
 Vis_Latency_List = [0, 0.03] # [0.06, 0.1]; # [0, 0.01, 0.03, 0.06, 0.1]; # [0.15, 0.2, 0.3]; # 
 
 Num_Repeating = 5 # 50 # 10 # 
@@ -43,7 +43,9 @@ for li, vl in enumerate(Vis_Latency_List):
 
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/debug/' + SeqName + '/' + IMU_Type + '/ideal/'
-            Result_root = '/mnt/DATA/tmp/ClosedNav_gt/' + SeqName + '/' + IMU_Type + '/ideal/'
+            # Result_root = '/mnt/DATA/tmp/ClosedNav_gt/' + SeqName + '/' + IMU_Type + '/ideal/'
+            Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
+              + SeqName + '/' + IMU_Type + '/ideal/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)

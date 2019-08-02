@@ -23,9 +23,9 @@ SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
-IMU_Type = 'mpu6000';
+# IMU_Type = 'mpu6000';
 # high IMU
-# IMU_Type = 'ADIS16448';
+IMU_Type = 'ADIS16448';
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
 Number_GF_List = [800, 1200]; # [1200] # 
@@ -38,8 +38,8 @@ SleepTime = 3 # 5 #
 do_rectify = str('true');
 do_vis = str('false');
 
-path_slam_config = '/home/yipu/catkin_ws/src/ORB_Data/'
-# path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
+# path_slam_config = '/home/yipu/catkin_ws/src/ORB_Data/'
+path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
 
 #----------------------------------------------------------------------------------------------------------------------
 class bcolors:
@@ -62,7 +62,9 @@ for ri, num_gf in enumerate(Number_GF_List):
 
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
-            Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/ORB_orig/'
+            Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
+               + SeqName + '/' + IMU_Type + '/ORB_skf/'
+            # Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/ORB_orig/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_dbg/' + SeqName + '/' + IMU_Type + '/ORB/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/ORB_prior/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)

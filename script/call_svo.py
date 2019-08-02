@@ -21,7 +21,8 @@ if __name__ == "__main__":
 
     cmd_install = str('cd ~/svo_install_ws && source /opt/ros/kinetic/setup.bash && source ~/svo_install_ws/install/setup.bash')
     cmd_source  = str('cd ~/svo_install_overlay_ws && source ~/svo_install_overlay_ws/devel/setup.bash')
-    cmd_slam    = str('LD_PRELOAD=~/svo_install_ws/install/lib/libgflags.so.2.2.1 roslaunch svo_ros ' + 'gazebo_stereo_imu_lmk' + str(args.f) + '.launch')
+    cmd_slam    = str('LD_PRELOAD=~/svo_install_ws/install/lib/libgflags.so.2.2.1 roslaunch svo_ros ' + 'gazebo_stereo_only.launch '\
+     + ' num_tracks_per_frame:=' + str(int(args.f)))
     # print cmd_install
     # print cmd_source
     # print cmd_slam

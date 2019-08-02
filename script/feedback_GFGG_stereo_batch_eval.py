@@ -23,11 +23,11 @@ SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
-IMU_Type = 'mpu6000';
+# IMU_Type = 'mpu6000';
 # high IMU
-# IMU_Type = 'ADIS16448';
+IMU_Type = 'ADIS16448';
 
-Fwd_Vel_List = [0.5, 1.0, 1.5, 2.0] # [1.0]; # 
+Fwd_Vel_List = [0.5, 1.0, 1.5] # [1.0]; # 
 Number_GF_List = [100] # [60, 80, 100, 120] # [40, 60, 80, 120, 160];
 
 Num_Repeating = 5 # 50 # 10 # 
