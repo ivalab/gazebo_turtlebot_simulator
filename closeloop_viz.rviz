@@ -766,7 +766,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /svo/image/0
+      Image Topic: /vins_estimator/image_track
       Max Value: 1
       Median window: 5
       Min Value: 0
