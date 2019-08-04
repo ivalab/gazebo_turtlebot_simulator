@@ -78,9 +78,9 @@ class GoCircle():
         if time.time() > self.t_chk:            
             dist = math.hypot(msg.pose.pose.position.x - self.x0, \
                 msg.pose.pose.position.y - self.y0)
-            if dist < 1e-2 and abs(abs(msg.pose.pose.orientation.w) - 1.0) < 6e-4:
+            if dist < 2e-3 and abs(abs(msg.pose.pose.orientation.w) - 1.0) < 6e-4:
                 self.reach_origin = True;
-                # print abs(abs(msg.pose.pose.orientation.w) - 1.0)
+                print str(dist) + ', ' + str( abs(abs(msg.pose.pose.orientation.w) - 1.0) )
             # else:
             #     reach_origin = False;
 
