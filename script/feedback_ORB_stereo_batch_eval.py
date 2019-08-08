@@ -23,9 +23,9 @@ SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
-# IMU_Type = 'mpu6000';
+IMU_Type = 'mpu6000';
 # high IMU
-IMU_Type = 'ADIS16448';
+# IMU_Type = 'ADIS16448';
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
 Number_GF_List = [800, 1200]; # [1200] # 
@@ -63,7 +63,7 @@ for ri, num_gf in enumerate(Number_GF_List):
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
             Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
-               + SeqName + '/' + IMU_Type + '/ORB_skf/'
+               + SeqName + '/' + IMU_Type + '/ORB/'
             # Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/ORB_orig/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_dbg/' + SeqName + '/' + IMU_Type + '/ORB/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/ORB_prior/'
@@ -154,7 +154,7 @@ for ri, num_gf in enumerate(Number_GF_List):
                 time.sleep(SleepTime)
                 subprocess.call('rosnode kill Stereo', shell=True)
                 subprocess.call('rosnode kill visual_slam', shell=True)
-                # subprocess.call('pkill Stereo', shell=True)
+                subprocess.call('pkill Stereo', shell=True)
                 # time.sleep(SleepTime)
                 subprocess.call('rosnode kill msf_pose_sensor', shell=True)
                 subprocess.call('rosnode kill odom_converter', shell=True)

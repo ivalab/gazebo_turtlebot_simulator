@@ -17,9 +17,9 @@ SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
-IMU_Type = 'mpu6000';
+# IMU_Type = 'mpu6000';
 # high IMU
-# IMU_Type = 'ADIS16448';
+IMU_Type = 'ADIS16448';
 
 Fwd_Vel_List = [0.5, 1.0, 1.5]; # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
 Number_GF_List = [120, 240]; # [60, 180]; # 
@@ -113,9 +113,9 @@ for ri, num_gf in enumerate(Number_GF_List):
                 time.sleep(SleepTime)
 
                 # do a circular motion to initialize VINS-Fusion
-                print bcolors.OKGREEN + "Initializing VINS-Fusion" + bcolors.ENDC
-                subprocess.Popen(cmd_init, shell=True)
-                time.sleep(15 + SleepTime)
+                # print bcolors.OKGREEN + "Initializing VINS-Fusion" + bcolors.ENDC
+                # subprocess.Popen(cmd_init, shell=True)
+                # time.sleep(15 + SleepTime)
 
                 print bcolors.OKGREEN + "Launching odom conversion" + bcolors.ENDC
                 subprocess.Popen(cmd_esti, shell=True)

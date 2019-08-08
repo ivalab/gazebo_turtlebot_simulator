@@ -11,7 +11,7 @@ Panels:
         - /Gazebo Odometry1/Shape1
         - /TF1/Frames1
         - /Ground Truth1/Shape1
-        - /ORB-SLAM Frame1
+        - /ORB-SLAM Frame1/Status1
       Splitter Ratio: 0.6311239
     Tree Height: 240
   - Class: rviz/Selection
@@ -766,7 +766,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /vins_estimator/image_track
+      Image Topic: /ORB_SLAM/frame_with_info
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -823,7 +823,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 21.413168
+      Distance: 23.6373959
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -841,7 +841,7 @@ Visualization Manager:
       Pitch: 1.56979632
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 0.0471667275
+      Yaw: 6.27035189
     Saved: ~
 Window Geometry:
   Dense Stereo:
