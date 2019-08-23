@@ -12,6 +12,11 @@ Adjust the catkin workspace in set_up_sim.sh; execute it:
 
 	./set_up_sim.sh
 
+Build all packages:
+
+	catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release
+	catkin build
+
 ## Launch
 
 Adjust the IMU config to be simulated in gazebo_closeloop_turtlebot.launch, i.e. mpu_6000 or ADIS_16448
