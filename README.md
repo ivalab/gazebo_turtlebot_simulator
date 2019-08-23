@@ -18,13 +18,15 @@ Adjust the IMU config to be simulated in gazebo_closeloop_turtlebot.launch, i.e.
 
 Launch the gazebo simulation:
 
-	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/launch/ && roslaunch ./gazebo_closeloop_turtlebot.launch
+	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/launch/ 
+	roslaunch ./gazebo_closeloop_turtlebot.launch
 
 Adjust the parameters in batch evaluation script, e.g. feedback_GF_stereo_batch_eval.py
 
 Start batch evalution:
 
-	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/script && python feedback_GF_stereo_batch_eval.py
+	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/script 
+	python feedback_GF_stereo_batch_eval.py
 
 ## Results Collection
 
