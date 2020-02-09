@@ -1,0 +1,42 @@
+<launch>
+
+    <arg name="base"      value="kobuki"/> <!-- create, roomba -->
+    <arg name="battery"   value="/proc/acpi/battery/BAT0"/>  <!-- /proc/acpi/battery/BAT0 --> 
+
+    <arg name="stacks"      value="hexagons" />  <!-- circles, hexagons --> 
+    <arg name="3d_sensor"   value="fisheye_stereo" />     <!-- kinect, asus_xtion_pro, fisheye_stereo --> 
+    <arg name="imu_sensor"  value="mpu_6000" />  <!-- mpu_6000, ADIS_16448 --> 
+
+  <!--BEGIN turtlebot_gazebo kobuki.launch.xml-->
+    
+      <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_$(arg 3d_sensor)_$(arg imu_sensor).urdf.xacro'" />
+    
+      <param name="robot_description" command="$(arg urdf_file)" />
+      
+      <!-- Gazebo model spawner  -->
+      <node name="spawn_turtlebot_model" pkg="gazebo_ros" type="spawn_model"
+            args="-x 9 -y -5 -z 0 -Y 3.14159265359 -unpause -urdf -param robot_description -model mobile_base"/>
+            
+      <!-- Velocity muxer -->
+      <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"  required="true"/>
+      <node pkg="nodelet" type="nodelet" name="cmd_vel_mux"
+            args="load yocs_cmd_vel_mux/CmdVelMuxNodelet mobile_base_nodelet_manager"  required="true">
+        <param name="yaml_cfg_file" value="$(find turtlebot_bringup)/param/mux.yaml" />
+        <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/>
+      </node>
+
+      <!-- Bumper/cliff to pointcloud (not working, as it needs sensors/core messages) -->
+      <include file="$(find turtlebot_bringup)/launch/includes/kobuki/bumper2pc.launch.xml"/>
+
+    <!--END turtlebot_gazebo kobuki.launch.xml-->
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"  required="true">
+      <param name="publish_frequency" type="double" value="30.0" />
+    </node>
+    
+
+  <!--END turtlebot_gazebo turtlebot_world.launch -->
+
+  <node name="map_odom_publisher" pkg="gazebo_utils" type="map_transform_publisher" required="true"/>
+
+</launch>

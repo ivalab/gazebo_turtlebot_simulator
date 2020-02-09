@@ -1,0 +1,49 @@
+<launch>
+  <arg name="world_file"  default="/home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/world/classroom_brick.world"/>
+
+
+  <arg name="debug" default="false"/>
+
+  <arg name="base"      value="$(optenv TURTLEBOT_BASE kobuki)"/> <!-- create, roomba -->
+  <arg name="battery"   value="$(optenv TURTLEBOT_BATTERY /proc/acpi/battery/BAT0)"/>  <!-- /proc/acpi/battery/BAT0 -->
+  <arg name="gui" default="true"/>
+  <arg name="stacks"    value="$(optenv TURTLEBOT_STACKS hexagons)"/>  <!-- circles, hexagons -->
+  <arg name="3d_sensor" value="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro -->
+  <arg name="camera" value="$(optenv TURTLEBOT_STEREO stereo_camera)"/>
+    <!-- Robot description -->
+  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_fisheye_stereo_ADIS_16448.urdf.xacro'" />
+  <!-- arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_kinect_$(arg camera).urdf.xacro'" -->
+  <param name="robot_description" command="$(arg urdf_file)" />
+
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="use_sim_time" value="true"/>
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="world_name" value="$(arg world_file)"/>
+  </include>
+
+
+  <include file="/home/yipuzhao/catkin_ws/src/gazebo_stereo_simulator/stereo.launch.xml">
+    <arg name="base" value="$(arg base)"/>
+    <arg name="stacks" value="$(arg stacks)"/>
+    <arg name="3d_sensor" value="$(arg 3d_sensor)"/>
+    <arg name="camera" value="$(arg camera)"/>
+  </include>
+
+  <!--http://answers.ros.org/question/11271/call-a-service-at-startup-with-a-launch-file/# -->
+
+
+  <rosparam command="load" param="initial_pose">
+    pose: {position: {x: 2 ,y: 3, z: 0}, orientation: {x: 0, y: 0, z: 1, w: 0}}
+    model_name: mobile_base
+  </rosparam>
+
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="30.0" />
+  </node>
+
+
+
+</launch>

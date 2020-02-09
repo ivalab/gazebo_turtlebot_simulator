@@ -1,0 +1,20 @@
+<launch>
+
+<arg name="topic_slam_pose" default = "/vins_estimator/pose_cam_for_msf"/>
+<arg name="link_slam_base" default = "camera_left_frame"/>
+
+<param name="/use_sim_time" value="true" />
+
+<!-- convert msf output to odom message -->
+<node name="odom_converter" pkg="odometry_converter" type="odom_converter" output="screen">
+  <param name="pose_topic" value="$(arg topic_slam_pose)"/>
+  <param name="odom_topic" value="visual/odom"/>
+  <param name="pose_link" value="base_footprint"/>
+  <param name="cam_link" value="$(arg link_slam_base)"/>
+</node> 
+
+<node name="visual_robot_publisher" type="robot_state_publisher" pkg="robot_state_publisher">
+  <param name="tf_prefix" value="visual"/>
+</node>
+
+</launch>
