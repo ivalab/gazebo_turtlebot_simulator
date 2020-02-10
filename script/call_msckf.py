@@ -22,7 +22,7 @@ if __name__ == "__main__":
     # print args
 
     # e.g. msckf_vio_gazebo_lmk120_mpu6000.launch
-    cmd_source  = str('cd ~/msckf_ws && source ~/msckf_ws/devel/setup.bash')
+    cmd_source  = str('cd ~/catkin_ws && source ~/catkin_ws/devel/setup.bash')
     cmd_slam    = str('roslaunch msckf_vio ' + 'msckf_vio_gazebo_lmk' + str(args.f) + '_' + args.i + '.launch')
     # print cmd_source
     # print cmd_slam
