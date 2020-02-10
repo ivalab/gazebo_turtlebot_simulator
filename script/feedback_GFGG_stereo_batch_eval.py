@@ -63,9 +63,7 @@ for ri, num_gf in enumerate(Number_GF_List):
 
             SeqName = SeqNameList[sn]
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
-            # Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
-            #    + SeqName + '/' + IMU_Type + '/GF_GG_skf/'
-            Result_root = '/media/yipuzhao/1399F8643500EDCD/ClosedLoop_Exp/Simulation/pc/' \
+            Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
                + SeqName + '/' + IMU_Type + '/GF_GG_skf/'
             # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
