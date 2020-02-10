@@ -8,7 +8,7 @@ Follow the instruction at `meta_ClosedLoopBench` to clone all required catkin pa
 
 	https://github.com/ivalab/meta_ClosedLoopBench
 
-Clone all packages from pips_vslam.rosinstall in PiPS meta repo:
+[TODO] Clone all packages from pips_vslam.rosinstall in PiPS meta repo:
 
 	https://github.gatech.edu/ivabots/meta_pips
 
@@ -29,7 +29,7 @@ Build all packages:
 
 Adjust the IMU config to be simulated in gazebo_closeloop_turtlebot.launch, i.e. mpu_6000 or ADIS_16448
 
-Launch the gazebo simulation:
+[More E.g.] Launch the gazebo simulation:
 
 	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/launch/ 
 	roslaunch ./gazebo_closeloop_turtlebot.launch
@@ -46,9 +46,9 @@ Start batch evalution:
 The closed-loop navigation output are recorded as rosbag.  
 To convert these rosbags to text files, clone the repo: 
 
-	https://github.gatech.edu/VSLAM/mat_from_rosbag
+	https://github.com/ivalab//mat_from_rosbag
 
-Then edit the batch conversion script 
+[TODO] Then edit the batch conversion script 
 	
 	./script/batch_closedloop.sh
 
@@ -56,7 +56,7 @@ And execute it
 
 Finally, use the closed-loop evaluation script in SLAM Evaluation repo:
 
-	https://github.gatech.edu/VSLAM/SLAM_Evaluation
+	https://github.com/YipuZhao/SLAM_Evaluation
 
 Refer to the evaluation script on how to quantify the navigation performance and latency consumption:
 
