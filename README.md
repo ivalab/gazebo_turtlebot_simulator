@@ -1,14 +1,22 @@
 ## Config
 
-Clone all packages from vslam.rosinstall in VSLAM meta repo:
+Assuming desktop full verison of ros-kinetic has been installed, and a catkin workspace has been created at 
 
-	https://github.gatech.edu/VSLAM/meta_vslam
+	/home/XXX/catkin_ws/
+
+Follow the instruction at `meta_ClosedLoopBench` to clone all required catkin packages in the workspace:
+
+	https://github.com/ivalab/meta_ClosedLoopBench
 
 Clone all packages from pips_vslam.rosinstall in PiPS meta repo:
 
 	https://github.gatech.edu/ivabots/meta_pips
 
-Adjust the catkin workspace in set_up_sim.sh; execute it:
+Navigate to the dir of similator package `gazebo_turtlebot_simulaton`.  Adjust the catkin workspace in set_up_sim.sh:
+
+	export CATKIN_WS=/home/XXX/catkin_ws/
+
+Then execute the auto setup script set_up_sim.sh (sudo needed):
 
 	./set_up_sim.sh
 
