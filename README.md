@@ -12,11 +12,11 @@ Clone all packages from pips_vslam.rosinstall in PiPS meta repo:
 
 	https://github.gatech.edu/ivabots/meta_pips
 
-Navigate to the dir of similator package `gazebo_turtlebot_simulaton`.  Adjust the catkin workspace in set_up_sim.sh:
+Navigate to the dir of similator package `gazebo_turtlebot_simulaton`.  Adjust the catkin workspace in __set_up_sim.sh__:
 
 	export CATKIN_WS=/home/XXX/catkin_ws/
 
-Then execute the auto setup script set_up_sim.sh (sudo needed):
+Then execute the auto setup script __set_up_sim.sh__ (sudo needed):
 
 	./set_up_sim.sh
 
