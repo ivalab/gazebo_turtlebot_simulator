@@ -77,7 +77,6 @@ for li, vl in enumerate(Vis_Latency_List):
                     + ' imu_type:=' + IMU_Type + ' ' \
                     + ' topic_slam_pose:=delayed_pose ' \
                     + ' link_slam_base:=base_footprint' )
-                cmd_init   = str("python init_VINS.py")
                 # cmd_esti   = str('rosrun odometry_converter odom_converter ' \
                 #     + ' pose_topic:=odom' \
                 #     + ' odom_topic:=visual/odom ' \
@@ -110,6 +109,7 @@ for li, vl in enumerate(Vis_Latency_List):
                 subprocess.Popen(cmd_slam, shell=True)
 
                 # do a circular motion to initialize VINS-Fusion
+                cmd_init   = str("python init_VINS.py")
                 # print bcolors.OKGREEN + "Initializing VINS-Fusion" + bcolors.ENDC
                 subprocess.Popen(cmd_init, shell=True)
                 time.sleep(15 + SleepTime)
