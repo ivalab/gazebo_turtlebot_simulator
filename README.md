@@ -46,13 +46,11 @@ Start batch evalution:
 The closed-loop navigation output are recorded as rosbag.  
 To convert these rosbags to text files, clone the repo: 
 
-	https://github.com/ivalab//mat_from_rosbag
+	https://github.com/ivalab/mat_from_rosbag
 
-[TODO] Then edit the batch conversion script 
+Then edit and execute the batch conversion script, so that `CLOSEDLOOP_DIR` is the folder all closed-loop evaluation rosbags are saved within:
 	
 	./script/batch_closedloop.sh
-
-And execute it
 
 Finally, use the closed-loop evaluation script in SLAM Evaluation repo:
 
@@ -60,7 +58,7 @@ Finally, use the closed-loop evaluation script in SLAM Evaluation repo:
 
 Refer to the evaluation script on how to quantify the navigation performance and latency consumption:
 
-	closeLoop_error_RAS19.m
+	closeLoop_error_RAS20.m
 
 ## Contact information
 
