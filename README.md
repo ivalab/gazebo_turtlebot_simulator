@@ -1,4 +1,4 @@
-![](https://github.com/ivalab/gazebo_turtlebot_simulator/blob/master/data/closedloop_demo.gif)
+![](https://github.com/ivalab/demo_gif/blob/master/closedloop_demo.gif)
 
 
 ## Config
