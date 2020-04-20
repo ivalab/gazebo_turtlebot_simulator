@@ -39,10 +39,12 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
+
+
+            # NOTE adjust the path according to your working environment !!!
             Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
             # Result_root = '/mnt/DATA/tmp/ClosedNav_new/RGBD/' + SeqName + '/low_imu/ORB/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_new/RGBD/' + SeqName + '/low_imu/ORB_prior/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_new/RGBD/' + SeqName + '/low_imu/GF_prior/'
+            
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)

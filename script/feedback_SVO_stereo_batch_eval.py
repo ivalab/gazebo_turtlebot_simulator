@@ -5,21 +5,13 @@ import subprocess
 import time
 import signal
 
-# SeqNameList = ['line', 'turn', 'loop', 'long'];
-# SeqLengList = [17, 20, 40, 50];
-# SeqNameList = ['loop', 'long'];
-# SeqLengList = [40, 50];
-# SeqNameList = ['square', 'zigzag', 'infinite'];
-# SeqLengList = [105, 125, 245];
-# SeqNameList = ['two_circle'];
-# SeqLengList = [200];
 SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
-# IMU_Type = 'mpu6000';
+IMU_Type = 'mpu6000';
 # high IMU
-IMU_Type = 'ADIS16448';
+# IMU_Type = 'ADIS16448';
 
 Fwd_Vel_List = [0.5, 1.0, 1.5]; # [0.5, 0.75, 1.0]; # 
 Number_GF_List = [600, 1200]; # [400, 800]; # 
@@ -49,10 +41,12 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
+
+            # NOTE adjust the path according to your working environment !!!
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
             Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
                + SeqName + '/' + IMU_Type + '/SVO/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/' + IMU_Type + '/SVO/'
+
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)

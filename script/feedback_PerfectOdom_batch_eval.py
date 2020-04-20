@@ -5,8 +5,6 @@ import subprocess
 import time
 import signal
 
-# SeqNameList = ['loop'];
-# SeqLengList = [40];
 SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
 
@@ -42,10 +40,11 @@ for li, vl in enumerate(Vis_Latency_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
-            # Result_root = '/mnt/DATA/tmp/debug/' + SeqName + '/' + IMU_Type + '/ideal/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_gt/' + SeqName + '/' + IMU_Type + '/ideal/'
+
+            # NOTE adjust the path according to your working environment !!!
             Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
               + SeqName + '/' + IMU_Type + '/ideal/'
+            
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)

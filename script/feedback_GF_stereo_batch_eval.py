@@ -5,27 +5,13 @@ import subprocess
 import time
 import signal
 
-# SeqNameList = ['line', 'turn', 'loop', 'long'];
-# SeqLengList = [17, 20, 40, 50];
-# SeqNameList = ['loop'];
-# SeqLengList = [40];
-# SeqNameList = ['long'];
-# SeqLengList = [50];
-# SeqNameList = ['square'];
-# SeqLengList = [105];
-# SeqNameList = ['zigzag'];
-# SeqLengList = [125];
-# SeqNameList = ['infinite'];
-# SeqLengList = [245];
-# SeqNameList = ['two_circle'];
-# SeqLengList = [200];
 SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
 
 # low IMU
-# IMU_Type = 'mpu6000';
+IMU_Type = 'mpu6000';
 # high IMU
-IMU_Type = 'ADIS16448';
+# IMU_Type = 'ADIS16448';
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [1.0]; # 
 Number_GF_List = [100] # [60, 80, 100, 120] # [40, 60, 80, 120, 160];
@@ -38,9 +24,8 @@ SleepTime = 3 # 5 #
 do_rectify = str('false');
 do_vis = str('false');
 
-# path_slam_config = '/home/yipu/catkin_ws/src/ORB_Data/'
-path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
-
+# NOTE adjust the path according to your catkin workspace !!!
+path_slam_config = '/home/yipuzhao/catkin_ws/src/ORB_Data/'
 
 #----------------------------------------------------------------------------------------------------------------------
 class bcolors:
@@ -62,11 +47,13 @@ for ri, num_gf in enumerate(Number_GF_List):
         for sn, sname in enumerate(SeqNameList):
 
             SeqName = SeqNameList[sn]
+
+
+            # NOTE adjust the path according to your working environment !!!
             # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/'
             Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
-              + SeqName + '/' + IMU_Type + '/GF_skf_redo/'
-            # Result_root = '/media/yipu/1399F8643500EDCD/ClosedNav_dev/' + SeqName + '/' + IMU_Type + '/GF_pyr8_gpu/'
-            # Result_root = '/mnt/DATA/tmp/ClosedNav_v4/' + SeqName + '/low_imu/GF_gpu/'
+              + SeqName + '/' + IMU_Type + '/GF_skf/'
+
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
             cmd_mkdir = 'mkdir -p ' + Experiment_dir
             subprocess.call(cmd_mkdir, shell=True)

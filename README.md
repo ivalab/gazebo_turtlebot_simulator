@@ -8,15 +8,11 @@ Follow the instruction at `meta_ClosedLoopBench` to clone all required catkin pa
 
 	https://github.com/ivalab/meta_ClosedLoopBench
 
-[TODO] Clone all packages from pips_vslam.rosinstall in PiPS meta repo:
-
-	https://github.gatech.edu/ivabots/meta_pips
-
-Navigate to the dir of similator package `gazebo_turtlebot_simulaton`.  Adjust the catkin workspace in __set_up_sim.sh__:
+Navigate to the dir of simulator package `gazebo_turtlebot_simulaton`.  Adjust the catkin workspace in __set_up_sim.sh__:
 
 	export CATKIN_WS=/home/XXX/catkin_ws/
 
-Then execute the auto setup script __set_up_sim.sh__ (sudo needed):
+Then execute the auto setup script __set_up_sim.sh__ (will be asked for sudo authorization):
 
 	./set_up_sim.sh
 
@@ -25,21 +21,50 @@ Build all packages:
 	catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release
 	catkin build
 
-## Launch
+## Launch Simulator
 
-Adjust the IMU config to be simulated in gazebo_closeloop_turtlebot.launch, i.e. mpu_6000 or ADIS_16448
-
-[More E.g.] Launch the gazebo simulation:
+Launch the gazebo simulation:
 
 	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/launch/ 
 	roslaunch ./gazebo_closeloop_turtlebot.launch
 
-Adjust the parameters in batch evaluation script, e.g. feedback_GF_stereo_batch_eval.py
 
-Start batch evalution:
+By default the gazebo GUI is off. To enable gazebo GUI during simulation, simply set arg gui in gazebo_closeloop_turtlebot.launch to true:
+
+	<arg name="gui" default="true"/>
+
+The IMU spec can be adjusted as well.  The two example IMU specs provided are mpu_6000 and ADIS_16448. Switch IMU spec by editing arg imu_sensor:
+
+	<arg name="imu_sensor"  value="mpu_6000" />
+
+Or
+
+	<arg name="imu_sensor"  value="ADIS_16448" />
+
+Lastly, the visual sensor can be adjusted with arg 3d_sensor:
+
+	<arg name="3d_sensor"   value="fisheye_stereo" />
+
+Or
+
+	<arg name="3d_sensor"   value="kinect" />
+
+Or
+
+	<arg name="3d_sensor"   value="asus_xtion_pro" />
+
+## Launch Closed-loop Evaluation
+
+Adjust the parameters in batch evaluation script, e.g. [feedback_GFGG_stereo_batch_eval.py](https://github.com/ivalab/gazebo_turtlebot_simulator/blob/master/script/feedback_GFGG_stereo_batch_eval.py).  Detailed descriptions on each parameter are provided.
+
+After settting the parameters, start batch evalution:
 
 	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/script 
-	python feedback_GF_stereo_batch_eval.py
+	python feedback_GFGG_stereo_batch_eval.py
+
+An rviz config is provided for visualization:
+
+	rviz -d /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/closeloop_viz.rviz	
 
 ## Results Collection
 
