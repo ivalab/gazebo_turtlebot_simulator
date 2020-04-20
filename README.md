@@ -1,3 +1,6 @@
+![](https://github.com/ivalab/demo_gif/blob/master/closedloop_demo.gif)
+
+
 ## Config
 
 Assuming desktop full verison of ros-kinetic has been installed, and a catkin workspace has been created at 
