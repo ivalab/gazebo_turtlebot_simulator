@@ -11,7 +11,8 @@ Panels:
         - /Gazebo Odometry1/Shape1
         - /TF1/Frames1
         - /Ground Truth1/Shape1
-      Splitter Ratio: 0.844086051
+        - /VIO/VISLAM View1
+      Splitter Ratio: 0.63611114
     Tree Height: 397
   - Class: rviz/Selection
     Name: Selection
@@ -31,7 +32,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Raw Image (left)
+    SyncSource: VIO/VISLAM View
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -765,7 +766,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /msckf/image_processor/debug_stereo_image
+      Image Topic: /vins_estimator/image_track
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -822,7 +823,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 18.5155869
+      Distance: 20.3711395
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -840,7 +841,7 @@ Visualization Manager:
       Pitch: 1.56979632
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 0.00716722477
+      Yaw: 6.27034187
     Saved: ~
 Window Geometry:
   Dense Stereo:

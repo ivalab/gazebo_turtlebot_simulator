@@ -22,7 +22,7 @@ if __name__ == "__main__":
     # print args
 
     # e.g. gazebo-stereo_config_lmk240_mpu6000.yaml
-    Config_Yaml = '~/catkin_ws/src/VINS-Fusion/config/gazebo/gazebo-stereo_config_lmk' + str(args.f) + '_' + args.i + '.yaml'
+    Config_Yaml = '~/catkin_ws/src/vins_fusion/config/gazebo/gazebo-stereo_config_lmk' + str(args.f) + '_' + args.i + '.yaml'
     cmd_source  = str('cd ~/catkin_ws && source ~/catkin_ws/devel/setup.bash')
     cmd_vinsrun   = str('rosrun vins vins_node ' + Config_Yaml)
     cmd_looprun   = str('rosrun loop_fusion loop_fusion_node ' + Config_Yaml)
