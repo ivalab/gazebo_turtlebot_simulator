@@ -7,11 +7,13 @@ import signal
 
 SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
+# SeqNameList = ['loop',];
+# SeqLengList = [40,];
 
 # low IMU
-IMU_Type = 'mpu6000';
+# IMU_Type = 'mpu6000';
 # high IMU
-# IMU_Type = 'ADIS16448';
+IMU_Type = 'ADIS16448';
 
 Fwd_Vel_List = [0.5, 1.0, 1.5] # [1.0]; # 
 Number_GF_List = [100] # [60, 80, 100, 120] # [40, 60, 80, 120, 160];
@@ -26,6 +28,7 @@ do_vis = str('false');
 
 # NOTE adjust the path according to your catkin workspace !!!
 path_slam_config = '/home/yipuzhao/catkin_ws/src/ORB_Data/'
+# path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
 
 #----------------------------------------------------------------------------------------------------------------------
 class bcolors:

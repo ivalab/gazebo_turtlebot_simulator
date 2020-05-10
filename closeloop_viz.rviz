@@ -766,7 +766,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /vins_estimator/image_track
+      Image Topic: /msckf/image_processor/debug_stereo_image
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -841,7 +841,7 @@ Visualization Manager:
       Pitch: 1.56979632
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 6.27034187
+      Yaw: 6.25534153
     Saved: ~
 Window Geometry:
   Dense Stereo:

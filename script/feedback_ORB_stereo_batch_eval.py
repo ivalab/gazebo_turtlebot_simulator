@@ -7,14 +7,16 @@ import signal
 
 SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle'];
 SeqLengList = [40, 50, 105, 125, 245, 200];
+# SeqNameList = ['loop',];
+# SeqLengList = [40,];
 
 # low IMU
-IMU_Type = 'mpu6000';
+# IMU_Type = 'mpu6000';
 # high IMU
-# IMU_Type = 'ADIS16448';
+IMU_Type = 'ADIS16448';
 
-Fwd_Vel_List = [0.5, 1.0, 1.5] # [0.5, 1.0]; # [0.5, 0.75, 1.0]; # 
-Number_GF_List = [800, 1200]; # [1200] # 
+Fwd_Vel_List = [1.0]; # [0.5, 1.0, 1.5] # 
+Number_GF_List = [800, 1200]; #
 
 Num_Repeating = 5 # 50 # 10 # 
 
@@ -25,8 +27,8 @@ do_rectify = str('true');
 do_vis = str('false');
 
 # NOTE adjust the path according to your catkin workspace !!!
-path_slam_config = '/home/yipuzhao/catkin_ws/src/ORB_Data/'
-# path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
+# path_slam_config = '/home/yipuzhao/catkin_ws/src/ORB_Data/'
+path_slam_config = '/home/yipuzhao/ros_workspace/package_dir/ORB_Data/'
 
 #----------------------------------------------------------------------------------------------------------------------
 class bcolors:
@@ -51,9 +53,9 @@ for ri, num_gf in enumerate(Number_GF_List):
 
 
             # NOTE adjust the path according to your working environment !!!
-            # Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
-            Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
-               + SeqName + '/' + IMU_Type + '/ORB/'
+            Result_root = '/mnt/DATA/tmp/ClosedNav/debug/' 
+            # Result_root = '/media/yipuzhao/651A6DA035A51611/Exp_ClosedLoop/Simulation/pc/' \
+            #    + SeqName + '/' + IMU_Type + '/ORB/'
             
             
             Experiment_dir = Result_root + Experiment_prefix + '_Vel' + str(fv)
