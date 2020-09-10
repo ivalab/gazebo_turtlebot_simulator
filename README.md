@@ -86,7 +86,7 @@ Finally, use the closed-loop evaluation script in SLAM Evaluation repo:
 
 Refer to the evaluation script on how to quantify the navigation performance and latency consumption:
 
-	closeLoop_error_RAS20.m
+	closeLoop_error_TRO21.m
 
 ## Contact information
 
