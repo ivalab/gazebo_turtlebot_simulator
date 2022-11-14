@@ -67,6 +67,6 @@
   <link name="right_camera_optical_frame"/>
   
   <!-- Kinect sensor for simulation -->
-  <turtlebot_sim_stereo_sensor/>
+  <xacro:turtlebot_sim_stereo_sensor/>
   </xacro:macro>
 </robot>

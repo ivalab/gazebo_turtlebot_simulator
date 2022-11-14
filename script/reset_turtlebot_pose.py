@@ -31,20 +31,20 @@ import std_msgs.msg as std_msgs
 def load_model_xml(filename):
   if os.path.exists(filename):
       if os.path.isdir(filename):
-          print "Error: file name is a path?", filename
+          print(" Error: file name is a path?", filename)
           sys.exit(0)
 
       if not os.path.isfile(filename):
-          print "Error: unable to open file", filename
+          print(" Error: unable to open file", filename)
           sys.exit(0)
   else:
-      print "Error: file does not exist", filename
+      print(" Error: file does not exist", filename)
       sys.exit(0)
 
   f = open(filename,'r')
   model_xml = f.read()
   if model_xml == "":
-      print "Error: file is empty", filename
+      print(" Error: file is empty", filename)
       sys.exit(0)
 
   return model_xml
@@ -132,7 +132,7 @@ class GazeboDriver():
     self.unpause()
 
   def setPose(self, model_name, pose):
-    print "Start set model pose"
+    print(" Start set model pose")
     ## Check if our model exists yet
     if True: # ( self.models is not None and model_name in self.models.name):
 
@@ -142,7 +142,7 @@ class GazeboDriver():
         response = self.setModelState(state)
 
         if(response.success):
-          print "Successfully set model pose"
+          print(" Successfully set model pose")
           #rospy.loginfo("Successfully set model pose")
           return True
       except rospy.ServiceException as e:
@@ -173,7 +173,7 @@ class GazeboDriver():
     return self.deleteModelService(model_name=name)
 
   def resetRobotImpl(self, pose):
-    print "calling reset?"
+    print(" calling reset?")
     self.pause()
     p = Pose()
     p.position.x = pose[0]
@@ -283,7 +283,7 @@ class GazeboDriver():
     for name in barrel_names:
       res = self.deleteModel(name=name)
       if not res.success:
-        print res.status_message
+        print(res.status_message)
 
   def moveObstacles(self, n, minx=None, miny=None, maxx=None, maxy=None, grid_spacing=None):
     self.poses = []
@@ -320,7 +320,7 @@ class GazeboDriver():
     for name in barrel_names:
       res = self.deleteModel(name=name)
       if not res.success:
-        print res.status_message
+        print(res.status_message)
       
   def shutdown(self):
     self.unpause()

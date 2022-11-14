@@ -13,8 +13,8 @@
   <!-- <xacro:include filename="$(find turtlebot_description)/urdf/sensors/kinect.urdf.xacro"/>  -->
   <xacro:include filename="$(find turtlebot_description)/urdf/sensors/fisheye_stereo.urdf.xacro"/>
   
-  <kobuki/>
-  <stack_hexagons parent="base_link"/>
+  <xacro:kobuki/>
+  <xacro:stack_hexagons parent="base_link"/>
   <!-- <sensor_kinect  parent="base_link"/> -->
-  <sensor_stereo  parent="base_link"/>
+  <xacro:sensor_stereo  parent="base_link"/>
 </robot>
