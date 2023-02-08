@@ -1,4 +1,3 @@
-CATKIN_WS=/home/yanwei/closed_loop_ws
 export CONFIG_SRC=${CATKIN_WS}/src/gazebo_turtlebot_simulator/config
 # export TURTLE_TAR=/opt/ros/${ROS_DISTRO}/share/turtlebot_description
 # export KOBUKI_TAR=/opt/ros/${ROS_DISTRO}/share/kobuki_description

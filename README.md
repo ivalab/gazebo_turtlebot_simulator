@@ -1,21 +1,23 @@
+# Ubuntu 20.04 + ROS Noetic
+
 ![](https://github.com/ivalab/demo_gif/blob/master/closedloop_demo.gif)
 
 
 ## Config
 
-Assuming desktop full verison of ros-kinetic has been installed, and a catkin workspace has been created at 
+Assuming desktop full verison of ros-noetic has been installed, and a catkin workspace has been created at 
 
 	/home/XXX/catkin_ws/
 
 Follow the instruction at `meta_ClosedLoopBench` to clone all required catkin packages in the workspace:
 
-	https://github.com/ivalab/meta_ClosedLoopBench
+	https://github.com/ivalab/meta_ClosedLoopBench/tree/feature/ubuntu20.04
 
 Navigate to the dir of simulator package `gazebo_turtlebot_simulaton`.  Adjust the catkin workspace in __set_up_sim.sh__:
 
 	export CATKIN_WS=/home/XXX/catkin_ws/
 
-Then execute the auto setup script __set_up_sim.sh__ (will be asked for sudo authorization):
+Then execute the auto setup script __set_up_sim.sh__:
 
 	./set_up_sim.sh
 
@@ -58,8 +60,7 @@ Or
 
 ## Launch Closed-loop Evaluation
 
-Adjust the parameters in batch evaluation script, e.g. [feedback_GFGG_stereo_batch_eval.py](https://github.com/ivalab/gazebo_turtlebot_simulator/blob/master/script/feedback_GFGG_stereo_batch_eval.py).  Detailed descriptions on each parameter are provided.
-
+Adjust the parameters in batch evaluation script, e.g. [feedback_GFGG_stereo_batch_eval.py](https://github.com/ivalab/gazebo_turtlebot_simulator/tree/feature/ubuntu20.04/script_ros_noetic/feedback_GFGG_stereo_batch_eval.py).  Detailed descriptions on each parameter are provided.
 After settting the parameters, start batch evalution:
 
 	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/script 
@@ -74,19 +75,21 @@ An rviz config is provided for visualization:
 The closed-loop navigation output are recorded as rosbag.  
 To convert these rosbags to text files, clone the repo: 
 
-	https://github.com/ivalab/mat_from_rosbag
+	https://github.com/ivalab/mat_from_rosbag/tree/feature/ubuntu20.04
 
-Then edit and execute the batch conversion script, so that `CLOSEDLOOP_DIR` is the folder all closed-loop evaluation rosbags are saved within:
-	
-	./script/batch_closedloop.sh
+Please install [evo package](https://github.com/MichaelGrupp/evo) before running the script. Feel free to use conda environment.
 
-Finally, use the closed-loop evaluation script in SLAM Evaluation repo:
+Before running, please configure your own path and other variables in the following scripts.
 
-	https://github.com/YipuZhao/SLAM_Evaluation
+	# Evaluation, mainly parsing each rosbag and evaluate tracking error.
 
-Refer to the evaluation script on how to quantify the navigation performance and latency consumption:
+	cd mat_from_rosbag/script
 
-	closeLoop_error_TRO21.m
+	# make sure roscore is running
+	python batch_evaluate.py
+
+	# Collection, collecting evaluation error and generate RMSE files.
+	python batch_collect.py
 
 ## Contact information
 
