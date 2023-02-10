@@ -63,7 +63,7 @@ Or
 Adjust the parameters in batch evaluation script, e.g. [feedback_GFGG_stereo_batch_eval.py](https://github.com/ivalab/gazebo_turtlebot_simulator/tree/feature/ubuntu20.04/script_ros_noetic/feedback_GFGG_stereo_batch_eval.py).  Detailed descriptions on each parameter are provided.
 After settting the parameters, start batch evalution:
 
-	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/script 
+	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/script_ros_noetic
 	python feedback_GFGG_stereo_batch_eval.py
 
 An rviz config is provided for visualization:
