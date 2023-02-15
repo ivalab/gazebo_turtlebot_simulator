@@ -4,49 +4,58 @@ import os
 import subprocess
 import time
 
-SeqNameList = ['loop', 'long', 'square', 'zigzag', 'infinite', 'two_circle']
-SeqLengList = [40, 50, 105, 125, 245, 200]
+SeqNameList = ["loop", "long", "square", "zigzag", "two_circle", "infinite"]
+SeqLengList = [40, 50, 105, 125, 200, 245]
 
-# IMU (low + high)
-IMUS = ['mpu6000', 'ADIS16448']
-# IMUS = ['ADIS16448']
+# spec of IMU in simulation
+# low IMU
+# IMU_Type = 'mpu6000';
+# high IMU
+# IMU_Type = 'ADIS16448';
+IMUS = ["mpu6000", "ADIS16448"]  # (low + high)
 
-Fwd_Vel_List = [0.5, 1.0, 1.5]
-Number_GF_List = [500]  # , 800, 1200]; #
+# desired forward velocity (m/s)
+Fwd_Vel_List = [0.5, 1.0, 1.5]  #
 
+# target good feature matched per frame; welcome to tune it for better performance
+Number_GF_List = [400, 800]
+
+# repeat times for simulation
 Num_Repeating = 5  # 50 # 10 #
 
+# initialization period for eth_msf
 SleepTime = 3  # 5 #
 # Duration = 30 # 60
 
-do_rectify = str('true')
-do_vis = str('false')
+# on/off flag of raw image rectification
+do_rectify = str("false")
+
+# on/off flag of ORB_SLAM3 GUI
+do_vis = str(0)  # use 0 or 1
 
 # NOTE adjust the path according to your catkin workspace !!!
-path_slam_config = '/home/yanwei/closedloop_ws/src/ORB_Data/'
-RESULT_ROOT = '/mnt/DATA/Yanwei/closedloop/2023/20.04/'
-METHOD_NAME = 'ORB3'
+path_slam_config = "/home/yanwei/closedloop_ws/src/ORB_Data/"
+RESULT_ROOT = "/mnt/DATA/Yanwei/closedloop/2023/20.04/"
+METHOD_NAME = "ORB3"
 ENABLE_ROSBAG_LOGGING = True
 
 # ----------------------------------------------------------------------------------------------------------------------
-
-
 class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    ALERT = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+    HEADER = "\033[95m"
+    OKBLUE = "\033[94m"
+    OKGREEN = "\033[92m"
+    WARNING = "\033[93m"
+    ALERT = "\033[91m"
+    ENDC = "\033[0m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
 
 
 for IMU_Type in IMUS:
 
     for ri, num_gf in enumerate(Number_GF_List):
 
-        Experiment_prefix = 'ObsNumber_' + str(int(num_gf))
+        Experiment_prefix = "ObsNumber_" + str(int(num_gf))
 
         for vn, fv in enumerate(Fwd_Vel_List):
             for sn, sname in enumerate(SeqNameList):
@@ -56,50 +65,68 @@ for IMU_Type in IMUS:
                 # NOTE adjust the path according to your working environment !!!
                 Result_root = os.path.join(RESULT_ROOT, SeqName, IMU_Type, METHOD_NAME)
 
-                Experiment_dir = os.path.join(Result_root, Experiment_prefix + '_Vel' + str(fv))
+                Experiment_dir = os.path.join(Result_root, Experiment_prefix + "_Vel" + str(fv))
                 if os.path.exists(Experiment_dir):
-                    cmd_rmdir = 'rm -r ' + Experiment_dir
-                    subprocess.call(cmd_rmdir, shell=True)
-                cmd_mkdir = 'mkdir -p ' + Experiment_dir
+                    cmd_rmdir = "rm -r " + Experiment_dir
+                    # subprocess.call(cmd_rmdir, shell=True)
+                cmd_mkdir = "mkdir -p " + Experiment_dir
                 subprocess.call(cmd_mkdir, shell=True)
 
                 for iteration in range(0, Num_Repeating):
 
-                    print(bcolors.ALERT + "====================================================================" + bcolors.ENDC)
+                    print(
+                        bcolors.ALERT
+                        + "===================================================================="
+                        + bcolors.ENDC
+                    )
                     print(bcolors.ALERT + "Round: " + str(iteration + 1) + "; Seq: " + SeqName + "; Vel: " + str(fv))
 
-                    path_track_logging = Experiment_dir + '/round' + str(iteration + 1)
-                    path_map_logging = Experiment_dir + '/round' + str(iteration + 1) + '_Map'
-                    num_all_feature = str(num_gf*2)
+                    path_track_logging = Experiment_dir + "/round" + str(iteration + 1)
                     path_type = SeqName
                     velocity_fwd = str(fv)
                     duration = float(SeqLengList[sn]) / float(fv) + SleepTime
 
-                    # cmd_mkdir = 'mkdir -p ' + path_track_logging
-                    # subprocess.call(cmd_mkdir, shell=True)
-                    # cmd_mkdir = 'mkdir -p ' + path_map_logging
-                    # subprocess.call(cmd_mkdir, shell=True)
-
-                    cmd_reset = str("python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'")
+                    cmd_reset = str(
+                        "python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'"
+                    )
                     # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
-                    cmd_slam = str('roslaunch ../launch/gazebo_ORB3_stereo.launch'
-                                   + ' path_slam_config:=' + path_slam_config
-                                   + ' num_all_feature:=' + num_all_feature
-                                   + ' path_track_logging:=' + path_track_logging
-                                   + ' path_map_logging:=' + path_map_logging
-                                   + ' do_rectify:=' + do_rectify
-                                   + ' do_vis:=' + do_vis)
-                    cmd_esti = str('roslaunch msf_updates gazebo_msf_stereo.launch'
-                                   + ' imu_type:=' + IMU_Type + ' '
-                                   + ' topic_slam_pose:=/ORB_SLAM/camera_pose_in_imu '
-                                   + ' link_slam_base:=left_camera_frame')
-                    cmd_ctrl = str('roslaunch ../launch/gazebo_controller.launch')
-                    cmd_plan = str('roslaunch ../launch/gazebo_offline_planning.launch'
-                                   + ' path_type:=' + path_type
-                                   + ' velocity_fwd:=' + velocity_fwd
-                                   + ' duration:=' + str(duration))
-                    cmd_log = str('roslaunch ../launch/gazebo_logging.launch path_data_logging:=' + path_track_logging)
-                    cmd_trig = str("rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' ")
+                    cmd_slam = str(
+                        "roslaunch ../launch/gazebo_ORB3_stereo.launch"
+                        + " path_slam_config:="
+                        + path_slam_config
+                        + " num_good_feature:="
+                        + str(num_gf)
+                        + " path_track_logging:="
+                        + path_track_logging
+                        + " do_rectify:="
+                        + do_rectify
+                        + " do_vis:="
+                        + do_vis
+                    )
+                    cmd_esti = str(
+                        "roslaunch msf_updates gazebo_msf_stereo.launch"
+                        + " imu_type:="
+                        + IMU_Type
+                        + " "
+                        + " topic_slam_pose:=/ORB_SLAM/camera_pose_in_imu "
+                        + " link_slam_base:=left_camera_frame"
+                    )
+                    cmd_ctrl = str(
+                        "roslaunch ../launch/gazebo_controller.launch" + " compensate_planning_time:=" + "true"
+                    )
+                    cmd_plan = str(
+                        "roslaunch ../launch/gazebo_offline_planning.launch"
+                        + " path_type:="
+                        + path_type
+                        + " velocity_fwd:="
+                        + velocity_fwd
+                        + " duration:="
+                        + str(duration)
+                    )
+                    cmd_log = str("roslaunch ../launch/gazebo_logging.launch path_data_logging:=" + path_track_logging)
+                    cmd_trig = str(
+                        "rostopic pub -1 /mobile_base/events/button kobuki_msgs/ButtonEvent '{button: 0, state: 0}' "
+                    )
 
                     print(bcolors.WARNING + "cmd_reset: \n" + cmd_reset + bcolors.ENDC)
                     print(bcolors.WARNING + "cmd_slam: \n" + cmd_slam + bcolors.ENDC)
@@ -118,7 +145,7 @@ for IMU_Type in IMUS:
 
                     print(bcolors.OKGREEN + "Launching SLAM" + bcolors.ENDC)
                     subprocess.Popen(cmd_slam, shell=True)
-                    time.sleep(20)  # wait SLAM to initialize
+                    time.sleep(SleepTime * 2)  # wait SLAM to initialize
 
                     print(bcolors.OKGREEN + "Launching State Estimator" + bcolors.ENDC)
                     subprocess.Popen(cmd_esti, shell=True)
@@ -144,17 +171,17 @@ for IMU_Type in IMUS:
                     time.sleep(Duration)
 
                     print(bcolors.OKGREEN + "Finish simulation, kill the process" + bcolors.ENDC)
-                    subprocess.call('rosnode kill data_logging', shell=True)
+                    subprocess.call("rosnode kill data_logging", shell=True)
                     time.sleep(SleepTime)
-                    subprocess.call('rosnode kill Stereo', shell=True)
-                    subprocess.call('rosnode kill visual_slam', shell=True)
-                    subprocess.call('pkill Stereo', shell=True)
+                    subprocess.call("rosnode kill visual_slam", shell=True)
+                    subprocess.call("rosnode kill Stereo", shell=True)
+                    subprocess.call("pkill Stereo", shell=True)
                     # time.sleep(SleepTime)
-                    subprocess.call('rosnode kill msf_pose_sensor', shell=True)
-                    subprocess.call('rosnode kill odom_converter', shell=True)
-                    subprocess.call('rosnode kill visual_robot_publisher', shell=True)
-                    subprocess.call('rosnode kill turtlebot_controller', shell=True)
-                    subprocess.call('rosnode kill turtlebot_trajectory_testing', shell=True)
-                    subprocess.call('rosnode kill odom_reset', shell=True)
-                    subprocess.call('pkill rostopic', shell=True)
-                    subprocess.call('pkill -f trajectory_controller_node', shell=True)
+                    subprocess.call("rosnode kill msf_pose_sensor", shell=True)
+                    subprocess.call("rosnode kill odom_converter", shell=True)
+                    subprocess.call("rosnode kill visual_robot_publisher", shell=True)
+                    subprocess.call("rosnode kill turtlebot_controller", shell=True)
+                    subprocess.call("rosnode kill turtlebot_trajectory_testing", shell=True)
+                    subprocess.call("rosnode kill odom_reset", shell=True)
+                    subprocess.call("pkill rostopic", shell=True)
+                    subprocess.call("pkill -f trajectory_controller_node", shell=True)

@@ -117,7 +117,9 @@ for IMU_Type in IMUS:
                         + " topic_slam_pose:=/ORB_SLAM/camera_pose_in_imu "
                         + " link_slam_base:=left_camera_frame"
                     )
-                    cmd_ctrl = str("roslaunch ../launch/gazebo_controller.launch")
+                    cmd_ctrl = str(
+                        "roslaunch ../launch/gazebo_controller.launch" + " compensate_planning_time:=" + "true"
+                    )
                     cmd_plan = str(
                         "roslaunch ../launch/gazebo_offline_planning.launch"
                         + " path_type:="

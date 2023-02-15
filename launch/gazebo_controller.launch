@@ -1,7 +1,10 @@
 <launch>
 
+<arg name="compensate_planning_time" default="false"/>
+
 <!-- initialize controller -->
 <node name="turtlebot_controller" pkg="turtlebot_trajectory_controller" type="trajectory_controller_node" output="screen" args="" >
+    <param name="compensate_planning_time" type="bool" value="$(arg compensate_planning_time)"/>
     <remap from="odom" to="visual/odom"/>
 </node>
 
