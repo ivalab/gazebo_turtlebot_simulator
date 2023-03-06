@@ -26,10 +26,10 @@ IMUS = ["mpu6000", "ADIS16448"]
 Fwd_Vel_List = [0.5, 1.0, 1.5]
 
 # @NOTE (yanwei) DSOL uses cell_size instead of feature number, i.e. num_gf = (im.cols / cell_size) * (im.rows / cell_size)
-Number_GF_List = [600, 1200]
-GF_To_GridCell = {600: "24", 1200: "17"}
+Number_GF_List = [1000]
+GF_To_GridCell = {600: "24", 1000: "19"}
 
-Num_Repeating = 3  # 50 # 10 #
+Num_Repeating = 5  # 50 # 10 #
 
 SleepTime = 2  # 5 #
 # Duration = 30 # 60
