@@ -15,3 +15,9 @@ cp ${TURTLE_TAR}/urdf/turtlebot_properties.urdf.xacro 	${TURTLE_TAR}/urdf/turtle
 cp ${CONFIG_SRC}/turtlebot_properties.urdf.xacro 		${TURTLE_TAR}/urdf
 cp ${TURTLE_TAR}/urdf/turtlebot_gazebo.urdf.xacro 		${TURTLE_TAR}/urdf/turtlebot_gazebo.urdf.xacro.bak
 cp ${CONFIG_SRC}/turtlebot_gazebo.urdf.xacro 			${TURTLE_TAR}/urdf
+
+# lidar
+cp ${CONFIG_SRC}/hokuyo.dae                              ${TURTLE_TAR}/meshes/sensors
+cp ${CONFIG_SRC}/hokuyo.urdf.xacro                       ${TURTLE_TAR}/urdf/sensors
+cp ${CONFIG_SRC}/turtlebot_gazebo_hokuyo.urdf.xacro      ${TURTLE_TAR}/urdf
+cp ${CONFIG_SRC}/turtlebot_properties_hokuyo.urdf.xacro  ${TURTLE_TAR}/urdf

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- 
+    These properties must be observed by any machine
+    that wants to be defined as a turtlebot. Refer
+    to the REP for more details.
+    
+    http://www.ros.org/reps/rep-0119.html
+   -->
+   
+	<xacro:property name="lidar_px" value="0.0" />
+	<xacro:property name="lidar_py" value="0.0" />
+	<xacro:property name="lidar_pz" value="0.5" />
+	<xacro:property name="lidar_or" value="0" />
+	<xacro:property name="lidar_op" value="0" />
+	<xacro:property name="lidar_oy" value="0" />
+  
+</robot>
