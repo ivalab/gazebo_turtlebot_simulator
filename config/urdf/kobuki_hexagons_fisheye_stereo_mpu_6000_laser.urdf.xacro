@@ -11,10 +11,10 @@
   <xacro:include filename="$(find kobuki_description)/urdf/kobuki_mpu_6000.urdf.xacro" />
   <xacro:include filename="$(find turtlebot_description)/urdf/stacks/hexagons.urdf.xacro"/>
   <xacro:include filename="$(find turtlebot_description)/urdf/sensors/fisheye_stereo.urdf.xacro"/>
-  <xacro:include filename="$(find turtlebot_description)/urdf/sensors/hokuyo.urdf.xacro"/>
+  <xacro:include filename="$(find turtlebot_description)/urdf/sensors/laser.urdf.xacro"/>
 
   <xacro:kobuki/>
   <xacro:stack_hexagons parent="base_link"/>
   <xacro:sensor_stereo  parent="base_link"/>
-  <xacro:sensor_hokuyo  parent="base_link"/>
+  <xacro:sensor_laser   parent="base_link"/>
 </robot>

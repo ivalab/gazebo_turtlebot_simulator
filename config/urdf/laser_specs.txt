@@ -1,0 +1,54 @@
+--------------------------------------------------------------------------------
+<Hokuyo-URG-04LX>
+    <url: https://www.hokuyo-aut.jp/dl/Specifications_URG-04LX_1513063395.pdf/>
+    <scan>
+    <horizontal>
+        <samples>666</samples>
+        <resolution>1</resolution>
+        <min_angle>-2.09</min_angle> # 240 degrees
+        <max_angle>2.09</max_angle>
+    </horizontal>
+    </scan>
+    <range>
+    <min>0.10</min>
+    <max>4.0</max>
+    <resolution>0.01</resolution>
+    </range>
+<Hokuyo-URG-04LX/>
+
+--------------------------------------------------------------------------------
+<RPLidar S2>
+    <url: https://www.slamtec.com/en/S2/ />
+    <scan>
+    <horizontal>
+        <samples>3000</samples>
+        <resolution>1</resolution>
+        <min_angle>-3.14</min_angle> # 360 degrees
+        <max_angle>3.14</max_angle>
+    </horizontal>
+    </scan>
+    <range>
+    <min>0.10</min>
+    <max>30.0</max>
+    <resolution>0.01</resolution>
+    </range>
+<RPLidar S2/>
+
+--------------------------------------------------------------------------------
+<CygLidar D1>
+    <url: https://www.sparkfun.com/products/18580 />
+    <scan>
+    <horizontal>
+        <samples>3000</samples>
+        <resolution>1</resolution>
+        <min_angle>-1.045</min_angle> # 120 degrees
+        <max_angle>1.045</max_angle>
+    </horizontal>
+    </scan>
+    <range>
+    <min>0.20</min>
+    <max>8.0</max>
+    <resolution>0.01</resolution>
+    </range>
+<CygLidar D1 />
+

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <robot name="turtlebot_gazebo" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="turtlebot_sim_hokuyo_sensor">
-    <!-- hokuyo -->
-    <gazebo reference="hokuyo_link">
-      <sensor type="ray" name="head_hokuyo_sensor">
+  <xacro:macro name="turtlebot_sim_laser_sensor">
+    <!-- laser -->
+    <gazebo reference="laser_link">
+      <sensor type="ray" name="head_laser_sensor">
         <always_on>true</always_on>
         <pose>0 0 0 0 0 0</pose>
         <visualize>true</visualize>
@@ -11,20 +11,20 @@
         <ray>
           <scan>
             <horizontal>
-              <samples>666</samples>
+              <samples>3000</samples>
               <resolution>1</resolution>
-              <min_angle>-2.09</min_angle>
-              <max_angle>2.09</max_angle>
+              <min_angle>-3.14</min_angle> # 360 degrees
+              <max_angle>3.14</max_angle>
             </horizontal>
           </scan>
           <range>
             <min>0.10</min>
-            <max>5.6</max>
+            <max>30.0</max>
             <resolution>0.01</resolution>
           </range>
           <noise>
             <type>gaussian</type>
-            <!-- Noise parameters based on published spec for Hokuyo laser
+            <!-- Noise parameters based on published spec for laser
                  achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
                  stddev of 0.01m will put 99.7% of samples within 0.03m of the true
                  reading. -->
@@ -32,9 +32,9 @@
             <stddev>0.01</stddev>
           </noise>
         </ray>
-        <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <plugin name="gazebo_ros_head_laser_controller" filename="libgazebo_ros_laser.so">
           <topicName>/scan</topicName>
-          <frameName>hokuyo_link</frameName>
+          <frameName>laser_link</frameName>
         </plugin>
       </sensor>
     </gazebo>
