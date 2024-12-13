@@ -1,27 +1,46 @@
 <launch>
-    <arg name="debug" default="false"/>
-    <env if="$(arg debug)" name="ROSCONSOLE_CONFIG_FILE" value="$(find dsol)/launch/debug.conf"/>
-
     <arg name="tbb" default="0"/>
     <arg name="log" default="5"/>
     <arg name="vis" default="0"/>
-    <arg name="camera" default="/camera"/>
+    <arg name="camera" default="/multisense_sl/camera/"/>
     <arg name="use_depth" default="false"/>
+    <arg name="use_stereo" default="true"/>
+    <arg name="save" default=""/>
+    <arg name="cell_size" default="20"/>
+    <arg name="min_log_level" default="4"/>
+    <arg name="also_log_to_console" default="true"/>
+    <arg name="verbose_logging" default="-1"/>
+    <arg name="data" default="gazebo"/>
+    <arg name="map_frame" default=""/>
+    <arg name="odom_frame" default=""/>
+    <arg name="base_frame" default=""/>
+    <arg name="pub_map_to_odom_tf" default="false"/>
+    <arg name="slam_pose_topic" default="/visual/pose"/>
 
     <node pkg="dsol" type="sv_dsol_node_odom" name="dsol_odom" output="screen">
         <rosparam command="load" file="$(find dsol)/config/dsol.yaml"/>
-        <rosparam command="load" file="$(find dsol)/config/dsol_gazebo.yaml"/>
+        <rosparam command="load" file="$(find dsol)/config/dsol_$(arg data).yaml"/>
 
         <param name="tbb" type="int" value="$(arg tbb)"/>
         <param name="log" type="int" value="$(arg log)"/>
         <param name="vis" type="int" value="$(arg vis)"/>
+        <param name="save" type="string" value="$(arg save)"/>
+        <param name="cell_size" type="int" value="$(arg cell_size)"/>
+        <param name="min_log_level" type="int" value="$(arg min_log_level)"/>
+        <param name="also_log_to_console" type="bool" value="$(arg also_log_to_console)"/>
+        <param name="verbose_logging" type="int" value="$(arg verbose_logging)"/>
         <param name="use_depth" type="bool" value="$(arg use_depth)"/>
+        <param name="use_stereo" type="bool" value="$(arg use_stereo)"/>
+        <param name="data" type="string" value="$(arg data)"/>
+        <param name="map_frame" type="string" value="$(arg map_frame)"/>
+        <param name="odom_frame" type="string" value="$(arg odom_frame)"/>
+        <param name="base_frame" type="string" value="$(arg base_frame)"/>
+        <param name="pub_map_to_odom_tf" type="string" value="$(arg pub_map_to_odom_tf)"/>
 
-        <remap from="~cinfo0" to="/multisense_sl/camera/left/camera_info"/>
-        <remap from="~cinfo1" to="/multisense_sl/camera/right/camera_info"/>
-        <remap from="~image0" to="/multisense_sl/camera/left/image_raw"/>
-        <remap from="~image1" to="/multisense_sl/camera/right/image_raw"/>
-        <remap from="~depth0" to="$(arg camera)/depth/image_rect_raw"/>
-        <remap from="~gyr" to="$(arg camera)/gyro/sample"/>
+        <remap from="~cinfo0" to="$(arg camera)/left/camera_info"/>
+        <remap from="~cinfo1" to="$(arg camera)/right/camera_info"/>
+        <remap from="~image0" to="$(arg camera)/left/image_raw"/>
+        <remap from="~image1" to="$(arg camera)/right/image_raw"/>
+        <remap from="/slam_pose_topic" to="$(arg slam_pose_topic)"/>
     </node>
 </launch>

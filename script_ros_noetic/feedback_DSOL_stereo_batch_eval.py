@@ -16,8 +16,9 @@ import subprocess
 import time
 import signal
 
-SeqNameList = ["loop", "long", "square", "zigzag", "infinite", "two_circle"]
-SeqLengList = [40, 50, 105, 125, 245, 200]
+SeqNameList = ["loop", "long", "square", "zigzag", "two_circle", "infinite"]
+SeqLengList = [40, 50, 105, 125, 200, 245]
+
 
 # IMU (low + high)
 IMUS = ["mpu6000", "ADIS16448"]
@@ -29,7 +30,7 @@ Fwd_Vel_List = [0.5, 1.0, 1.5]
 Number_GF_List = [1000]
 GF_To_GridCell = {600: "24", 1000: "19"}
 
-Num_Repeating = 5  # 50 # 10 #
+Num_Repeating = 1  # 50 # 10 #
 
 SleepTime = 2  # 5 #
 # Duration = 30 # 60
@@ -98,8 +99,14 @@ for IMU_Type in IMUS:
 
                     # !!! Parameters order matters !!! #
                     # Order defined in .sh file. #
-                    cmd_slam = str(
-                        "bash call_dsol.sh" + " " + do_vis + " " + path_track_logging + " " + GF_To_GridCell[num_gf]
+                    cmd_slam = (
+                        "roslaunch ../launch/gazebo_DSOL_stereo.launch"
+                        + " save:="
+                        + path_track_logging
+                        + " cell_size:="
+                        + GF_To_GridCell[num_gf]
+                        + " slam_pose_topic:="
+                        + "/ORB_SLAM/camera_pose_in_imu"
                     )
 
                     cmd_esti = str(
