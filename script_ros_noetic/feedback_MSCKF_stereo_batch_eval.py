@@ -15,7 +15,7 @@ IMUS = ["mpu6000", "ADIS16448"]  # (low + high)
 
 Fwd_Vel_List = [0.5, 1.0, 1.5]
 # [1.0]; #
-Number_GF_List = [120, 240]
+Number_GF_List = [120] #, 240]
 # [60, 180]; #
 
 Num_Repeating = 5  # 50 # 10 # 3 #

@@ -3,6 +3,7 @@
 import os
 import subprocess
 import time
+import signal
 
 SeqNameList = ["loop", "long", "square", "zigzag", "two_circle", "infinite"]
 SeqLengList = [40, 50, 105, 125, 200, 245]
@@ -18,27 +19,29 @@ IMUS = ["mpu6000", "ADIS16448"]  # (low + high)
 Fwd_Vel_List = [0.5, 1.0, 1.5]  #
 
 # target good feature matched per frame; welcome to tune it for better performance
-Number_GF_List = [800]
+Number_GF_List = [150]  # [40, 60, 80, 120, 160];
 
 # repeat times for simulation
 Num_Repeating = 5  # 50 # 10 #
-Start_Idx = 0
+Start_Iter = 0  # 50 # 10 #
 
 # initialization period for eth_msf
 SleepTime = 3  # 5 #
 # Duration = 30 # 60
 
-# on/off flag of raw image rectification
+# on/off flag of raw image rectification; for good feature variants, set it to false
 do_rectify = str("false")
 
-# on/off flag of ORB_SLAM3 GUI
-do_vis = str(0)  # use 0 or 1
+# on/off flag of gf_orb_slam GUI
+do_vis = str("false")
 
 # NOTE adjust the path according to your catkin workspace !!!
 path_slam_config = "/home/yanwei/closedloop_ws/src/ORB_Data/"
 RESULT_ROOT = "/mnt/DATA/Yanwei/closedloop/2023/20.04/"
-METHOD_NAME = "ORB3"
+METHOD_NAME = "GFGG_Eigen"
 ENABLE_ROSBAG_LOGGING = True
+SLAM_POSE_TOPIC = "/ORB_SLAM/camera_pose_in_imu"
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 class bcolors:
@@ -54,9 +57,9 @@ class bcolors:
 
 for IMU_Type in IMUS:
 
-    for ri, feature_num in enumerate(Number_GF_List):
+    for ri, num_gf in enumerate(Number_GF_List):
 
-        Experiment_prefix = "ObsNumber_" + str(int(feature_num))
+        Experiment_prefix = "ObsNumber_" + str(int(num_gf))
 
         for vn, fv in enumerate(Fwd_Vel_List):
             for sn, sname in enumerate(SeqNameList):
@@ -73,7 +76,7 @@ for IMU_Type in IMUS:
                 cmd_mkdir = "mkdir -p " + Experiment_dir
                 subprocess.call(cmd_mkdir, shell=True)
 
-                for iteration in range(Start_Idx, Num_Repeating):
+                for iteration in range(Start_Iter, Num_Repeating):
 
                     print(
                         bcolors.ALERT
@@ -83,6 +86,8 @@ for IMU_Type in IMUS:
                     print(bcolors.ALERT + "Round: " + str(iteration + 1) + "; Seq: " + SeqName + "; Vel: " + str(fv))
 
                     path_track_logging = Experiment_dir + "/round" + str(iteration + 1)
+                    path_map_logging = Experiment_dir + "/round" + str(iteration + 1) + "_Map"
+                    num_good_feature = str(num_gf * 3)
                     path_type = SeqName
                     velocity_fwd = str(fv)
                     duration = float(SeqLengList[sn]) / float(fv) + SleepTime
@@ -91,19 +96,7 @@ for IMU_Type in IMUS:
                         "python reset_turtlebot_pose.py && rostopic pub -1 /mobile_base/commands/reset_odometry std_msgs/Empty '{}'"
                     )
                     # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
-                    cmd_slam = str(
-                        "roslaunch ../launch/gazebo_ORB3_stereo.launch"
-                        + " path_slam_config:="
-                        + path_slam_config
-                        + " num_all_feature:="
-                        + str(feature_num)
-                        + " path_track_logging:="
-                        + path_track_logging
-                        + " do_rectify:="
-                        + do_rectify
-                        + " do_vis:="
-                        + do_vis
-                    )
+                    cmd_slam = str("bash call_gfgg.sh" + " " + num_good_feature + " " + path_track_logging)
                     cmd_esti = str(
                         "roslaunch msf_updates gazebo_msf_stereo.launch"
                         + " imu_type:="
@@ -146,7 +139,7 @@ for IMU_Type in IMUS:
 
                     print(bcolors.OKGREEN + "Launching SLAM" + bcolors.ENDC)
                     subprocess.Popen(cmd_slam, shell=True)
-                    time.sleep(SleepTime * 2)  # wait SLAM to initialize
+                    time.sleep(SleepTime)  # wait SLAM to initialize
 
                     print(bcolors.OKGREEN + "Launching State Estimator" + bcolors.ENDC)
                     subprocess.Popen(cmd_esti, shell=True)
@@ -163,6 +156,8 @@ for IMU_Type in IMUS:
 
                     print(bcolors.OKGREEN + "Sleeping for a few secs to stabilize msf" + bcolors.ENDC)
                     time.sleep(SleepTime * 3)
+
+                    subprocess.Popen("python apply_cpu_limit.py visual_slam", shell=True)
 
                     Duration = duration + SleepTime
                     print(bcolors.OKGREEN + "Start simulation with " + str(Duration) + " secs" + bcolors.ENDC)

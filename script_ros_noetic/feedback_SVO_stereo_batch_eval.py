@@ -15,11 +15,11 @@ IMUS = ["mpu6000", "ADIS16448"]  # (low + high)
 
 Fwd_Vel_List = [0.5, 1.0, 1.5]
 
-Number_GF_List = [600, 1200]
+Number_GF_List = [600]
 # Map feature number to grid cell
 GF_To_GridCell = {600: "24", 1200: "17"}
 
-Num_Repeating = 3  # 50 # 10 # 3 #
+Num_Repeating = 5  # 50 # 10 # 3 #
 
 SleepTime = 3  # 5 #
 # Duration = 30 # 60
@@ -90,6 +90,7 @@ for IMU_Type in IMUS:
                         + str(iteration + 1)
                         + " "
                         + Experiment_dir
+                        + " /svo/pose_cam_for_msf"
                     )
                     cmd_esti = str(
                         "roslaunch msf_updates gazebo_msf_stereo.launch"
@@ -169,6 +170,7 @@ for IMU_Type in IMUS:
                     subprocess.call("rosnode kill /data_logging", shell=True)
                     time.sleep(SleepTime)
                     subprocess.call("rosnode kill /svo", shell=True)
+                    time.sleep(SleepTime * 3)
                     subprocess.call("pkill svo", shell=True)
                     # time.sleep(SleepTime)
                     # subprocess.call('rosnode kill imu_downsample', shell=True)

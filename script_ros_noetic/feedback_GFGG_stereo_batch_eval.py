@@ -19,11 +19,12 @@ IMUS = ["mpu6000", "ADIS16448"]  # (low + high)
 Fwd_Vel_List = [0.5, 1.0, 1.5]  #
 
 # target good feature matched per frame; welcome to tune it for better performance
-Number_GF_List = [100, 120]  # [40, 60, 80, 120, 160];
-# Number_GF_List = [250]  # for ORB2
+# Number_GF_List = [100, 120]  # [40, 60, 80, 120, 160];
+Number_GF_List = [150] 
 
 # repeat times for simulation
-Num_Repeating = 1  # 50 # 10 #
+Num_Repeating = 5  # 50 # 10 #
+Start_Iter = 0
 
 # initialization period for eth_msf
 SleepTime = 3  # 5 #
@@ -74,7 +75,7 @@ for IMU_Type in IMUS:
                 cmd_mkdir = "mkdir -p " + Experiment_dir
                 subprocess.call(cmd_mkdir, shell=True)
 
-                for iteration in range(0, Num_Repeating):
+                for iteration in range(Start_Iter, Num_Repeating):
 
                     print(
                         bcolors.ALERT

@@ -3,6 +3,7 @@
 import os
 import subprocess
 import time
+import signal
 
 SeqNameList = ["loop", "long", "square", "zigzag", "two_circle", "infinite"]
 SeqLengList = [40, 50, 105, 125, 200, 245]
@@ -17,28 +18,19 @@ IMUS = ["mpu6000", "ADIS16448"]  # (low + high)
 # desired forward velocity (m/s)
 Fwd_Vel_List = [0.5, 1.0, 1.5]  #
 
-# target good feature matched per frame; welcome to tune it for better performance
-Number_GF_List = [800]
-
 # repeat times for simulation
 Num_Repeating = 5  # 50 # 10 #
-Start_Idx = 0
 
 # initialization period for eth_msf
 SleepTime = 3  # 5 #
 # Duration = 30 # 60
 
-# on/off flag of raw image rectification
-do_rectify = str("false")
-
-# on/off flag of ORB_SLAM3 GUI
-do_vis = str(0)  # use 0 or 1
-
 # NOTE adjust the path according to your catkin workspace !!!
-path_slam_config = "/home/yanwei/closedloop_ws/src/ORB_Data/"
 RESULT_ROOT = "/mnt/DATA/Yanwei/closedloop/2023/20.04/"
-METHOD_NAME = "ORB3"
+METHOD_NAME = "PerfectOdom"
+Vis_Latency_List = [0.03, 0.0]
 ENABLE_ROSBAG_LOGGING = True
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 class bcolors:
@@ -52,11 +44,11 @@ class bcolors:
     UNDERLINE = "\033[4m"
 
 
-for IMU_Type in IMUS:
+for li, latency in enumerate(Vis_Latency_List):
 
-    for ri, feature_num in enumerate(Number_GF_List):
+    for IMU_Type in IMUS:
 
-        Experiment_prefix = "ObsNumber_" + str(int(feature_num))
+        Experiment_prefix = "Latency_" + str(latency)
 
         for vn, fv in enumerate(Fwd_Vel_List):
             for sn, sname in enumerate(SeqNameList):
@@ -73,7 +65,7 @@ for IMU_Type in IMUS:
                 cmd_mkdir = "mkdir -p " + Experiment_dir
                 subprocess.call(cmd_mkdir, shell=True)
 
-                for iteration in range(Start_Idx, Num_Repeating):
+                for iteration in range(0, Num_Repeating):
 
                     print(
                         bcolors.ALERT
@@ -92,25 +84,18 @@ for IMU_Type in IMUS:
                     )
                     # cmd_reset = str('rosservice call /gazebo/reset_simulation "{}"')
                     cmd_slam = str(
-                        "roslaunch ../launch/gazebo_ORB3_stereo.launch"
-                        + " path_slam_config:="
-                        + path_slam_config
-                        + " num_all_feature:="
-                        + str(feature_num)
-                        + " path_track_logging:="
-                        + path_track_logging
-                        + " do_rectify:="
-                        + do_rectify
-                        + " do_vis:="
-                        + do_vis
+                        "roslaunch delayed_odometry demo_delay.launch"
+                        + " delay:="
+                        + str(Vis_Latency_List[li])
+                        + " rate:=30"
                     )
                     cmd_esti = str(
-                        "roslaunch msf_updates gazebo_msf_stereo.launch"
+                        "roslaunch msf_updates gazebo_msf_demo.launch"
                         + " imu_type:="
                         + IMU_Type
                         + " "
-                        + " topic_slam_pose:=/ORB_SLAM/camera_pose_in_imu "
-                        + " link_slam_base:=left_camera_frame"
+                        + " topic_slam_pose:=delayed_pose "
+                        + " link_slam_base:=base_footprint"
                     )
                     cmd_ctrl = str(
                         "roslaunch ../launch/gazebo_controller.launch" + " compensate_planning_time:=" + "true"
@@ -146,7 +131,7 @@ for IMU_Type in IMUS:
 
                     print(bcolors.OKGREEN + "Launching SLAM" + bcolors.ENDC)
                     subprocess.Popen(cmd_slam, shell=True)
-                    time.sleep(SleepTime * 2)  # wait SLAM to initialize
+                    time.sleep(SleepTime)  # wait SLAM to initialize
 
                     print(bcolors.OKGREEN + "Launching State Estimator" + bcolors.ENDC)
                     subprocess.Popen(cmd_esti, shell=True)
@@ -174,9 +159,7 @@ for IMU_Type in IMUS:
                     print(bcolors.OKGREEN + "Finish simulation, kill the process" + bcolors.ENDC)
                     subprocess.call("rosnode kill data_logging", shell=True)
                     time.sleep(SleepTime)
-                    subprocess.call("rosnode kill visual_slam", shell=True)
-                    subprocess.call("rosnode kill Stereo", shell=True)
-                    subprocess.call("pkill Stereo", shell=True)
+                    subprocess.call("rosnode kill odometry_delayer", shell=True)
                     # time.sleep(SleepTime)
                     subprocess.call("rosnode kill msf_pose_sensor", shell=True)
                     subprocess.call("rosnode kill odom_converter", shell=True)

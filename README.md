@@ -7,15 +7,17 @@
 
 Assuming desktop full verison of ros-noetic has been installed, and a catkin workspace has been created at 
 
-	/home/XXX/catkin_ws/
+	/home/XXX/closedloop_ws/
 
 Follow the instruction at `meta_ClosedLoopBench` to clone all required catkin packages in the workspace:
+
+**PLEASE SKIP THIS STEP IF DONE**
 
 	https://github.com/ivalab/meta_ClosedLoopBench/tree/feature/ubuntu20.04
 
 Navigate to the dir of simulator package `gazebo_turtlebot_simulaton`.  Adjust the catkin workspace in __set_up_sim.sh__:
 
-	export CATKIN_WS=/home/XXX/catkin_ws/
+	export CATKIN_WS=/home/XXX/closedloop_ws/
 
 Then execute the auto setup script __set_up_sim.sh__:
 
@@ -23,14 +25,18 @@ Then execute the auto setup script __set_up_sim.sh__:
 
 Build all packages:
 
+	cd ~/closedloop_ws
+
 	catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release
+
 	catkin build
 
 ## Launch Simulator
 
 Launch the gazebo simulation:
 
-	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/launch/ 
+	cd ~/closedloop_ws/src/gazebo_turtlebot_simulator/launch/ 
+
 	roslaunch ./gazebo_closeloop_turtlebot.launch
 
 
@@ -60,19 +66,31 @@ Or
 
 ## Launch Closed-loop Evaluation
 
+**Please make sure the SLAM system has been installed.**
+
+#### Using GF-GG
 Adjust the parameters in batch evaluation script, e.g. [feedback_GFGG_stereo_batch_eval.py](https://github.com/ivalab/gazebo_turtlebot_simulator/tree/feature/ubuntu20.04/script_ros_noetic/feedback_GFGG_stereo_batch_eval.py).  Detailed descriptions on each parameter are provided.
 After settting the parameters, start batch evalution:
 
-	cd /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/script_ros_noetic
+	cd ~/closedloop_ws/src/gazebo_turtlebot_simulator/script_ros_noetic
+
 	python feedback_GFGG_stereo_batch_eval.py
 
 An rviz config is provided for visualization:
 
-	rviz -d /home/XXX/catkin_ws/src/gazebo_turtlebot_simulator/closeloop_viz.rviz	
+	rviz -d ~/closedloop_ws/src/gazebo_turtlebot_simulator/closeloop_viz.rviz	
+
+#### Using Other vSLAM Methods
+
+Please adjust the parameters in batch evaluation script, e.g.
+
+[feedback_DSOL_stereo_batch_eval.py](https://github.com/ivalab/gazebo_turtlebot_simulator/tree/feature/ubuntu20.04/script_ros_noetic/feedback_DSOL_stereo_batch_eval.py)
+
+[feedback_ORB3_stereo_batch_eval.py](https://github.com/ivalab/gazebo_turtlebot_simulator/tree/feature/ubuntu20.04/script_ros_noetic/feedback_ORB3_stereo_batch_eval.py)
 
 ## Results Collection
 
-The closed-loop navigation output are recorded as rosbag.  
+The closed-loop navigation output are recorded as rosbags.  
 To convert these rosbags to text files, clone the repo: 
 
 	https://github.com/ivalab/mat_from_rosbag/tree/feature/ubuntu20.04
