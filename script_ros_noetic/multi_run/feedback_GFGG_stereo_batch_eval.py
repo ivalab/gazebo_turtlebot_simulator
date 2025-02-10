@@ -8,26 +8,26 @@ import signal
 SeqNameList = ["loop", "long", "square", "zigzag", "two_circle", "infinite"]
 SeqLengList = [40, 50, 105, 125, 200, 245]
 
-SeqNameList.reverse()
-SeqLengList.reverse()
+# SeqNameList.reverse()
+# SeqLengList.reverse()
 
-# spec of IMU in simulation
-# low IMU
-# IMU_Type = 'mpu6000';
-# high IMU
-# IMU_Type = 'ADIS16448';
-IMUS = ["mpu6000", "ADIS16448"]  # (low + high)
+SeqNameList = ["square", "two_circle", "infinite"]
+SeqLengList = [105, 200, 245]
 
-# desired forward velocity (m/s)
-Fwd_Vel_List = [0.5, 1.0, 1.5]  #
+
+# IMU (low + high)
+IMUS = ["mpu6000"]  # , "ADIS16448"]
+# IMUS = ['ADIS16448']
+
+Fwd_Vel_List = [0.5, 1.0, 1.5]
 
 # target good feature matched per frame; welcome to tune it for better performance
 # Number_GF_List = [100, 120]  # [40, 60, 80, 120, 160];
-Number_GF_List = [150] 
+Number_GF_List = [150]
 
 # repeat times for simulation
-Num_Repeating = 1  # 50 # 10 #
-Num_Looping = 2  # 50 # 10 #
+Num_Repeating = 2  # 50 # 10 #
+Num_Looping = 5  # 50 # 10 #
 Start_Iter = 0
 
 # initialization period for eth_msf
@@ -41,10 +41,12 @@ do_rectify = str("false")
 do_vis = str("false")
 
 # NOTE adjust the path according to your catkin workspace !!!
-path_slam_config = "/home/yanwei/closedloop_ws/src/ORB_Data/"
-RESULT_ROOT = "/mnt/DATA/experiments/good_graph/closedloop/12700k/precision/"
+# RESULT_ROOT = "/mnt/DATA/experiments/good_graph/closedloop/12700k/multi_run/"
+RESULT_ROOT = "/local/data/roboslam/experiments/good_graph/closed_loop/xeon/multi_run"
+path_slam_config = "/home/roboslam/closedloop_ws/src/ORB_Data/"
 METHOD_NAME = "GFGG"
 ENABLE_ROSBAG_LOGGING = True
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 class bcolors:
