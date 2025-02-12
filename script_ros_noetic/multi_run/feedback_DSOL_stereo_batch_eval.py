@@ -15,6 +15,9 @@ import os
 import subprocess
 import time
 import signal
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).parent.parent.resolve()
 
 SeqNameList = ["loop", "long", "square", "zigzag", "two_circle", "infinite"]
 SeqLengList = [40, 50, 105, 125, 200, 245]
@@ -22,12 +25,12 @@ SeqLengList = [40, 50, 105, 125, 200, 245]
 # SeqNameList.reverse()
 # SeqLengList.reverse()
 
-SeqNameList = ["square", "two_circle", "infinite"]
-SeqLengList = [105, 200, 245]
+# SeqNameList = ["square", "two_circle", "infinite"]
+# SeqLengList = [105, 200, 245]
 
 
 # IMU (low + high)
-IMUS = ["mpu6000"]  # , "ADIS16448"]
+IMUS = ["mpu6000", "ADIS16448"]
 # IMUS = ['ADIS16448']
 
 Fwd_Vel_List = [0.5, 1.0, 1.5]
@@ -130,7 +133,7 @@ for IMU_Type in IMUS:
                     )
                     cmd_plan = str(
                         "roslaunch ../launch/gazebo_offline_planning.launch"
-                        + " path_type:=multi_run/"
+                        + " path_type:="
                         + path_type
                         + " velocity_fwd:="
                         + velocity_fwd
@@ -189,6 +192,15 @@ for IMU_Type in IMUS:
                         subprocess.call("rosnode kill turtlebot_controller", shell=True)
                         subprocess.call("rosnode kill turtlebot_trajectory_testing", shell=True)
                         time.sleep(SleepTime)
+
+                        # Drive the robot back to start point.
+                        print("Drive the robot back to start point.")
+                        cmd_simple_controller = f"python {SCRIPT_DIR}/simple_controller.py"
+                        print(cmd_simple_controller)
+                        subprocess.call(cmd_simple_controller, shell=True)  # Wait until it is done.
+                        print("Finished.")
+                        time.sleep(SleepTime)
+
                         print(bcolors.OKGREEN + f"Start Loop {loop_idx} ... " + bcolors.ENDC)
                         print(bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC)
                         subprocess.Popen(cmd_ctrl, shell=True)
