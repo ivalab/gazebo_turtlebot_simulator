@@ -188,6 +188,13 @@ for IMU_Type in IMUS:
                         subprocess.call("rosnode kill turtlebot_controller", shell=True)
                         subprocess.call("rosnode kill turtlebot_trajectory_testing", shell=True)
                         time.sleep(SleepTime)
+                        subprocess.call("rosnode kill msf_pose_sensor", shell=True)
+                        time.sleep(SleepTime)
+
+                        # Pause SLAM.
+                        cmd_pause_slam = 'rosservice call /pause_slam "data: true"'
+                        subprocess.call(cmd_pause_slam, shell=True)
+                        time.sleep(SleepTime)
 
                         # Drive the robot back to start point.
                         print("Drive the robot back to start point.")
@@ -197,7 +204,15 @@ for IMU_Type in IMUS:
                         print("Finished.")
                         time.sleep(SleepTime)
 
+                        # Resume SLAM.
                         print(bcolors.OKGREEN + f"Start Loop {loop_idx} ... " + bcolors.ENDC)
+                        cmd_pause_slam = 'rosservice call /pause_slam "data: false"'
+                        subprocess.call(cmd_pause_slam, shell=True)
+                        time.sleep(SleepTime)
+                        # Resume MSF
+                        subprocess.Popen(cmd_esti, shell=True)
+                        time.sleep(SleepTime * 3)
+
                         print(bcolors.OKGREEN + "Launching Controller" + bcolors.ENDC)
                         subprocess.Popen(cmd_ctrl, shell=True)
                         print(bcolors.OKGREEN + "Launching Planner" + bcolors.ENDC)

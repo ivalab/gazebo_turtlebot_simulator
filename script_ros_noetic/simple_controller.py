@@ -35,7 +35,7 @@ class SimpleController:
         self.angle_tolerance = np.deg2rad(5.0)
 
         # Maximum velocities
-        self.max_linear_velocity = 0.25  # m/s
+        self.max_linear_velocity = 1.5  # m/s
         self.max_angular_velocity = 0.5  # rad/s
         self.k_drive_x = 1.0
         self.k_drive_y = 1.0
