@@ -46,7 +46,11 @@ class SimpleController:
         self.current_y = 0.0
         self.current_theta = 0.0
         self.odom_update = False
-        self.angle_tracking_only = True
+        self.track_position_angle_only = True
+        self.track_distance = True
+        self.track_orientation = True
+        self.is_initial_check = True
+        self.init_dist_error = None
 
         # Publisher for velocity commands
         self.cmd_vel_pub = rospy.Publisher("/cmd_vel_mux/input/navi", Twist, queue_size=10)
@@ -125,18 +129,19 @@ class SimpleController:
         delta_y = des_y - cur_y
         delta_theta = math.atan2(delta_y, delta_x)
 
-        if self.angle_tracking_only:
-            print("trackgin only angle")
+        if self.track_position_angle_only:
+            rospy.loginfo_throttle(1.0, "tracking position-angle ...")
             if abs(self.angle_to_position()) > self.angle_tolerance:
                 des_x = cur_x
                 des_y = cur_y
                 des_theta = delta_theta
             else:
-                self.angle_tracking_only = False
-        elif self.distance_to_goal() > self.position_tolerance:
-            print("trackgin distacne and angle")
+                self.track_position_angle_only = False
+        elif self.track_distance and self.distance_to_goal() > self.position_tolerance:
+            rospy.loginfo_throttle(1.0, "tracking distance and position-angle ...")
             des_theta = delta_theta
         else:
+            rospy.loginfo_throttle(1.0, "tracking orientation ...")
             des_x = cur_x
             des_y = cur_y
 
@@ -172,11 +177,26 @@ class SimpleController:
             distance = self.distance_to_goal()
             angle = self.orientation_to_goal()
 
+            if self.init_dist_error is None:
+                self.init_dist_error = distance
+
+            if self.is_initial_check and distance < 0.5:
+                rospy.loginfo("Small distance error at the initial position, disable position tracking.")
+                self.track_distance = False
+                self.is_initial_check = False
+                self.position_tolerance = 0.5
+
             # Check if the goal is reached
             if distance < self.position_tolerance and abs(angle) < self.angle_tolerance:
                 rospy.loginfo("Goal reached! Shutting down.")
                 self.stop_robot()
                 rospy.signal_shutdown("Goal reached")
+                break
+
+            if self.init_dist_error and distance > 2.0 * self.init_dist_error:
+                rospy.loginfo("Driving away from the goal. Abort !!!")
+                self.stop_robot()
+                rospy.signal_shutdown("Failed to reach goal.")
                 break
 
             # Create a Twist message for velocity commands
